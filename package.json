@@ -1,0 +1,19 @@
+{
+  "name": "fyra-i-rad-",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
