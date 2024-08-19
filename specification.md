@@ -84,6 +84,31 @@ The `render` method should:
 
 ## App 
 4. **Som användare vill jag att programmet meddelar om någon har vunnit så att vi vet detta.
+
+### Detailed specs:
+* We should develop an application that the program notifies players when someone has won the game.
+* The game should be played on a 6x7 grid.
+* The game should alternates between two players.
+* The application/programme should inform if a player has won by vertical, horizontal or diagonal conditions.
+* If a player wins, a message should be seen as "Player x has won" or "Player O has won"
+
+### To Test: 
+* Check that Player X wins by forming a horizontal line of four X's on a 6x7 grid.
+* Verify that program notify that Player X has won.
+* Check that Player O wins by forming a vertical line of four O's on a 6x7 grid.
+* Verify that program notify that Player O has won.
+* Check that Player X wins by forming a diagonal line from the bottom-left to the top-right.
+* Verify that program notify that Player X has won.
+* Check that Player O wins by forming a diagonal line from the top-left to the bottom-right.
+* Verify that program notify that Player O has won.
+* Check that the game correctly identifies a draw on a 6x7 grid.
+* Verify that program should notify that the game is a draw.
+* Check that no winner is declared when there are still moves to be made and no winning line.
+* Verify that program should not notify a winner or draw.
+* Check that the game prevents a player from placing their symbol in an already occupied cell.
+* Verify that program should not allow the move and should not change the game state.
+
+
 5. **Som användare vill jag att programmet meddelar om det har blivit oavgjort så att vi vet detta. 
 6. **Som användare vill jag efter avslutat spel få frågan om vi (jag och den andra användaren) vill spela igen. Om vi svarar ja vill jag att ett nytt spel ska starta (med ett tomt bräde) så att vi kan spela igen.  
 
