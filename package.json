@@ -12,5 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
   }
 }
