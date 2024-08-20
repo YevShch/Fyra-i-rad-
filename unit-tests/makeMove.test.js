@@ -2,31 +2,6 @@ import { expect, vi, test } from 'vitest';
 import Board from '../classes/Board.js';
 
 
-test( '1. Check that the matrix property is defined when a Board is created', () => {
-  let aBoard = new Board();
-  expect( aBoard.matrix ).toBeDefined();
-} );
-
-
-test( '2. Initialize the matrix property as an empty board when a Board is created', () => {
-  let aBoard = new Board();
-  for ( let row of aBoard.matrix ) {
-    for ( let cell of row ) {
-      expect( cell ).toBe( ' ' );
-    }
-  }
-} )
-
-
-test( '3. Check that the board have 6 rows and 7 columns', () => {
-  let aBoard = new Board();
-  expect( aBoard.matrix ).toHaveLength( 6 );
-  for ( let row of aBoard.matrix ) {
-    expect( row ).toHaveLength( 7 );
-  }
-} )
-
-
 test( '4. Verify that the makeMove method exists', () => {
   let aBoard = new Board();
   expect( aBoard.makeMove ).toBeDefined();
@@ -114,6 +89,65 @@ test( '8. Verify that the `makeMove` function returns `false` for an invalid col
   // Test with boundary column values (first and last column)."
   expect( aBoard.makeMove( 'O', 0 ) ).toBe( true );
   expect( aBoard.makeMove( 'X', 6 ) ).toBe( true );
+} );
+
+test( '9. Check that makeMove returns true for a valid move and updates the board correctly', () => {
+  const board = new Board();
+
+  // Make a valid move
+  const result = board.makeMove( 'X', 0 );
+  expect( result ).toBe( true );
+
+  // Check that the board is updated correctly
+  expect( board.matrix[ 5 ][ 0 ] ).toBe( 'X' ); // Bottom of column 0 should have 'X'
+  expect( board.currentPlayerColor ).toBe( 'O' ); // Turn should now be 'O'
+} );
+
+
+test( '10 a. Verify that makeMove returns false when the game is over', () => {
+  const board = new Board();
+  // Set gameOver to true to test this case
+  board.gameOver = true;
+  expect( board.makeMove( 'X', 0 ) ).toBe( false ); // Game is over, move should not be made
+
+  // Reset game state to normal
+  board.gameOver = false;
+} );
+
+
+test( '10 b. Verify that makeMove returns false if a move is made in a full column', () => {
+  const board = new Board();
+
+  // Fill column 0
+  // for ( let i = 0; i < 6; i++ ) {
+  //   board.makeMove( 'X', 0 );
+  // }
+  board.makeMove( 'X', 0 );
+  board.makeMove( 'O', 0 );
+  board.makeMove( 'X', 0 );
+  board.makeMove( 'O', 0 );
+  board.makeMove( 'X', 0 );
+  board.makeMove( 'O', 0 );
+
+  // check the state of the board before making a move
+  // console.log( 'Board state before full column move:', board.matrix );
+
+  // Check that the column is full and new move is not possible
+  const result = board.makeMove( 'X', 0 );
+  console.log( 'Attempted move result:', result );
+
+  // The column should be full, so move should not be made
+  expect( result ).toBe( false );
+
+} );
+
+
+test( "10 c. Check that makeMove returns false if it's not the player's turn", () => {
+  const board = new Board();
+
+  board.currentPlayerColor = 'X'; // Set current player to 'X'
+  expect( board.makeMove( 'O', 1 ) ).toBe( false ); // 'O' tries to move when it's 'X' turn
+
 } );
 
 

@@ -21,6 +21,9 @@ export default class Board {
   }
 
   makeMove ( color, column ) {
+    // console.log( "Before move:" );
+    // console.log( "Current player:", this.currentPlayerColor );
+    // console.log( "Game over:", this.gameOver );
 
     if ( this.gameOver ) { return false; }
 
@@ -40,20 +43,21 @@ export default class Board {
     if ( this.matrix[ 0 ][ column ] !== ' ' ) {
       console.log( "Kolumnen är full. Försök igen." );
       return false;
-    }
+    }  
+    // if ( this.matrix.every( row => row[ column ] !== ' ' ) ) {
+    //   return false; // Column is full
+    // }
 
     //make move 
     for ( let r = this.matrix.length - 1; r >= 0; r-- ) {
       if ( this.matrix[ r ][ column ] === ' ' ) {
         this.matrix[ r ][ column ] = this.currentPlayerColor;
+        // console.log( `Placed ${ this.currentPlayerColor } in column ${ column }, row ${ r }` );
         this.currentPlayerColor = this.currentPlayerColor === 'X' ? 'O' : 'X';
+      
         return true;
       }
     }
     return false;
   }
-
 }
-
-
-
