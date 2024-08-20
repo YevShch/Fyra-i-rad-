@@ -30,40 +30,40 @@ The `render` method should:
  - Return false if the game is not a draw.
  
 ### To test
-* 1. Check that the matrix property is defined when a Board is created; 
-* 2. Initialize the matrix property as an empty board when a Board is created;
-* 3. Check that the board have 6 rows and 7 columns.
+ 1. Check that the matrix property is defined when a Board is created; 
+ 2. Initialize the matrix property as an empty board when a Board is created;
+ 3. Check that the board have 6 rows and 7 columns.
 
-* 4. Verify that the makeMove method exists.
-* 5. Check that the makeMove method takes color and column as its arguments.
-* 6. Ensure that color can only be 'X' or 'O'.
-* 7. Verify that the `makeMove` function returns `false` for an invalid column input:
+ 4. Verify that the makeMove method exists.
+ 5. Check that the makeMove method takes color and column as its arguments.
+ 6. Ensure that color can only be 'X' or 'O'.
+ 7. Verify that the `makeMove` function returns `false` for an invalid column input:
    - Prevents a move when the column input is a negative value;
    - Prevents a move when the column input is a non-numeric values;
    - Prevents a move when the column input is a number outside the valid range ( 0 to 6 for a 7-column board).
    - Borderline case   (prevent a move when the column input is a number testa gränsfall (som den första och sista kolumnen))
 
-* 8. Check that `makeMove` returns true for a valid move and updates the board correctly.
-* 9. Verify that `makeMove` returns false if the move is invalid:
+ 8. Check that `makeMove` returns true for a valid move and updates the board correctly.
+ 9. Verify that `makeMove` returns false if the move is invalid:
  - prevents a move when the game is over;
  - prevents a move in a full column;
  - prevents a move when it's not the player's turn.
-* 10. Confirm that the board remains unchanged after an invalid move.
-* 11. Test that `makeMove` returns false and does not alter the board when the game is already over.
+ 10. Confirm that the board remains unchanged after an invalid move.
+ 11. Test that `makeMove` returns false and does not alter the board when the game is already over.
 
-* 12. Check that after a valid move, the current player's turn is updated to the opposite player.
-* 13. Validate that after an invalid move, the current player's turn does not change.
-* 14. Confirm that the game properly alternates turns after each valid move.
+ 12. Check that after a valid move, the current player's turn is updated to the opposite player.
+ 13. Validate that after an invalid move, the current player's turn does not change.
+ 14. Confirm that the game properly alternates turns after each valid move.
 
-* 15. Check that winCheck return true if someone wins
+ 15. Check that winCheck return true if someone wins
      - check horisontal win;
      - check vertical win;
      - check diagonal wins;
-* 16. Check that winCheck return false if no one wins 
+ 16. Check that winCheck return false if no one wins 
 
-* 17. Check that drawCheck return true if it is draw.
-* 18. Check that drawCheck return false if someone wins. 
-* 19. Check that drawCheck return false if game is not over.  
+ 17. Check that drawCheck return true if it is draw.
+ 18. Check that drawCheck return false if someone wins. 
+ 19. Check that drawCheck return false if game is not over.  
 
 
 
@@ -77,8 +77,8 @@ The `render` method should:
 * The Player constructor should throw an error if the name is not a string
 
 ### To test 
-* 1. Check that the Player class has a two properties: name and color. 
-* 2. Check that constructor throws an error when Player created with invalid name input:
+ 1. Check that the Player class has a two properties: name and color. 
+ 2. Check that constructor throws an error when Player created with invalid name input:
 - with symbols;
 - with numbers;
 - empty string;
@@ -121,23 +121,23 @@ The `render` method should:
 * After a game finishes, the user should be asked if they want to play again. If the user answers "ja", a new game starts; otherwise, the program terminates.
 
 ### To test 
- * 1. Check that the App class initializes the game correctly:
+ 1. Check that the App class initializes the game correctly:
      - Verify that `createPlayers` is called
     - Verify that Board is instantiated.
     - Verify that `startGameLoop `is called.
     - Verify that `whoHasWonOnGameOver` is called.
-* 2. Test that the `createPlayers` method correctly prompts for player names and assigns them to this.playerX and this.playerO.
-* 3. Test that the `startGameLoop` method prompts the current player for a move and updates the board correctly:
+ 2. Test that the `createPlayers` method correctly prompts for player names and assigns them to this.playerX and this.playerO.
+ 3. Test that the `startGameLoop` method prompts the current player for a move and updates the board correctly:
     - Ensure that valid moves update the board and the turn changes.
- * -Ensure that invalid moves do not change the board or the turn.
-* 4. Test that `whoHasWonOnGameOver` correctly announces the winner or declares a draw:
+    -Ensure that invalid moves do not change the board or the turn.
+ 4. Test that `whoHasWonOnGameOver` correctly announces the winner or declares a draw:
     - Check for a correct win message when a player wins.
     - Check for a draw message when the game ends in a draw.
-* 5. Test that the play again prompt works as expected:
+ 5. Test that the play again prompt works as expected:
    - Check that a new game starts if the user answers "ja".
     - Check that the program terminates if the user answers anything other than "ja".
-* 6. Verify that the program loops correctly, allowing multiple games to be played in succession.
-* 7. Ensure that the game correctly handles edge cases such as:
+ 6. Verify that the program loops correctly, allowing multiple games to be played in succession.
+ 7. Ensure that the game correctly handles edge cases such as:
     - Rapid input or unexpected inputs during prompts.
     - Game continuation after reaching a win condition.
     - Game correctly restarts and resets all states.
