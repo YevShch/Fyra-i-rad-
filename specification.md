@@ -4,7 +4,7 @@
 1. **Som användare vill jag kunna göra mitt drag så att det registreras korrekt på spelbrädet, dvs. välja en kolumn att lägga min bricka i.
 2. **Som användare vill jag inte kunna göra förbjudna drag, dvs. inte kunna lägga till brickor i en full kolumn eller efter det att någon har vunnit, så att spelreglerna följs.
 
-### Detailed specs
+### Detailed specs Todo Code
 
 #### Initialization:
  * When board a created a property called matrix should be set to an empty board. ('initialize the matrix property as an empty board when a Board is created')
@@ -55,13 +55,16 @@ The `render` method should:
 :x: 13. Validate that after an invalid move, the current player's turn does not change.
 :x: 14. Confirm that the game properly alternates turns after each valid move.
 
-:x: 15. Check that winCheck return true if someone go on proper way:
+:x: 15. Check that winCheck return true if someone wins
      - check horisontal win;
      - check vertical win;
      - check diagonal wins;
-:x: 16. Check that winCheck return false if someone do not go on proper way 
+:x: 16. Check that winCheck return false if no one wins 
 
-:x: 17. Check that drawCheck return true if it is draw. 
+:x: 17. Check that drawCheck return true if it is draw.
+:x: 18. Check that drawCheck return false if someone wins. 
+:x: 19. Check that drawCheck return false if game is not over.  
+
 
 
 ## Player
@@ -74,8 +77,8 @@ The `render` method should:
 * The Player constructor should throw an error if the name is not a string
 
 ### To test 
-* check that the Player class has a two properties: name and color. 
-* check that constructor throws an error when Player created with invalid name input:
+* 1. Check that the Player class has a two properties: name and color. 
+* 2. Check that constructor throws an error when Player created with invalid name input:
 - with symbols;
 - with numbers;
 - empty string;
