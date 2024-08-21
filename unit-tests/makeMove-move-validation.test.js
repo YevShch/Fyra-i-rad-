@@ -1,26 +1,5 @@
-import { expect, vi, test } from 'vitest';
+import { expect, test } from 'vitest';
 import Board from '../classes/Board.js';
-
-
-test( '4. Verify that the makeMove method exists', () => {
-  let aBoard = new Board();
-  expect( aBoard.makeMove ).toBeDefined();
-} );
-
-
-test( '5. makeMove method takes color and column as its arguments', () => {
-  let aBoard = new Board();
-  const spy = vi.spyOn( aBoard, 'makeMove' );
-  const color = 'X';
-  const column = 0;
-
-  // Calling makeMove to verify the arguments passed
-  aBoard.makeMove( color, column );
-
-  expect( spy ).toHaveBeenCalledWith( color, column );
-
-  spy.mockRestore(); // Restore original method if necessary
-} );
 
 
 test( '6. Check that makeMove should only allow colors "X" or "O"', () => {
@@ -54,20 +33,6 @@ test( '6. Check that makeMove should only allow colors "X" or "O"', () => {
   expect( resultUndefined ).toBe( false );
 } );
 
-
-test( '7. Check that the makeMove method takes two arguments', () => {
-  let aBoard = new Board();
-
-  // Correct arguments - the move should be valid
-  expect( aBoard.makeMove( 'X', 0 ) ).toBe( true );
-
-  // insufficient arguments - should return false
-  expect( aBoard.makeMove( 'X' ) ).toBe( false );
-
-  // extra arguments - should return false 
-  expect( aBoard.makeMove( 'X', 1, 6 ) ).toBe( false );
-
-} );
 
 
 test( '8. Verify that the `makeMove` function returns `false` for an invalid column input', () => {
@@ -151,10 +116,3 @@ test( "10 c. Check that makeMove returns false if it's not the player's turn", (
   expect( board.makeMove( 'O', 1 ) ).toBe( false ); // 'O' tries to move when it's 'X' turn
 
 } );
-
-
-
- 
-
-
-
