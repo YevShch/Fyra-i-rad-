@@ -1,1 +1,0 @@
-# Fyra-i-rad-

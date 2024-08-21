@@ -34,26 +34,51 @@ test( '6. Check that makeMove should only allow colors "X" or "O"', () => {
 } );
 
 
+import { expect, test } from 'vitest';
+import Board from '../classes/Board.js';
 
-test( '8. Verify that the `makeMove` function returns `false` for an invalid column input', () => {
-  let aBoard = new Board();
+test( '8. Verify that the `makeMove` function returns `false` for invalid column inputs', () => {
+  let board = new Board();
 
-  // Correct arguments - the move should be valid
-  expect( aBoard.makeMove( 'X', 0 ) ).toBe( true );
+  // Valid move - should succeed
+  expect( board.makeMove( 'X', 0 ) ).toBe( true );
+  console.log( 'Testing with a valid column value (0)' );
 
-  // Prevents a move when the column input is a negative value;  
-  expect( aBoard.makeMove( 'X', -1 ) ).toBe( false );
+  // Invalid column inputs - should all return false
 
-  // Prevents a move when the column input is a non-numeric values;
-  expect( aBoard.makeMove( 'X', 'A' ) ).toBe( false );
+  // Negative column value
+  expect( board.makeMove( 'X', -1 ) ).toBe( false );
+  console.log( 'Testing with a negative column value (-1)' );
 
-  //Prevents a move when the column input is a number outside the valid range 
-  expect( aBoard.makeMove( 'X', 100 ) ).toBe( false );
-  expect( aBoard.makeMove( 'O', -5) ).toBe( false );
+  // Non-numeric column value
+  expect( board.makeMove( 'X', 'A' ) ).toBe( false );
+  console.log( 'Testing with a non-numeric string value ("A")' );
 
-  // Test with boundary column values (first and last column)."
-  expect( aBoard.makeMove( 'O', 0 ) ).toBe( true );
-  expect( aBoard.makeMove( 'X', 6 ) ).toBe( true );
+  // Null value
+  expect( board.makeMove( 'X', null ) ).toBe( false );
+  console.log( 'Testing with a null column value' );
+
+  // Array value
+  expect( board.makeMove( 'X', [ 1, 2, 3 ] ) ).toBe( false );
+  console.log( 'Testing with an array column value ([1, 2, 3])' );
+
+  // Object value
+  expect( board.makeMove( 'X', { 1: 1, name: 'Anna' } ) ).toBe( false );
+  console.log( 'Testing with an object column value ({1: 1, "name": "Anna"})' );
+
+  // Undefined value
+  expect( board.makeMove( 'X', undefined ) ).toBe( false );
+  console.log( 'Testing with an undefined column value' );
+
+  // Boundary column values - should succeed
+  expect( board.makeMove( 'O', 0 ) ).toBe( true );
+  expect( board.makeMove( 'X', 6 ) ).toBe( true );
+  console.log( 'Testing with boundary column values (0 and 6)' );
+
+  // Column values outside the valid range
+  expect( board.makeMove( 'X', 100 ) ).toBe( false );
+  expect( board.makeMove( 'O', -5 ) ).toBe( false );
+  console.log( 'Testing with column values outside the valid range (100 and -5)' );
 } );
 
 test( '9. Check that makeMove returns true for a valid move and updates the board correctly', () => {
