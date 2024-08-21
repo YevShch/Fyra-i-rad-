@@ -117,20 +117,22 @@ test( '10 a. Verify that makeMove returns false when the game is over', () => {
 
 test( '10 b. Verify that makeMove returns false if a move is made in a full column', () => {
   const board = new Board();
+  const players = [ 'X', 'O' ];
 
-  // Fill column 0
-  // for ( let i = 0; i < 6; i++ ) {
-  //   board.makeMove( 'X', 0 );
-  // }
-  board.makeMove( 'X', 0 );
-  board.makeMove( 'O', 0 );
-  board.makeMove( 'X', 0 );
-  board.makeMove( 'O', 0 );
-  board.makeMove( 'X', 0 );
-  board.makeMove( 'O', 0 );
+  // Fill column 0 by alternating 'X' and 'O'
+  for ( let i = 0; i < 6; i++ ) {
+    let player = players[ i % players.length ];
+    board.makeMove( player, 0 );
+  };  
+  // board.makeMove( 'X', 0 );
+  // board.makeMove( 'O', 0 );
+  // board.makeMove( 'X', 0 );
+  // board.makeMove( 'O', 0 );
+  // board.makeMove( 'X', 0 );
+  // board.makeMove( 'O', 0 );
 
   // check the state of the board before making a move
-  // console.log( 'Board state before full column move:', board.matrix );
+  console.log( 'Board state before full column move:', board.matrix );
 
   // Check that the column is full and new move is not possible
   const result = board.makeMove( 'X', 0 );
