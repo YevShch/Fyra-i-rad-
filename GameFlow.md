@@ -1,78 +1,18 @@
-    +--------------------+
-    |      Start          |
-    +--------------------+
-             |
-             v
-    +--------------------+
-    | Input Player Names  |
-    +--------------------+
-             |
-             v
-    +----------------------+
-    | Display Current Board |
-    +----------------------+
-             |
-             v
-    +------------------------+
-    | Announce Player's Turn  |
-    +------------------------+
-             |
-             v
-    +------------------------+
-    |   Player Chooses Column |
-    +------------------------+
-             |
-             v
-    +------------------------+
-    |     Validate Move       |
-    +------------------------+
-   /        |                \
- /          v                 \
- |   +---------------------+  |
- |   |   Invalid Move       |  |
- |   |  Reject, Prompt Again|  |
- |   +---------------------+  |
- |          |                 |
- |          v                 |
- |   +---------------------+  |
- \   |  Valid Move, Update  |  /
-   \ |  Board               | /
-    \+---------------------+/
-             |
-             v
-    +------------------------+
-    | Check for Winner/Draw   |
-    +------------------------+
-    /            \           \
-  /               v            \
- /        +----------------+     \
- |        |  Winner Found   |      |
- |        | Announce Winner |      |
- |        +----------------+      |
- |                |               |
- |                v               |
- |         +----------------+     |
- |         |   End Game     |     |
- |         +----------------+     |
- |                |               |
- |                v               |
- |         +----------------+     |
- |         | Ask to Replay  |     |
- |         +----------------+     |
- |         /         \            |
- |        v           v           |
- |  +-----------------+           |
- |  | Play Again Yes  |           |
- |  | Reset Board     |           |
- |  +-----------------+           |
- |               |                |
- \               v                /
-  \       +--------------------+ /
-   \      | Play Again No       |/
-    \     |  End                |
-     \    +--------------------+ 
-      \               |
-       \              v
-        +-------------------+
-        |       Exit        |
-        +-------------------+
+```mermaid
+graph TD;
+    A[Starta spelet] --> B[Ange spelarens namn];
+    B --> C[Visa spelplanen];
+    C --> D[Meddela vems tur det är];
+    D --> E[Spelaren väljer kolumn];
+    E --> F{Validera draget};
+    F --> |Ogiltigt| G[Avvisa, välj igen];
+    F --> |Giltigt| H[Uppdatera planen];
+    H --> I{Kontrollera vinnare};
+    I --> |Ja| J[Meddela vinnaren];
+    I --> |Nej| K{Kontrollera oavgjort};
+    K --> |Ja| L[Meddela oavgjort];
+    K --> |Nej| D;
+    J --> M{Spela igen?};
+    M --> |Ja| C;
+    M --> |Nej| N[Avsluta spelet];
+```
