@@ -1,4 +1,4 @@
-import { expect, vi, test } from 'vitest';
+import { expect, test } from 'vitest';
 import Board from '../classes/Board.js';
 
 
@@ -39,7 +39,7 @@ test( "17 a. Check that drawCheck return false if it is not a draw", () => {
 
   board.matrix = ongoingGameState;
 
-  expect( board.drawCheck() ).toBe( true );
+  expect( board.drawCheck() ).toBe( false );
 
 } );
 
@@ -64,6 +64,5 @@ test( "19. Check that drawCheck return false if game is not over", () => {
 
   //Check that drawCheck return false
   expect( board.drawCheck() ).toBe( false );
-
 
 } );
