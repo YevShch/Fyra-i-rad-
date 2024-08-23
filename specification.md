@@ -5,25 +5,36 @@
 2. **Som användare vill jag inte kunna göra förbjudna drag, dvs. inte kunna lägga till brickor i en full kolumn eller efter det att någon har vunnit, så att spelreglerna följs.
 
 ### Detailed specs
+
+#### Initialization:
  * When board a created a property called matrix should be set to an empty board. ('initialize the matrix property as an empty board when a Board is created')
 * An empty board should be a two-demensional array of 7x6 elements where each element should be a string containing a space ' '. ('check that the board has 6 rows and 7 columns')
+#### Rendering the Board:
+The `render` method should:
+* Print the current state of the board to the console in a formatted way, showing each cell separated by vertical bars and rows separated by horizontal lines.
 
-* There should method named makeMove. The first argument should be color (a string value of either 'X' or 'O') and the second argument should be which column you want to place your piece on.
-* Make move should return true for a valid move and place the piece on the board. For an invalid move (there is already a piece in the position, it is not the player with the specified colors turn or the game is over) the method should return false and not change the board.
-* If a valid move is made the the whose turn it is should be updated. Up to the developer how to remember this state. (Sometimes implementation specifics are up to the programmer, since we will not run tests directly to see how the program remembers whose turn.)
+#### Making a Move:
+* There should method named `makeMove`. The first argument should be color (a string value of either 'X' or 'O') and the second argument should be which column you want to place your piece on.
+* `makeMove` should return true for a valid move and place the piece on the board. For an invalid move (there is already a piece in the position, it is not the player with the specified colors turn or the game is over) the method should return false and not change the board.
+* If a valid move is made the the whose turn it is should be updated. Up to the developer how to remember this state. 
 
-* Skapa en function winCneck. Den ska returnera true när någon har vunnit, och returnera false när det inte finns något vinstkombination. Den ska innehålla vinst kombination (horisontel, vertikal och två diagonala). 
+#### Checking for a Win
+* Create a method `winCneck`. The `winCheck` method should:
+* - Check all possible winning combinations (horizontal, vertical, and diagonal) for four consecutive pieces of the same color.
+* - Return the winning color ('X' or 'O') if a winning combination is found.
+* - Return false if no winning combination is found.
 
-* Skapa en function drawCheck. Den ska returnera true när spelet är avgjord, när alla celler är fulla och inte matchar något vinstkombination. 
-
-
-
+#### Checking for a Draw:
+* Skapa en function `drawCheck`. The `drawCheck` method should:
+* - Return true if the board is full (no empty spaces) and there is no winner, indicating a draw.
+* - Return false if the game is not a draw.
+ 
 ### To test
-:white_check_mark: 1. Check that the matrix property is defined when a Board is created; 
-:white_check_mark: 2. Initialize the matrix property as an empty board when a Board is created;
-:white_check_mark: 3. Check that the board have 6 rows and 7 columns.
+:x: 1. Check that the matrix property is defined when a Board is created; 
+:x: 2. Initialize the matrix property as an empty board when a Board is created;
+:x: 3. Check that the board have 6 rows and 7 columns.
 
-:white_check_mark: 4. Verify that the makeMove method exists.
+:x:4. Verify that the makeMove method exists.
 :x: 5. Check that the makeMove method takes color and column as its arguments.
 :x: 6. Ensure that color can only be 'X' or 'O'.
 :x: 7. Verify that the `makeMove` function returns `false` for an invalid column input:
@@ -53,8 +64,6 @@
 :x: 17. Check that drawCheck return true if it is draw. 
 
 
-
-
 ## Player
 3. **Som användare vill jag kunna ange mitt namn vid början av spelet så att datorn sedan kan använda sig av det för att meddela vems tur det är och vem som har vunnit.
 
@@ -73,33 +82,61 @@
 - an object;
 
 
-
-
 ## App 
 4. **Som användare vill jag att programmet meddelar om någon har vunnit så att vi vet detta.
 5. **Som användare vill jag att programmet meddelar om det har blivit oavgjort så att vi vet detta. 
 6. **Som användare vill jag efter avslutat spel få frågan om vi (jag och den andra användaren) vill spela igen. Om vi svarar ja vill jag att ett nytt spel ska starta (med ett tomt bräde) så att vi kan spela igen.  
 
 ### Detailed specs
-* Skapa en klass App. 
-Det ska vara möjligt att ange namn för spelare 1 och spelare 2. 
-Programmet ska sätta color på spelare automatisk vid skapandet: spelare 1 ska vara 'X' och spelare 2 ska vara 'O'.
-App ska fråga en spelare om i vilken kolumn den ska göra ett drag. 
-App ska hantera felaktiga drag - returnera false och fråga den spelaren att göra en annan försök. 
-App ska hantera vinst - meddella att någon har vunnit och avsluta spelet (att man kan inte göra ett drag).
-App ska hantera draw - meddela att det är avgjord och avsluta spelet (att man kan inte göra ett drag).
-App ska fråga spelare om de vill börja ett nytt spel med svar ja/nej. Om man svarar NEJ då ska programmet(App) avslutas. Om man svarar JA då ska ett nytt spel startas och brädet ska vara tom (matrix ska innehålla bara ' '). 
+#### Initialization:
+* When an instance of App is created, it should:
+* - Initialize players by calling `createPlayers`.
+* - Create a new game board by instantiating the Board class.
+* - Start the game loop by calling `startGameLoop`.
+* - Check the winner and display the result by calling `whoHasWonOnGameOver`.
+* - Prompt the user to play again and repeat the process if the user chooses to do so.
+#### Player Creation:
+* The `createPlayers` method should:
+* - Clear the console.
+* - Prompt the user for the names of players X and O.
+* - Store the players' names and colors in this.playerX and this.playerO using the Player class.
+#### Game Loop:
+* The `startGameLoop` method should:
+* Continuously prompt the current player for their move until the game is over.
+* Ensure the move is valid by using `makeMove` from the Board class.
+* Render the board after each valid move.
+* If the move is invalid (e.g., the column is full or input is incorrect), prompt the player again without changing the turn.
 
-###To test 
-* Kontrolera att programmet startas i terminalen
-* Kontrolera att programmet frågar spelarens : 
+#### Game Over Handling:
+* The `whoHasWonOnGameOver` method should:
+* Clear the console.
+* Render the final state of the board.
+* If there is a winner, announce the winning player.
+* If there is no winner and the game is a draw, announce the draw.
+#### Play Again Prompt:
+* After a game finishes, the user should be asked if they want to play again. If the user answers "ja", a new game starts; otherwise, the program terminates.
 
-### Tested 
-
-
-### Not tested
-
-
+### To test 
+ * 1. Check that the App class initializes the game correctly:
+* - Verify that `createPlayers` is called.
+* - Verify that Board is instantiated.
+* - Verify that `startGameLoop `is called.
+* - Verify that `whoHasWonOnGameOver` is called.
+* 2. Test that the `createPlayers` method correctly prompts for player names and assigns them to this.playerX and this.playerO.
+* 3. Test that the `startGameLoop` method prompts the current player for a move and updates the board correctly:
+ * - Ensure that valid moves update the board and the turn changes.
+ * -Ensure that invalid moves do not change the board or the turn.
+* 4. Test that `whoHasWonOnGameOver` correctly announces the winner or declares a draw:
+* - Check for a correct win message when a player wins.
+* - Check for a draw message when the game ends in a draw.
+* 5. Test that the play again prompt works as expected:
+* - Check that a new game starts if the user answers "ja".
+* - Check that the program terminates if the user answers anything other than "ja".
+* 6. Verify that the program loops correctly, allowing multiple games to be played in succession.
+* 7. Ensure that the game correctly handles edge cases such as:
+* - Rapid input or unexpected inputs during prompts.
+* - Game continuation after reaching a win condition.
+* - Game correctly restarts and resets all states.
 
 
 ## User stories
