@@ -1,3 +1,6 @@
 //Creating a prompt that other files can import
-import PromptSync from 'prompt-sync';
-export default PromptSync( { sigint: true } );
+import promptSync from 'prompt-sync';
+
+const prompt = promptSync();
+
+export default prompt;
