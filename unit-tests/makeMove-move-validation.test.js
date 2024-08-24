@@ -44,7 +44,9 @@ test( '8. Verify that the `makeMove` function returns `false` for invalid column
   expect( board.makeMove( 'X', 0 ) ).toBe( true );
   console.log( 'Testing with a valid column value (0)' );
 
-  // Invalid column inputs - should all return false
+  // Non-integer column value  
+  expect( board.makeMove( 'X', 1.5 ) ).toBe( false );
+  console.log( 'Testing with a non-integer column value (1.5)' );
 
   // Negative column value
   expect( board.makeMove( 'X', -1 ) ).toBe( false );

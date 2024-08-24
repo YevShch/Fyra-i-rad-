@@ -33,8 +33,8 @@ export default class Board {
     // check that the color matches the player's turn - otherwise don't make the move
     if ( color !== this.currentPlayerColor ) { return false; }
 
-    //check that input is valid (between 1 and 7 and is a number)
-    if ( isNaN( column ) || column < 0 || column >= this.matrix[ 0 ].length ) {
+    // check that input is a valid integer (between 0 and 6)
+    if ( !Number.isInteger( column ) || column < 0 || column >= this.matrix[ 0 ].length ) {
       console.log( "Ogiltigt drag. Försök igen." );
       return false;
     }
