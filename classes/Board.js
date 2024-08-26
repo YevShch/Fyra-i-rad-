@@ -53,11 +53,22 @@ export default class Board {
       if ( this.matrix[ r ][ column ] === ' ' ) {
         this.matrix[ r ][ column ] = this.currentPlayerColor;
         // console.log( `Placed ${ this.currentPlayerColor } in column ${ column }, row ${ r }` );
+
+        // Check the win immediately after the move
+        if ( this.winCheck( r, column ) ) {
+          this.gameOver = true;
+        } else if ( this.drawCheck() ) {  // Check the draw if game is not over 
+          this.isADraw = true;
+          this.gameOver = true;
+        }
+
+        // Change the prlayer
         this.currentPlayerColor = this.currentPlayerColor === 'X' ? 'O' : 'X';
-      
+    
         return true;
       }
     }
     return false;
   }
+  
 }
