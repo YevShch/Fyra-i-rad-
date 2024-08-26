@@ -1,6 +1,6 @@
 import { test, expect, vi } from 'vitest';
 import { promptQuestions, setMockAnswers, } from './helpers/prompt.js';
-import App from '../classes/App.js';
+import App from '../classes/Board.js';
 import Player from '../classes/Player.js';
 
 test("should prompt the current player for a move and update the board correctly", () => {
@@ -70,3 +70,5 @@ test("should not update the board or change turn on an invalid move", () => {
     makeMoveSpy.mockRestore();
     renderSpy.mockRestore();
 });
+
+
