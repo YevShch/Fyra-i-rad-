@@ -1,62 +1,39 @@
-import { describe, it, expect, vi } from 'vitest';
 import App from '../classes/App.js';
-import Board from '..classes/Board.js';
-import Player from '../classes/Player.js';
-
-// Mock classes
-class MockBoard {
-    constructor() {
-        this.gameOver = false;
-        this.currentPlayerColor = 'X';
-        this.winner = null;
-    }
-
-    makeMove() {
-        return true; // Simulate a successful move
-    }
-
-    render() {
-        // No operation for rendering in test
-    }
-}
-
-class MockPlayer {
-    constructor(name, color) {
-        this.name = name;
-        this.color = color;
-    }
-}
+import Board from '../classes/Board.js'; 
+import { describe, it, vi, expect, beforeAll, afterAll } from 'vitest';
+import { mockPrompt, mockConsoleLog, restorePromptAndConsoleLog } from './helpers/mockPromptAndConsoleLog.js';
 
 describe('App', () => {
+    let MockBoard;
+
+    beforeAll(() => {
+        // Mock the prompt and console.log functions
+        mockPrompt();
+        mockConsoleLog();
+
+        // Mock the Board class
+        MockBoard = vi.fn(Board);
+    });
+
+    afterAll(() => {
+        // Restore the original prompt and console.log functions
+        restorePromptAndConsoleLog();
+    });
+
     it('should initialize the game correctly', () => {
-        const mockPrompt = vi.fn()
-            .mockReturnValueOnce('Player X')  // Name for Player X
-            .mockReturnValueOnce('Player O')  // Name for Player O
-            .mockReturnValueOnce('ja');       // Play again response
+        // Initialize the App class
+        const app = new App();
 
-        // Spy on methods
-        const createPlayers = vi.spyOn(App.prototype, 'createPlayers').mockImplementation(() => {});
-        const startGameLoop = vi.spyOn(App.prototype, 'startGameLoop').mockImplementation(() => {});
-        const whoHasWonOnGameOver = vi.spyOn(App.prototype, 'whoHasWonOnGameOver').mockImplementation(() => {});
-
-        // Mock Board class
-        vi.mock('./Board.js', () => ({
-            default: MockBoard
-        }));
-
-        // Create an instance of App
-        new App(mockPrompt);
-
-        // Assert createPlayers is called
-        expect(createPlayers).toHaveBeenCalled();
+        // Assert createPlayers is called (mockPrompt handles this)
+        expect(mockPrompt).toHaveBeenCalled();
 
         // Assert Board is instantiated
-        expect(MockBoard).toBeCalled();
+        expect(MockBoard).toHaveBeenCalled();
 
         // Assert startGameLoop is called
-        expect(startGameLoop).toHaveBeenCalled();
+        expect(app.startGameLoop).toHaveBeenCalled();
 
         // Assert whoHasWonOnGameOver is called
-        expect(whoHasWonOnGameOver).toHaveBeenCalled();
+        expect(app.whoHasWonOnGameOver).toHaveBeenCalled();
     });
 });
