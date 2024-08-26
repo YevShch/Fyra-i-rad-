@@ -1,4 +1,5 @@
 import { test, expect, vi } from 'vitest';
+import { promptQuestions, setMockAnswers, } from './helpers/prompt.js';
 import App from '../classes/App.js';
 import Player from '../classes/Player.js';
 
