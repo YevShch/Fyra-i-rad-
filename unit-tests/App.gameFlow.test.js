@@ -2,7 +2,7 @@ import { test, expect, vi } from 'vitest';
 import App from '../classes/App.js';
 import Player from '../classes/Player.js';
 import * as promptModule from '../helpers/prompt.js';
-import Board from '../classes/Board';
+import Board from '../classes/Board.js';
 
 // Mock the prompt function to simulate user input
 vi.mock('../helpers/prompt.js', () => ({
