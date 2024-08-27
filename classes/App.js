@@ -28,8 +28,23 @@ export default class App {
         // Implement this method
     }
 
-    whoHasWonOnGameOver () {
-        // Implement this method
+    // Method to check the game status and return the appropriate message
+    whoHasWonOnGameOver(board, playerX, playerO) {
+        let winnerName = null;
+
+        if (board.winner === playerX.color) {
+            winnerName = playerX.name;
+        } else if (board.winner === playerO.color) {
+            winnerName = playerO.name;
+        }
+
+        if (winnerName) {
+            return `${winnerName} has won the game!`;
+        } else if (board.isADraw) {
+            return "The game ended in a draw!";
+        } else {
+            return "The game is still ongoing.";
+        }
     }
 
     startGame () {
