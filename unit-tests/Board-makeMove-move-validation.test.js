@@ -118,14 +118,15 @@ test( '10 a. Verify that makeMove returns false when the game is over', () => {
   board.gameOver = false;
 } );
 
-
-test( '10 b. Verify that a move is not possible in the full column', () => {
-  const board = new Board();
+test( '10 b. Verify that a move is not possible in a full column', () => {
   const players = [ 'X', 'O' ];
-  const columns = [ 0, 1, 2, 3, 4, 5, 6 ];
 
-  // Iterate through all columns
-  columns.forEach( ( col ) => {
+  // Function to test each column separately
+  const testColumn = ( col ) => {
+    const board = new Board(); // Create a new board for each column test
+
+    console.log( `Testing column ${ col + 1 }` );
+
     // Fill the column alternately with 'X' and 'O'
     for ( let i = 0; i < 6; i++ ) {
       const player = players[ i % players.length ];
@@ -145,8 +146,14 @@ test( '10 b. Verify that a move is not possible in the full column', () => {
     // Check that a move is not possible in the full column
     expect( result ).toBe( false );
     console.log( `Pass: Move in full column ${ col + 1 } should return false` );
-  } );
+  };
+
+  // Test each column individually
+  for ( let col = 0; col < 7; col++ ) {
+    testColumn( col );
+  }
 } );
+
 
 
 test( "10 c. Check that makeMove returns false if it's not the player's turn", () => {
