@@ -46,7 +46,7 @@ export default class App {
     }
     
     // Method to check the game status and return the appropriate message
-    static whoHasWonOnGameOver(board, playerX, playerO) {
+    whoHasWonOnGameOver(board, playerX, playerO) {
         let winnerName = null;
 
         if (board.winner === playerX.color) {

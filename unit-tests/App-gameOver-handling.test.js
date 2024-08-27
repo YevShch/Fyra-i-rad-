@@ -12,9 +12,9 @@ describe('whoHasWonOnGameOver', () => {
     const playerO = new Player('Bob', 'Y');
     board.winner = 'R'; // Assume Red player won
 
-    // Call the static method (becuse don't want to call constructor, because test will be
-    // more complicated to check all the logic)
-    const result = App.whoHasWonOnGameOver(board, playerX, playerO);
+    const app = new App();  // Create an instance of App
+    const result = app.whoHasWonOnGameOver(board, playerX, playerO);
+
     expect(result).toBe('Alice has won the game!');
   });
 
@@ -25,8 +25,9 @@ describe('whoHasWonOnGameOver', () => {
     const playerO = new Player('Bob', 'Y');
     board.isADraw = true; // Assume the game ended in a draw
 
-    // Call the static method
-    const result = App.whoHasWonOnGameOver(board, playerX, playerO);
+    const app = new App();  // Create an instance of App
+
+    const result = app.whoHasWonOnGameOver(board, playerX, playerO);
     expect(result).toBe('The game ended in a draw!');
   });
 
@@ -36,8 +37,8 @@ describe('whoHasWonOnGameOver', () => {
     const playerX = new Player('Alice', 'R');
     const playerO = new Player('Bob', 'Y');
 
-    // Call the static method
-    const result = App.whoHasWonOnGameOver(board, playerX, playerO);
+    const app = new App();  // Create an instance of App
+    const result = app.whoHasWonOnGameOver(board, playerX, playerO);
     expect(result).toBe('The game is still ongoing.');
   });
 });
