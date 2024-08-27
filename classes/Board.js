@@ -21,10 +21,6 @@ export default class Board {
   }
 
   makeMove(color, column) {
-    // console.log( "Before move:" );
-    // console.log( "Current player:", this.currentPlayerColor );
-    // console.log( "Game over:", this.gameOver );
-
     if (this.gameOver) { return false; }
 
     // check that the color is X or O - otherwise don't make the move
@@ -38,23 +34,25 @@ export default class Board {
       console.log("Ogiltigt drag. Försök igen.");
       return false;
     }
-
     // check that column is not full
     if (this.matrix[0][column] !== ' ') {
       console.log("Kolumnen är full. Försök igen.");
       return false;
     }
-    // if ( this.matrix.every( row => row[ column ] !== ' ' ) ) {
-    //   return false; // Column is full
-    // }
-
     //make move 
     for (let r = this.matrix.length - 1; r >= 0; r--) {
       if (this.matrix[r][column] === ' ') {
-        this.matrix[r][column] = this.currentPlayerColor;
-        // console.log( `Placed ${ this.currentPlayerColor } in column ${ column }, row ${ r }` );
+        this.matrix[ r ][ column ] = this.currentPlayerColor;
+        
+        // Check the win immediately after the move
+        if ( this.winCheck( r, column ) ) {
+          this.gameOver = true;
+        } else if ( this.drawCheck() ) {  // Check the draw if game is not over 
+          this.isADraw = true;
+          this.gameOver = true;
+        }
+        // Change the prlayer
         this.currentPlayerColor = this.currentPlayerColor === 'X' ? 'O' : 'X';
-      
         return true;
       }
     }
@@ -88,7 +86,6 @@ export default class Board {
         return true;
       }
     }
-
     // If no win is detected
     return false;
   }
@@ -112,7 +109,6 @@ export default class Board {
             break;
         }
     }
-
     return count;
   }
   

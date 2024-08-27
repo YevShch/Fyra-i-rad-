@@ -6,7 +6,7 @@ import {
 import App from '../classes/App.js';
 import Player from '../classes/Player.js'
 
-test( "should clear the console (Check that createPlayers method clears console  before creating of players)", () => {
+test( "Check that createPlayers method clears console  before creating of players", () => {
     const app = new App();
 
     // Spy on the call to console.clear
@@ -21,7 +21,7 @@ test( "should clear the console (Check that createPlayers method clears console 
 } );
   
 
-test( " should prompt the user for player names (Check that createPlayers method prompts the user for player names) ", () => {
+test( "Check that createPlayers method prompts the user for player names", () => {
     // Set mock answers
     setMockAnswers( 'Anna', 'Ola' );
 
