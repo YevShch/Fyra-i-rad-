@@ -27,11 +27,14 @@ test( '7. Check that the makeMove method takes two arguments', () => {
 
   // Correct arguments - the move should be valid
   expect( aBoard.makeMove( 'X', 0 ) ).toBe( true );
+  console.log( "Pass: makeMove('X', 0) is valid with correct arguments (color and column), returned true." );
 
-  // insufficient arguments - should return false
+  // Insufficient arguments - should return false
   expect( aBoard.makeMove( 'X' ) ).toBe( false );
+  console.log( "Pass: makeMove('X') is invalid due to missing column argument, returned false." );
 
-  // extra arguments - should return false 
+  // Extra arguments - should return false 
   expect( aBoard.makeMove( 'X', 1, 6 ) ).toBe( false );
-
+  console.log( "Pass: makeMove('X', 1, 6) is invalid due to extra argument, returned false." );
 } );
+

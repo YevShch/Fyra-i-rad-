@@ -1,4 +1,4 @@
-import { expect, vi, test } from 'vitest';
+import { expect, test } from 'vitest';
 import Board from '../classes/Board.js';
 
 test( '11. Confirm that the board remains unchanged after an invalid move.', () => {
@@ -21,7 +21,7 @@ test( '11. Confirm that the board remains unchanged after an invalid move.', () 
 } );  
 
 
-test( "12. Test that makeMove returns false and does not change the board when the game is already over.", () => {
+test( "12. Test that makeMove returns false and don't change the board when the game is already over.", () => {
   const board = new Board();
 
   // make game over

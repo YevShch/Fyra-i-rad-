@@ -152,7 +152,10 @@ test( '10 b. Verify that a move is not possible in the full column', () => {
 test( "10 c. Check that makeMove returns false if it's not the player's turn", () => {
   const board = new Board();
 
-  board.currentPlayerColor = 'X'; // Set current player to 'X'
-  expect( board.makeMove( 'O', 1 ) ).toBe( false ); // 'O' tries to move when it's 'X' turn
+  // Set current player to 'X'
+  board.currentPlayerColor = 'X'; 
+
+  // 'O' tries to move when it's 'X' turn
+  expect( board.makeMove( 'O', 1 ) ).toBe( false ); 
 
 } );
