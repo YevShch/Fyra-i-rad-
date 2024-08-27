@@ -1,12 +1,12 @@
 ```mermaid
-graph TD;
-    A[Starta spelet] --> B[Ange spelarens namn];
+A[Starta spelet] --> B[Ange spelarens namn];
     B --> C[Visa spelplanen];
     C --> D[Meddela vems tur det är];
     D --> E[Spelaren väljer kolumn];
     E --> F{Validera draget};
     F --> |Ogiltigt| G[Avvisa, välj igen];
     F --> |Giltigt| H[Uppdatera planen];
+    G --> E;  <!-- Добавленная стрелка -->
     H --> I{Kontrollera vinnare};
     I --> |Ja| J[Meddela vinnaren];
     I --> |Nej| K{Kontrollera oavgjort};
