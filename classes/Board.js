@@ -114,5 +114,10 @@ export default class Board {
     }
 
     return count;
-}
+  }
+  
+  drawCheck () {
+    // Check if there is no winner and all cells are filled
+    return !this.winner && !this.matrix.flat().includes( ' ' );
+  }
 }
