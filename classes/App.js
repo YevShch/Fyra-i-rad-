@@ -1,6 +1,6 @@
 import prompt from '../helpers/prompt.js';
 import Board from './Board.js';
-import Player from './Player.js'; 
+import Player from './Player.js';
 
 export default class App {
 
@@ -10,26 +10,19 @@ export default class App {
         this.board = null;   // Initialize the game board
     }
 
-    createPlayers () {
-        console.clear();  // Clear the console
+    createPlayers() {
+        console.clear(); // Clear the console for a fresh start
+        console.log('FOUR-IN-A-ROW\n');
 
-        console.log('FOUR-IN-A-ROW\n');  // Print the game title
+        // Prompt user for Player X and Player O names and store them
+        const playerXName = prompt('Spelare X:s namn: ');
+        const playerOName = prompt('Spelare O:s namn: ');
 
-        // Prompt for player names
-        const playerXName = prompt('Spelare X:s namn: '); // Ask for Player X's name
-        const playerOName = prompt('Spelare O:s namn: '); // Ask for Player O's name
-
-        // Create player objects
-        this.playerX = new Player(playerXName, 'X'); // Create Player X with the given name and color 'X'
-        this.playerO = new Player(playerOName, 'O'); // Create Player O with the given name and color 'O'
+        this.playerX = new Player(playerXName, 'X');
+        this.playerO = new Player(playerOName, 'O');
     }
-
-    startGameLoop () {
-        // Implement this method
-    }
-
     // Method to check the game status and return the appropriate message
-    whoHasWonOnGameOver(board, playerX, playerO) {
+    static whoHasWonOnGameOver(board, playerX, playerO) {
         let winnerName = null;
 
         if (board.winner === playerX.color) {
@@ -48,16 +41,16 @@ export default class App {
     }
 
     startGame () {
-        while (true) {
+        while ( true ) {
             this.createPlayers(); // Create players
             this.board = new Board(); // Create a new game board
             this.startGameLoop(); // Start the game loop
             this.whoHasWonOnGameOver(); // Determine and announce the winner or if it's a draw
 
             // Ask if the user wants to play again
-            console.log('');
-            let playAgain = prompt('Vill ni spela igen? (ja/nej)? '); // Ask if they want to play again
-            if (playAgain !== 'ja') {
+            console.log( '' );
+            let playAgain = prompt( 'Vill ni spela igen? (ja/nej)? ' ); // Ask if they want to play again
+            if ( playAgain !== 'ja' ) {
                 break; // Exit the loop if the user doesn't want to play again
             }
         }
