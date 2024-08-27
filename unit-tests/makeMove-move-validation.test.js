@@ -4,38 +4,49 @@ import Board from '../classes/Board.js';
 
 test( '6. Check that makeMove should only allow colors "X" or "O"', () => {
   let board = new Board();
+
   // Test with valid color 'X'
   const resultX = board.makeMove( 'X', 0 );
   expect( resultX ).toBe( true );
+  console.log( "Pass: Valid color 'X' should return true" );
 
   // Test with valid color 'O'
   const resultO = board.makeMove( 'O', 1 );
   expect( resultO ).toBe( true );
+  console.log( "Pass: Valid color 'O' should return true" );
 
   // Test with invalid color 'A'
   const resultA = board.makeMove( 'A', 2 );
   expect( resultA ).toBe( false );
+  console.log( "Pass: Invalid color 'A' should return false" );
 
-  // Test with invalid color '1'
+  // Test with invalid numeric color '1'
   const result1 = board.makeMove( '1', 3 );
   expect( result1 ).toBe( false );
+  console.log( "Pass: Invalid numeric color '1' should return false" );
 
-  // Test with an empty string
+  // Test with invalid string color 'Hello!'
+  const resultString = board.makeMove( 'Hello!', 4 );
+  expect( resultString ).toBe( false );
+  console.log( "Pass: Invalid string color 'Hello!' should return false" );
+
+  // Test with empty string
   const resultEmpty = board.makeMove( '', 4 );
   expect( resultEmpty ).toBe( false );
+  console.log( "Pass: Invalid empty string color '' should return false" );
 
   // Test with null
   const resultNull = board.makeMove( null, 5 );
   expect( resultNull ).toBe( false );
+  console.log( "Pass: Invalid null color should return false" );
 
   // Test with undefined
   const resultUndefined = board.makeMove( undefined, 6 );
   expect( resultUndefined ).toBe( false );
+  console.log( "Pass: Invalid undefined color should return false" );
 } );
 
 
-import { expect, test } from 'vitest';
-import Board from '../classes/Board.js';
 
 test( '8. Verify that the `makeMove` function returns `false` for invalid column inputs', () => {
   let board = new Board();
@@ -83,6 +94,7 @@ test( '8. Verify that the `makeMove` function returns `false` for invalid column
   console.log( 'Testing with column values outside the valid range (100 and -5)' );
 } );
 
+
 test( '9. Check that makeMove returns true for a valid move and updates the board correctly', () => {
   const board = new Board();
 
@@ -107,32 +119,33 @@ test( '10 a. Verify that makeMove returns false when the game is over', () => {
 } );
 
 
-test( '10 b. Verify that makeMove returns false if a move is made in a full column', () => {
+test( '10 b. Verify that a move is not possible in the full column', () => {
   const board = new Board();
   const players = [ 'X', 'O' ];
+  const columns = [ 0, 1, 2, 3, 4, 5, 6 ];
 
-  // Fill column 0 by alternating 'X' and 'O'
-  for ( let i = 0; i < 6; i++ ) {
-    let player = players[ i % players.length ];
-    board.makeMove( player, 0 );
-  };  
-  // board.makeMove( 'X', 0 );
-  // board.makeMove( 'O', 0 );
-  // board.makeMove( 'X', 0 );
-  // board.makeMove( 'O', 0 );
-  // board.makeMove( 'X', 0 );
-  // board.makeMove( 'O', 0 );
+  // Iterate through all columns
+  columns.forEach( ( col ) => {
+    // Fill the column alternately with 'X' and 'O'
+    for ( let i = 0; i < 6; i++ ) {
+      const player = players[ i % players.length ];
+      const result = board.makeMove( player, col );
+      expect( result ).toBe( true );
+      console.log( `Pass: ${ player } successfully placed in column ${ col + 1 }, row ${ 6 - i }` );
+    }
 
-  // check the state of the board before making a move
-  console.log( 'Board state before full column move:', board.matrix );
+    // Output the state of the board before attempting a move in the full column
+    console.log( `Board state before attempting move in full column ${ col + 1 }:` );
+    board.render();
 
-  // Check that the column is full and new move is not possible
-  const result = board.makeMove( 'X', 0 );
-  console.log( 'Attempted move result:', result );
+    // Attempt to add another disc in the filled column
+    const result = board.makeMove( 'X', col );
+    console.log( `Attempted move result in full column ${ col + 1 }:`, result );
 
-  // The column should be full, so move should not be made
-  expect( result ).toBe( false );
-
+    // Check that a move is not possible in the full column
+    expect( result ).toBe( false );
+    console.log( `Pass: Move in full column ${ col + 1 } should return false` );
+  } );
 } );
 
 

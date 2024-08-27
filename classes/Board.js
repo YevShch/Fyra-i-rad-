@@ -70,5 +70,12 @@ export default class Board {
     }
     return false;
   }
+
+  winCheck () {
+    
+  }
   
+  drawCheck () {
+    
+  }
 }
