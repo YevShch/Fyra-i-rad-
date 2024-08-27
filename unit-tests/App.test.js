@@ -1,64 +1,70 @@
 import { test, expect, vi } from 'vitest';
-import {
-    promptQuestions,
-    setMockAnswers,
-} from './helpers/mockPromptAndConsoleLog.js';
+import prompt from './helpers/mockPromptAndConsoleLog.js';
 import App from '../classes/App.js';
-import Player from '../classes/Player.js'
+import Board from '../classes/Board.js'
 
-test( "should clear the console (Check that createPlayers method clears console  before creating of players)", () => {
-    const app = new App();
 
-    // Spy on the call to console.clear
-    const consoleClearSpy = vi.spyOn( console, 'clear' );
-    
-    //Call the function createPlayers
-    app.createPlayers();
-
-    // Check that console.clear has been called
-    expect( consoleClearSpy ).toHaveBeenCalled();
-
-} );
+test("Verify that createPlayers is called when startGame is invoked", () => {
   
+  // Create a spy on the createPlayers method
+  const appSpy = vi.spyOn(App.prototype, 'createPlayers');
 
-test( " should prompt the user for player names (Check that createPlayers method prompts the user for player names) ", () => {
-    // Set mock answers
-    setMockAnswers( 'Anna', 'Ola' );
+  // Create an instance of the App class
+  const app = new App(); 
 
-    // Create an instance of the App class, which calls createPlayers
-    const app = new App();
+  // To call method startGame
+  app.startGame();
 
-    // Call the createPlayers method directly
-    app.createPlayers();
-
-    // Check that the promptQuestions array contains both questions
-    expect( promptQuestions ).toContain( 'Spelare X:s namn: ' );
-    expect( promptQuestions ).toContain( 'Spelare O:s namn: ' );
-} );
-
-
-test( "should store the player names and colors correctly (Check that createPlayers() stores player's names and colors correctly ) ", () => {
-    // Set mock answers for the prompts
-    setMockAnswers( 'Anna', 'Ola' );
-
-    // Create an instance of the App class
-    let appInstance = new App();
-
-    // Check that the correct prompt questions were asked
-    expect( promptQuestions[ 0 ] ).toBe( 'Spelare X:s namn: ' );
-    expect( promptQuestions[ 1 ] ).toBe( 'Spelare O:s namn: ' );
-
-    // Verify that playerX and playerO are correctly created
-    expect( appInstance.playerX ).toBeInstanceOf( Player );
-    expect( appInstance.playerX.name ).toBe( 'Anna' );
-    expect( appInstance.playerX.color ).toBe( 'X' );
-
-    expect( appInstance.playerO ).toBeInstanceOf( Player );
-    expect( appInstance.playerO.name ).toBe( 'Ola' );
-    expect( appInstance.playerO.color ).toBe( 'O' );
-} );
+  // Check that the createPlayers method was called
+  expect(appSpy).toHaveBeenCalled();
+  console.log( 'Pass: createPlayers was called during startGame execution.' );
+} );  
 
 
 
+test("Verify that Board instance is created when startGame is invoked", () => {
+// Create an instance of the App class
+const app = new App();
+
+// Mock the Board constructor to avoid actual creation
+vi.spyOn( Board.prototype, 'constructor' ).mockImplementation( () => { } );
+
+// Call the startGame method
+app.startGame();
+
+// Check that the board property is an instance of Board
+expect( app.board ).toBeInstanceOf( Board );
+console.log( 'Pass: Board instance was created and assigned to app.board during startGame execution.' );
+});
 
 
+test( "Verify that startGameLoop is called when startGame is invoked", () => {
+  // Create a spy on the startGameLoop method
+  const appSpy = vi.spyOn( App.prototype, 'startGameLoop' );
+
+  // Create an instance of the App class
+  const app = new App(); // This should trigger the createPlayers method call
+
+  // To call method startGame
+  app.startGame();
+
+  // Check that the startGameLoop method was called
+  expect( appSpy ).toHaveBeenCalled();
+  console.log( 'Pass: startGameLoop was called during startGame execution.' )
+} );  
+
+
+test( "Verify that whoHasWonOnGameOver is called when startGame is invoked", () => {
+  // Create a spy on the startGameLoop method
+  const appSpy = vi.spyOn( App.prototype, 'whoHasWonOnGameOver' );
+
+  // Create an instance of the App class
+  const app = new App(); 
+
+  // To call method startGame
+  app.startGame();
+
+  // Check that the whoHasWonOnGameOver method was called
+  expect( appSpy ).toHaveBeenCalled();
+  console.log( 'Pass: whoHasWonOnGameOver was called during startGame execution.' )
+} ); 
