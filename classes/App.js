@@ -10,6 +10,7 @@ export default class App {
         this.board = null;   // Initialize the game board
     }
 
+
     createPlayers() {
         console.clear(); // Clear the console for a fresh start
         console.log('FOUR-IN-A-ROW\n');
@@ -21,6 +22,29 @@ export default class App {
         this.playerX = new Player(playerXName, 'X');
         this.playerO = new Player(playerOName, 'O');
     }
+
+    startGameLoop () {
+        while ( !this.board.gameOver ) {
+            let player = this.board.currentPlayerColor === 'X' ? this.playerX : this.playerO;
+
+            let column = prompt( `Ange ditt drag ${ player.color } ${ player.name } - skriv in kolumn: ` );
+
+            // convert input to number and subtract 1 to get index zero
+            column = +column.trim() - 1;
+
+            // try to make move
+            const moveMade = this.board.makeMove( player.color, column );
+
+            // if a move was not made (e.g. a column is full), ask the player to make a move again
+            if ( !moveMade ) {
+                continue;
+            }
+
+            // drawing the board after each move
+            this.board.render();
+        }
+    }
+    
     // Method to check the game status and return the appropriate message
     whoHasWonOnGameOver(board, playerX, playerO) {
         let winnerName = null;
