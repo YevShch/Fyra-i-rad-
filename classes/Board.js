@@ -114,13 +114,8 @@ export default class Board {
     }
 
     return count;
-<<<<<<< HEAD
-}
-}
-=======
   }
   
 
 }
 
->>>>>>> gursell
