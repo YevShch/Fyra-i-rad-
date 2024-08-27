@@ -11,9 +11,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@vitest/ui": "^2.0.5",
     "vitest": "^2.0.5"
   },
   "dependencies": {
+    "jest": "^29.7.0",
     "prompt-sync": "^4.2.0"
   }
 }
