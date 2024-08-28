@@ -22,16 +22,17 @@ export default class App {
         }
     }
 
-    createPlayers() {
+    createPlayers () {
         console.clear(); // Clear the console for a fresh start
-        console.log('FOUR-IN-A-ROW\n');
+        console.log( 'FOUR-IN-A-ROW\n' );
 
-        // // Prompt user for Player X and Player O names and store them
-        // const playerXName = prompt('Spelare X:s namn: ');
-        // const playerOName = prompt('Spelare O:s namn: ');
+        if ( this.playerX && this.playerO ) {
+            const useSameNames = prompt( 'Vill ni spela med samma namn? (ja/nej): ' ).toLowerCase();
+            if ( useSameNames === 'ja' ) {
+                return; // Skip re-creation of players
+            }
+        }
 
-        // this.playerX = new Player(playerXName, 'X');
-        // this.playerO = new Player(playerOName, 'O');
         this.playerX = this.getPlayerName( 'X' );
         this.playerO = this.getPlayerName( 'O' );
     }
