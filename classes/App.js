@@ -10,17 +10,30 @@ export default class App {
         this.board = null;   // Initialize the game board
     }
 
+    getPlayerName ( color ) {
+        let name;
+        while ( true ) {
+            try {
+                name = prompt( `Spelare ${ color }:s namn: ` );
+                return new Player( name, color ); // If name is valid, return new Player
+            } catch ( error ) {
+                console.log( error.message ); // Display the error message and prompt again
+            }
+        }
+    }
 
     createPlayers() {
         console.clear(); // Clear the console for a fresh start
         console.log('FOUR-IN-A-ROW\n');
 
-        // Prompt user for Player X and Player O names and store them
-        const playerXName = prompt('Spelare X:s namn: ');
-        const playerOName = prompt('Spelare O:s namn: ');
+        // // Prompt user for Player X and Player O names and store them
+        // const playerXName = prompt('Spelare X:s namn: ');
+        // const playerOName = prompt('Spelare O:s namn: ');
 
-        this.playerX = new Player(playerXName, 'X');
-        this.playerO = new Player(playerOName, 'O');
+        // this.playerX = new Player(playerXName, 'X');
+        // this.playerO = new Player(playerOName, 'O');
+        this.playerX = this.getPlayerName( 'X' );
+        this.playerO = this.getPlayerName( 'O' );
     }
 
     startGameLoop () {
