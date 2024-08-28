@@ -65,13 +65,13 @@ export default class App {
 
         if (this.board.winner === this.playerX.color) {
             winnerName = this.playerX.name;
-        } else if (board.winner === playerO.color) {
-            winnerName = playerO.name;
+        } else if (this.board.winner === this.playerO.color) {
+            winnerName = this.playerO.name;
         }
 
         if (winnerName) {
             console.log( `${ winnerName } has won the game!` ) ;
-        } else if (board.isADraw) {
+        } else if (this.board.isADraw) {
             console.log( "The game ended in a draw!" );
         } else {
             console.log( "The game is still ongoing." );
