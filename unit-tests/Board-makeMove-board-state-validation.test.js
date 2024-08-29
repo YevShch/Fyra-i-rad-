@@ -1,7 +1,25 @@
 import { expect, test } from 'vitest';
 import Board from '../classes/Board.js';
 
-test( '11. Confirm that the board remains unchanged after an invalid move.', () => {
+test( '11. Confirm that the board is updated correctly after a valid move.', () => {
+  const board = new Board();
+
+  // Save the initial state of the board
+  const initialBoardState = JSON.stringify( board.matrix );
+
+  // Make a valid move in the first column (index 0)
+  const validMove = board.makeMove( 'X', 0 );
+  expect( validMove ).toBe( true );
+
+  // Check that the board has changed after the valid move
+  expect( JSON.stringify( board.matrix ) ).not.toEqual( initialBoardState );
+
+  // Confirm that the bottom of the first column (index 0) has the 'X' symbol
+  expect( board.matrix[ board.matrix.length - 1 ][ 0 ] ).toBe( 'X' );
+  console.log( "Pass: the board is updated correctly after a valid move." )
+} );
+
+test( '11.a Confirm that the board remains unchanged after an invalid move.', () => {
   const board = new Board();
 
   // Make a valid move
@@ -17,7 +35,7 @@ test( '11. Confirm that the board remains unchanged after an invalid move.', () 
 
   // Check that the board is updated correctly
   expect( JSON.stringify( board.matrix ) ).toEqual( boardStateAfterValidMove ); // Bottom of column 0 should have 'X'
-
+  console.log( "Pass: the board remains unchanged after an invalid move." )
 } );  
 
 
@@ -41,6 +59,6 @@ test( "12. Test that makeMove returns false and don't change the board when the 
 
   // check that makeMove does not change the board after move 
   expect( boardStateAfterMove ).toEqual( boardStateBeforeMove );
-
+  console.log("Pass: makeMove returns false and don't change the board when the game is already over.")
 } );
 

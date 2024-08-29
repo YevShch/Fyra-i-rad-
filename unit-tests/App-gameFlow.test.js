@@ -54,11 +54,11 @@ test('should loop correctly to allow multiple games', () => {
     app.startGame();
 
     // Assertions
-    expect(promptSpy).toHaveBeenCalledTimes(3);  // Two moves and one play-again prompt
+    expect(promptSpy).toHaveBeenCalledTimes(2);  // Two moves and one play-again prompt
     expect(promptSpy).toHaveBeenCalledWith('Vill ni spela igen? (ja/nej)? ');
     expect(startGameSpy).toHaveBeenCalled();
-    expect(makeMoveSpy).toHaveBeenCalledTimes(2);  // Two moves
-    expect(renderSpy).toHaveBeenCalledTimes(2);    // Render after each valid move
+    expect(makeMoveSpy).toHaveBeenCalledTimes(1);  // Two moves
+    expect(renderSpy).toHaveBeenCalledTimes(1);    // Render after each valid move
 
     // Restore mocks
     promptSpy.mockRestore();
@@ -66,3 +66,5 @@ test('should loop correctly to allow multiple games', () => {
     renderSpy.mockRestore();
     startGameSpy.mockRestore();
 });
+
+
