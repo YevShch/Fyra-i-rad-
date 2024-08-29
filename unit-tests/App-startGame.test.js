@@ -1,7 +1,7 @@
 import { test, expect, vi } from 'vitest';
+import { setMockAnswers } from './helpers/mockPromptAndConsoleLog.js';
 import App from '../classes/App.js';
 import Board from '../classes/Board.js';
-import { setMockAnswers } from './helpers/mockPromptAndConsoleLog.js';
 
 
 test( "Verify that startGame method initializes the game correctly", () => {
@@ -13,7 +13,9 @@ test( "Verify that startGame method initializes the game correctly", () => {
   // vi.spyOn( Board.prototype, 'constructor' ).mockImplementation( () => { } );
   const boardSpy = vi.spyOn( Board.prototype, 'constructor' ).mockImplementation( () => { } );
 
+
   const app = new App;
+
   app.startGame();
 
   expect( appSpyCreatePlayers ).toHaveBeenCalled();
