@@ -10,6 +10,17 @@ export default class App {
         this.board = null;   // Initialize the game board
     }
 
+    startGame () {
+        do {
+            this.createPlayers();
+            this.board = new Board();
+            this.startGameLoop();
+            this.whoHasWonOnGameOver();
+
+            console.log( '' );
+        } while ( this.askToPlayAgain() );
+    }
+
     getPlayerName ( color ) {
         let name;
         while ( true ) {
@@ -78,19 +89,9 @@ export default class App {
         }
     }
 
-    startGame () {
-        while ( true ) {
-            this.createPlayers(); // Create players
-            this.board = new Board(); // Create a new game board
-            this.startGameLoop(); // Start the game loop
-            this.whoHasWonOnGameOver(); // Determine and announce the winner or if it's a draw
-
-            // Ask if the user wants to play again
-            console.log( '' );
-            let playAgain = prompt( 'Vill ni spela igen? (ja/nej)? ' ); // Ask if they want to play again
-            if ( playAgain !== 'ja' ) {
-                break; // Exit the loop if the user doesn't want to play again
-            }
-        }
+    askToPlayAgain () {
+        const response = prompt( 'Vill ni spela igen? (ja/nej)? ' ).toLowerCase();
+        return response === 'ja';
     }
+
 }
