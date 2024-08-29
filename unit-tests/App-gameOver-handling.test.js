@@ -21,7 +21,7 @@ describe('whoHasWonOnGameOver', () => {
     board.winner = 'X';  // Simulate player X winning
     console.log = vi.fn();  // Mock console.log to capture the output
     app.whoHasWonOnGameOver(); 
-    expect(console.log).toHaveBeenCalledWith('Alice has won the game!');  // Check the output
+    expect(console.log).toHaveBeenCalledWith('Alice har vunnit!');  // Check the output
   });
   // Test for correct draw message
   it('should return a draw message when the game ends in a draw', () => {
@@ -29,13 +29,13 @@ describe('whoHasWonOnGameOver', () => {
     console.log = vi.fn();  // Mock console.log to capture the output
 
     app.whoHasWonOnGameOver();
-    expect(console.log).toHaveBeenCalledWith('The game ended in a draw!');
+    expect( console.log ).toHaveBeenCalledWith('Spelet slutade oavgjort!');
   });
 
   // Test for ongoing game
   it('should return a message indicating the game is ongoing', () => {
     console.log = vi.fn();  // Mock console.log to capture the output
     app.whoHasWonOnGameOver();
-    expect(console.log).toHaveBeenCalledWith('The game is still ongoing.');
+    expect( console.log ).toHaveBeenCalledWith('Spelet pågår fortfarande.');
   });
 });

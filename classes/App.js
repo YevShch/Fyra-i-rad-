@@ -81,11 +81,11 @@ export default class App {
         }
 
         if (winnerName) {
-            console.log( `${ winnerName } has won the game!` ) ;
+            console.log( `${ winnerName } har vunnit!` ) ;
         } else if (this.board.isADraw) {
-            console.log( "The game ended in a draw!" );
+            console.log( "Spelet slutade oavgjort!" );
         } else {
-            console.log( "The game is still ongoing." );
+            console.log( "Spelet pågår fortfarande." );
         }
     }
 
