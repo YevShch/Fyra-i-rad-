@@ -1,7 +1,6 @@
 # Specifications Fyra-i-rad 
 
 ## Board
-## User stories
 **US 2. Som användare vill jag kunna göra mitt drag så att det registreras korrekt på spelbrädet, dvs. välja en kolumn att lägga min bricka i.**
 **US 3. Som användare vill jag inte kunna göra förbjudna drag, dvs. inte kunna lägga till brickor i en full kolumn eller efter det att någon har vunnit, så att spelreglerna följs.**
 
@@ -109,7 +108,7 @@ The `render` method should:
 * Check that the game prevents a player from placing their symbol in an already occupied cell.
 * Verify that program should not allow the move and should not change the game state.
 
-## User stories
+
 **US 5. Som användare vill jag att programmet meddelar om det har blivit oavgjort så att vi vet detta.** 
 **US6. Som användare vill jag efter avslutat spel få frågan om vi (jag och den andra användaren) vill spela igen. Om vi svarar ja vill jag att ett nytt spel ska starta (med ett tomt bräde) så att vi kan spela igen.** 
 
@@ -165,7 +164,6 @@ The `render` method should:
 *  Game correctly restarts and resets all states.
 
 
-## User stories
 
 **US7. Som systemägare vill jag att programmet skrivs objektorienterat så att kodbasen blir enklel att underhålla.**
 
