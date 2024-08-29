@@ -1,5 +1,5 @@
 import { test, expect, vi } from 'vitest';
-import { setMockAnswers } from './helpers/mockPromptAndConsoleLog.js';
+import { setMockAnswers, log } from './helpers/mockPromptAndConsoleLog.js';
 import App from '../classes/App.js';
 import Board from '../classes/Board.js';
 
@@ -19,15 +19,15 @@ test( "Verify that startGame method initializes the game correctly", () => {
   app.startGame();
 
   expect( appSpyCreatePlayers ).toHaveBeenCalled();
-  console.log( "Pass: createPlayers() is called when startGame() is invoked" )
+  log( "Pass: createPlayers() is called when startGame() is invoked" )
 
   expect( appSpyStartGameLoop ).toHaveBeenCalled();
-  console.log( "Pass: startGameLoop() is called when startGame() is invoked" )
+  log( "Pass: startGameLoop() is called when startGame() is invoked" )
 
   expect( appSpyWhoHasWonOnGameOver ).toHaveBeenCalled();
-  console.log( "Pass: whoHasWonOnGameOver() is called when startGame() is invoked" )
+  log( "Pass: whoHasWonOnGameOver() is called when startGame() is invoked" )
 
   expect( app.board ).toBeInstanceOf( Board );
-  console.log( "Pass: app.board is an instance of Board" );
+  log( "Pass: app.board is an instance of Board" );
   // expect( boardSpy ).toHaveBeenCalled();
 } )
