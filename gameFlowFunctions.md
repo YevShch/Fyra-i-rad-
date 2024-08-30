@@ -1,3 +1,4 @@
+```mermaid
 graph TD;
     A[Starta spelet: startGame] --> B[Ange spelarens namn: createPlayers];
     B --> C[Visa spelplanen: Board];
@@ -16,3 +17,4 @@ graph TD;
     L --> M;
     M --> |Ja| C;
     M --> |Nej| N[Avsluta spelet: startGame];
+```
