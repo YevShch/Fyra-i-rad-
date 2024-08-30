@@ -5,7 +5,7 @@ import {
     log
 } from './helpers/mockPromptAndConsoleLog.js';
 import App from '../classes/App.js';
-import Player from '../classes/Player.js'
+import Player from '../classes/Player.js';
 
 
 test( "Check that createPlayers method asks the user for player names", () => {
