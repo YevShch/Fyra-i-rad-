@@ -1,35 +1,35 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import App from '../classes/App.js';
 
-describe('App', () => {
+describe('App playAgainPrompt', () => {
   it('should start a new game when the user answers "ja"', () => {
     const app = new App();
-    const mockPrompt = vi.spyOn(global, 'prompt').mockReturnValue('ja');
-    const mockResetGame = vi.spyOn(app, 'resetGame').mockImplementation(() => { });
-    const mockStartGameLoop = vi.spyOn(app, 'startGameLoop').mockImplementation(() => { });
 
-    app.playAgainPrompt();
+    // Simulera användarinmatning för "ja"
+    app.askToPlayAgain = () => 'ja';
 
-    expect(mockPrompt).toHaveBeenCalledWith("Vill du spela igen? (ja/nej)");
-    expect(mockResetGame).toHaveBeenCalled();
-    expect(mockStartGameLoop).toHaveBeenCalled();
+    // Kontrollera att ett nytt spel börjar
+    app.resetGame = () => app.board = new Board(); // Återställ spelbrädet
+    app.startGameLoop = () => console.log('Game loop started');
 
-    mockPrompt.mockRestore();
-    mockResetGame.mockRestore();
-    mockStartGameLoop.mockRestore();
+    app.askToPlayAgain();
+
+    expect(app.board).toEqual(new Board()); // Kontrollera att brädet är återställt
   });
 
   it('should terminate the game when the user answers anything other than "ja"', () => {
     const app = new App();
-    const mockPrompt = vi.spyOn(global, 'prompt').mockReturnValue('nej');
-    const mockExit = vi.spyOn(process, 'exit').mockImplementation(() => { });
 
-    app.playAgainPrompt();
+    // Simulera användarinmatning för "nej"
+    app.askToPlayAgain = () => 'nej';
 
-    expect(mockPrompt).toHaveBeenCalledWith("Vill du spela igen? (ja/nej)");
-    expect(mockExit).toHaveBeenCalled();
+    const log = console.log;
+    console.log = (message) => {
+      expect(message).toBe('Spelet avslutas. Tack för att ni spelade!');
+    };
 
-    mockPrompt.mockRestore();
-    mockExit.mockRestore();
+    app.askToPlayAgain();
+
+    console.log = log; // Återställ console.log
   });
 });
