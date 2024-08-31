@@ -1,69 +1,55 @@
 import { test, expect, vi } from 'vitest';
-import { setMockAnswers, log } from './helpers/mockPromptAndConsoleLog.js';
+import { setMockAnswers, promptQuestions } from './helpers/mockPromptAndConsoleLog.js';
 import App from '../classes/App.js';
-import Player from '../classes/Player.js';
-import Board from '../classes/Board.js';
 
-test( "Check that askToPlayAgain prompts correctly and restarts the game loop when the user answers - ja", () => {
-  // Mocking the prompt function's response
-  setMockAnswers( 'ja' );
 
-  // Create an instance of the App class and set the players
-  const app = new App();
-  app.playerX = new Player( 'Anna', 'X' );
-  app.playerO = new Player( 'Ola', 'O' );
-  app.board = new Board();
+test( "Check that askToPlayAgain() asks players to play again", () => {
+  // mock response to stop the game loop
+  setMockAnswers( 'nej' );
 
-  // Mock the startGameLoop method to check if it gets called
-  const startGameLoopSpy = vi.spyOn( app, 'startGameLoop' ).mockImplementation( () => {
-    app.board.gameOver = true; // End the game immediately after the first loop
-  } );
+  const app = new App;
 
-  // Call the createPlayers method to initiate a new game process
-  app.createPlayers();
+  // Call the askToPlayAgain method
+  app.askToPlayAgain();
 
-  // Check if the startGameLoop method was called after askToPlayAgain
-  app.askToPlayAgain(); // This will call prompt and return 'ja', which initiates a game restart
-
-  expect( startGameLoopSpy ).toHaveBeenCalledTimes( 1 ); // Verify that the game loop was started
-
-  log( "Pass: askToPlayAgain prompts correctly and restarts the game loop when the user answers - ja." );
-
-  // Restore mocks
-  promptMock.mockRestore();
-  startGameLoopSpy.mockRestore();
+  // Check that the promptQuestions array contains question
+  expect( promptQuestions ).toContain( 'Vill ni spela igen? (ja/nej)? ' );
 } );
 
 
-// describe('App playAgainPrompt', () => {
-//   it('should start a new game when the user answers "ja"', () => {
-//     const app = new App();
+test( "Check that askToPlayAgain() restarts the game loop when the user answers 'ja'", () => {
+  // Mock responses to simulate two game loops:
+  // 1. First game loop where 'Anna' and 'Ola' play and the game ends with 'Anna' winning.
+  // 2. Second game loop starts after responding 'ja' to 'Vill ni spela igen?'.
+  // 3. The second game loop ends with the answer 'nej' to the replay question.
+  setMockAnswers(
+    'ja',   // Answer 'ja' to the initial replay prompt
+    'Anna', // Name for player X
+    'Ola',  // Name for player O
+    '1', '2', '1', '2', '1', '2', '1', // Moves leading to 'Anna' winning
+    'ja',   // Answer 'ja' to play again
+    'ja',   // Answer 'ja' to use same names
+    '1', '2', '1', '2', '1', '2', '1', // Moves in the second game loop
+    'nej'   // Answer 'nej' to end the game
+  );
 
-//     // Simulera användarinmatning för "ja"
-//     app.askToPlayAgain = () => 'ja';
+  const app = new App();
 
-//     // Kontrollera att ett nytt spel börjar
-//     // app.resetGame = () => app.board = new Board(); // Återställ spelbrädet
-//     // app.startGameLoop = () => console.log('Game loop started');
+  // Spy on the startGameLoop and createPlayers methods
+  const getStartGameLoopSpy = vi.spyOn( app, 'startGameLoop' );
+  const getCreatePlayersSpy = vi.spyOn( app, 'createPlayers' );
 
-//     app.askToPlayAgain();
+  // Start the game loop
+  app.startGame();
 
-//     expect(app.board).toEqual(new Board()); // Kontrollera att brädet är återställt
-//   });
+  // Check that createPlayers method was called twice:
+  // 1. First when the game starts.
+  // 2. Second when the replay starts.
+  expect( getCreatePlayersSpy ).toBeCalledTimes( 2 );
 
-//   it('should terminate the game when the user answers anything other than "ja"', () => {
-//     const app = new App();
+  // Check that startGameLoop method was called twice:
+  // 1. For the first game loop.
+  // 2. For the second game loop after the 'ja' response.
+  expect( getStartGameLoopSpy ).toBeCalledTimes( 2 );
+} );
 
-//     // Simulera användarinmatning för "nej"
-//     app.askToPlayAgain = () => 'nej';
-
-//     const log = console.log;
-//     console.log = (message) => {
-//       expect(message).toBe('Spelet avslutas. Tack för att ni spelade!');
-//     };
-
-//     app.askToPlayAgain();
-
-//     console.log = log; // Återställ console.log
-//   });
-// });
