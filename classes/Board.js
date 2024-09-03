@@ -1,3 +1,4 @@
+//origin 
 export default class Board {
   constructor() {
     this.matrix = [...new Array(6)].map(() =>
