@@ -1,3 +1,4 @@
+//the original version from sprint 1
 export default class Board {
   constructor() {
     this.matrix = [...new Array(6)].map(() =>
