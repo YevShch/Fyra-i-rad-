@@ -29,7 +29,7 @@ export default class App {
       await sleep( 500 );
     }
     this[ 'player' + color ] = new Player( playerName, color );
-    if ( color === 'X' ) { this.askForNames( 'O' ); return; }
+    if ( color === 'red' ) { this.askForNames( 'yellow' ); return; }
     this.namesEntered = true;
     this.render();
   }
