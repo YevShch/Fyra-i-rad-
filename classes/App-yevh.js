@@ -100,7 +100,7 @@ export default class App {
     // div tags are easier to style in a cross-browser-compatible way
     return /*html*/`
       <div class="button" href="#" onclick="playAgain()">Replay</div>
-      <div class="button" href="#" onclick="newPlayers()">New players</div>
+      <div class="button" href="#" onclick="newPlayers()">New game</div>
     `;
   }
 
