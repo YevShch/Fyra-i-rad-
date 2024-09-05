@@ -1,0 +1,21 @@
+/* box-sizing (inlcude padding and borders in widths and heights */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  font-family: 'Bebas Neue';
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  height: 100vh;
+}
+
+main {
+  margin: auto;
+}
