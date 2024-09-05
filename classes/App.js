@@ -1,3 +1,4 @@
+//the original version from sprint 1
 import prompt from '../helpers/prompt.js';
 import Board from './Board.js';
 import Player from './Player.js';
