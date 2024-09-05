@@ -81,7 +81,7 @@ export default class Board {
     for ( let r = this.matrix.length - 1; r >= 0; r-- ) {
       if ( this.matrix[ r ][ column ] === ' ' ) {
         this.matrix[ r ][ column ] = this.currentPlayerColor;
-
+        console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
         // Check the win immediately after the move
         if ( this.winCheck( r, column ) ) {
           this.gameOver = true;
@@ -115,6 +115,7 @@ export default class Board {
 
       if ( count.length >= 4 ) {
         this.winner = playerColor;
+        console.log( this.winner ); 
         this.gameOver = true;
         this.winningCombo = count;
         return true;
