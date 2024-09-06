@@ -1,4 +1,4 @@
-body {
+/* body {
   font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
@@ -6,61 +6,56 @@ body {
   height: 100vh;
   margin: 0;
   background-color: #f0f0f0;
-}
+} */
 
 .board {
   display: grid;
-    grid-template-columns: repeat(7, 50px);
-    grid-template-rows: repeat(6, 50px);
-    gap: 5px;
-  aspect-ratio: 1/1;
+  grid-template-columns: repeat(7, 50px);
+  /* Grid of 7 columns */
+  grid-template-rows: repeat(6, 50px);
+  /* Grid of 6 rows */
+  gap: 5px;
+  /* Space between the cells */
+  background-color: #006BDF;
+  /* Board background color */
+  padding: 10px;
+  /* Inner padding for symmetry */
+  border-radius: 10px;
+  /* Rounded corners */
+  box-sizing: border-box;
+  /* Include padding inside the size */
   margin: 0 auto;
-  margin-top: min(5vh, 5vw);
-  /* border-bottom: 2px solid #fff;
-  border-left: 2px solid #fff;
-  border-radius: 20px; */
-  container: cell / size;
-  height: 80vw;
-
-  @media(min-aspect-ratio: 0.8) {
-    & {
-      height: 60vh;
-    }
-  }
-
-  @media(min-aspect-ratio: 2) {
-    & {
-      height: 50vh;
-    }
-  }
-  }
-
-
+  /* Center the board */
+}
 
 .cell {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  /* Circular shape */
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #ccc;
+  /* Empty cell color */
   cursor: pointer;
   position: relative;
 }
 
 .cell.red {
-  background-color: red;
+  background-color: #F21E1E;
+  /* Red player color (golden tone) */
 }
 
 .cell.yellow {
-  background-color: yellow;
+  background-color: #FFC700;
+  /* Yellow player color */
 }
 
 .cell.empty {
   background-color: #ccc;
+  /* Empty cell color */
 }
-
 
 .circle {
   width: 40px;
@@ -72,7 +67,7 @@ body {
 .cell.preview {
   position: relative;
   background-color: rgba(0, 0, 0, 0.2);
-  /* Slightly different from the cell color */
+  /* Slight darkening on hover */
 }
 
 .cell.preview::before {
@@ -82,11 +77,9 @@ body {
   height: 40px;
   border-radius: 50%;
   background-color: inherit;
-  /* Same color as the current player's color */
   opacity: 0.5;
+  /* Transparency of the circle */
 }
-
-
 
 @keyframes blink {
 
@@ -104,15 +97,15 @@ body {
 
 .cell.winning-cell {
   animation: blink 1s infinite;
-  position: relative;
+  /* Blinking animation for winning cells */
 }
 
 .cell.winning-cell.red .circle {
-  background-color: rgba(255, 0, 0, 0.8);
-  /* Brighter red */
+  background-color: rgba(242, 30, 30, 0.8);
+  /* Brighter for winning red cells */
 }
 
 .cell.winning-cell.yellow .circle {
-  background-color: rgba(255, 255, 0, 0.8);
-  /* Brighter yellow */
+  background-color: rgba(255, 199, 0, 0.8);
+  /* Brighter for winning yellow cells */
 }

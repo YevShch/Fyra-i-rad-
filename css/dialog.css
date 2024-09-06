@@ -7,7 +7,6 @@ dialog {
   }
 
   /* animations */
-  /* see: https: //frontendmasters.com/blog/animating-dialog */
   transition: display 1s allow-discrete,
   overlay 1s allow-discrete;
   animation: close 1s forwards;
@@ -38,23 +37,26 @@ dialog {
 }
 
 /* 
-   NOTE: for some reason nesting elements in dialog did not work in Chrome
-   so we solve this with a div that holds the dialog content
-   ... strange, but: the nesting spec for pure css i still quite new:
-   see: https: //developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting/Using_CSS_nesting
+   NOTE: for some reason, nesting elements in dialog did not work in Chrome,
+   so we solve this with a div that holds the dialog content.
+   ... strange, but: the nesting spec for pure CSS is still quite new:
+   see: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting/Using_CSS_nesting
 */
 .dialog-content {
-
   max-width: 80vw;
   min-width: min(80vw, 400px);
   padding-bottom: 2vh;
 
+  /* Titles in uppercase */
   h2 {
     margin: 1vh 0 1vh;
     font-size: 30px;
     text-align: center;
+    text-transform: uppercase;
+    /* Text in uppercase */
   }
 
+  /* Input text in uppercase */
   input {
     display: block;
     width: 100%;
@@ -63,6 +65,8 @@ dialog {
     font-size: 28px;
     padding: 10px;
     text-align: center;
+    text-transform: uppercase;
+    /* Text in uppercase */
   }
 
   .buttons {
@@ -88,4 +92,33 @@ dialog {
       }
     }
   }
+}
+
+/* Base styles for the color circles */
+.color-circle {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Specific color styles */
+.red-circle {
+  background-color: red;
+}
+
+.yellow-circle {
+  background-color: yellow;
+}
+
+/* Style for the text prompt */
+/* Prompt text in uppercase */
+.prompt-text {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 18px;
+  line-height: 24px;
+  text-transform: uppercase;
+  /* Text in uppercase */
 }

@@ -1,21 +1,23 @@
-//chanched version with 
+//Thomas version 
 export default class Dialog {
+
   // call with await!
   ask ( question, limitedAnswers ) {
+
     // render html for the dialog
     let dialogElement = document.querySelector( 'dialog' );
     dialogElement.innerHTML = /*html*/`
       <div class="dialog-content">
-        ${ !question ? '' : `<div class="dialog-question">${ question }</div>` }
+        ${ !question ? '' : `<h2>${ question }</h2>` }
         <form method="dialog" name="dialog" onsubmit="return dialogAnswer(event)">
           ${ !limitedAnswers ?
             /*html*/`<input type="text" name="answer">` :
-            /*html*/ `<div class="buttons">${ limitedAnswers.map( answer => /*html*/`
-              <input
-                onclick="globalThis.answer=this.value"
-                type="submit" class="button ${ answer }" value="${ answer }"
-              >
-            `).join( '' ) }</div>` }
+            /*html*/ `<div class="buttons">${ limitedAnswers.map( answer =>/*html*/`
+            <input
+              onclick="globalThis.answer=this.value"
+              type="submit" class="button ${ answer }" value="${ answer }"
+            > 
+          `).join( '' ) }</div>` }
         </form>
       </div>`;
     dialogElement.showModal();
@@ -41,4 +43,5 @@ export default class Dialog {
     if ( limitedAnswers ) { resolver( globalThis.answer ); return; }
     resolver( document.forms.dialog.elements.answer.value );
   }
+
 }

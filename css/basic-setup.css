@@ -1,4 +1,4 @@
-/* box-sizing (inlcude padding and borders in widths and heights */
+/* box-sizing (include padding and borders in widths and heights) */
 *,
 *:before,
 *:after {
@@ -7,15 +7,67 @@
 
 body {
   margin: 0;
-  background-color: rgb(0, 0, 0);
-  color: rgb(255, 255, 255);
-  font-family: 'Bebas Neue';
+  padding: 0;
+  background-color: #54BAE5;
+  /* Unified background color */
+  color: white;
+  font-family: Arial, sans-serif;
+  /* Unified font declaration */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  /* Remove any scrolling to keep confetti within the screen */
+  /* background-image: url(/images/table-top.jpg); */
   background-attachment: fixed;
   background-size: cover;
-  display: flex;
-  height: 100vh;
 }
 
 main {
   margin: auto;
+}
+
+#confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  /* Prevent interaction with confetti */
+  z-index: 1000;
+  /* Ensure confetti is on top */
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: 1;
+  animation: fall 3s linear forwards;
+  /* Falling animation for confetti */
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes explode {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(2);
+  }
 }

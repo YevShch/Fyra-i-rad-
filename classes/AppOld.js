@@ -1,4 +1,4 @@
-//yevheniias version with confetti and a color circle next to the player's name 
+// yevheniia's version of class App for GUI
 import Dialog from './Dialog.js';
 import Board from './Board.js';
 import Player from './Player.js';
@@ -34,6 +34,8 @@ export default class App {
   }
 
 
+
+
   async askForNames ( color = 'red' ) {
     try {
       const okName = name => name.match( /[a-zåäöA-ZÅÄÖ]{2,}/ );
@@ -41,11 +43,8 @@ export default class App {
 
       // Request the player's name until it is valid
       while ( !okName( playerName ) ) {
-        const promptHtml = `
-        <div class="prompt-text">Enter the name of player ${ this.generateColorCircle( color ) }:</div>
-      `;
-        playerName = await this.dialog.ask( promptHtml );
-        await sleep( 500 );
+        playerName = await this.dialog.ask( `Enter the name of player ${ color }:` );
+        await sleep( 500 ); // Delay to demonstrate async behavior
       }
 
       // Create a player object
@@ -64,17 +63,12 @@ export default class App {
       console.error( 'Error during name entry:', error );
       this.displayErrorMessage( 'An error occurred while entering player names. Please try again.' );
     }
-  }
-  // namePossessive ( name ) {
-  //   return name.endsWith( 's' ) ? name + '\'' : name + '\'s';
-  // } 
 
+  }
 
   namePossesive ( name ) {
-    // although not necessary, it's nice with a traditional
-    // possesive form of the name when it ends with an "s":
-    // i.e. "Thomas'" rather than "Thomas's" but "Anna's" :)
-    return name + ( name.slice( -1 ).toLowerCase() !== 's' ? `'s` : `'` )
+    // Possessive form: adds `'s` or just `'` if the name ends with 's'
+    return name + ( name.slice( -1 ).toLowerCase() !== 's' ? `'s` : `'` );
   }
 
   render () {
@@ -97,34 +91,26 @@ export default class App {
       console.log( 'playerYellow:', this.playerYellow );
 
       document.querySelector( 'main' ).innerHTML = /*html*/`
-    <h1>CONNECT FOUR</h1>
-    ${ !this.board.gameOver && player ?
-          `<p>${ this.generateColorCircle( color ) } ${ this.namePossesive( name ) } turn...</p>` :
+      <h1>CONNECT FOUR</h1>
+      ${ !this.board.gameOver && player ?
+          `<p>${ color }: ${ this.namePossesive( name ) } turn...</p>` :
           ( this.namesEntered ? '' : '<p>Enter names</p>' ) }
-    ${ !this.board.gameOver ? '' : /*html*/`
-      ${ !this.board.isADraw ? '' : `<p>It's a tie...</p>` }
-      ${ !this.board.winner ? '' : `<p>${ this.generateColorCircle( color ) } ${ name } won!</p>` }
-    `}
-    ${ this.board.render() }
-    <div class="buttons">
-      ${ !this.board.gameOver ?
+      ${ !this.board.gameOver ? '' : /*html*/`
+        ${ !this.board.isADraw ? '' : `<p>It's a tie...</p>` }
+        ${ !this.board.winner ? '' : `<p>${ color }: ${ name } won!</p>` }
+      `}
+      ${ this.board.render() }
+      <div class="buttons">
+        ${ !this.board.gameOver ?
           this.renderQuitButton() :
           this.renderPlayAgainButtons() }
-    </div>
-  `;
-
-      // Call createConfetti if game is over and there is a winner
-      if ( this.board.gameOver && this.board.winner ) {
-        console.log( 'Game over, creating confetti!' );
-        this.createConfetti();
-      }
-
+      </div>
+    `;
     } catch ( error ) {
       console.error( 'Error during rendering:', error );
       this.displayErrorMessage( 'An error occurred while rendering the game. Please try again.' );
     }
   }
-
 
   renderQuitButton () {
     try {
@@ -182,44 +168,4 @@ export default class App {
     document.body.appendChild( errorContainer );
   }
 
-  generateColorCircle ( color ) {
-    const colorClass = color === 'red' ? 'red-circle' : 'yellow-circle';
-    return `<div class="color-circle ${ colorClass }"></div>`;
-  }
-
-  createConfetti () {
-    // console.log( "createConfetti function called" );
-    const confettiContainer = document.getElementById( 'confetti-container' );
-    confettiContainer.innerHTML = '';
-
-    const numConfetti = 150; // 
-    for ( let i = 0; i < numConfetti; i++ ) {
-      const confetti = document.createElement( 'div' );
-      confetti.classList.add( 'confetti' );
-
-      // Randomly position confetti
-      confetti.style.left = `${ Math.random() * 100 }vw`;
-      confetti.style.top = `${ Math.random() * 100 }vh`;
-      confetti.style.backgroundColor = this.getRandomColor();
-
-      // Randomly vary sizes for more natural look
-      confetti.style.width = `${ Math.random() * 10 + 10 }px`;
-      confetti.style.height = confetti.style.width;
-
-      confettiContainer.appendChild( confetti );
-    }
-
-    // Remove confetti after animation ends
-    setTimeout( () => {
-      confettiContainer.innerHTML = '';
-    }, 5000 );
-  }
-
-  getRandomColor () {
-    const colors = [
-      '#8CC0E6', '#FFD700', '#C0C0C0', '#FFA500', '#4CAF50', '#9C27B0', '#F48FB1', '#2196F3',
-      '#4DB6AC', '#FFEB3B', '#8D6E63', '#03A9F4', '#E1BEE7'
-    ];
-    return colors[ Math.floor( Math.random() * colors.length ) ];
-  }
 }
