@@ -1,4 +1,3 @@
-//last version with the confetti animation and a color circle next player's name
 import Dialog from './Dialog.js';
 import Board from './Board.js';
 import Player from './Player.js';
@@ -79,6 +78,10 @@ export default class App {
         ${ !this.board.gameOver && player ?
           `<p>${ this.generateColorCircle( color ) } ${ this.namePossessive( name ) } turn...</p>` :
           ( this.namesEntered ? '' : '<p>Waiting for player names...</p>' ) }
+        ${ !this.board.gameOver ? '' : /*html*/`
+          ${ !this.board.isADraw ? '' : `<p>It's a tie...</p>` }
+          ${ !this.board.winner ? '' : `<p>${ this.generateColorCircle( color ) } ${ name } won!</p>` }
+        `}
         ${ this.board.render() }
         <div class="buttons">
           ${ !this.board.gameOver ?
