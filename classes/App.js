@@ -1,16 +1,14 @@
-//yevheniias version with confetti and a color circle next to the player's name 
+//last version with the confetti animation and a color circle next player's name
 import Dialog from './Dialog.js';
 import Board from './Board.js';
 import Player from './Player.js';
 import sleep from './helpers/sleep.js';
 
-
 export default class App {
-
   constructor ( playerRed, playerYellow, whoStarts = 'red' ) {
     try {
       this.dialog = new Dialog();
-      this.board = new Board( this );
+      this.board = new Board( this ); // Always create a new Board instance
       this.board.currentPlayerColor = whoStarts;
       this.whoStarts = whoStarts;
       this.setPlayAgainGlobals();
@@ -21,18 +19,17 @@ export default class App {
         this.playerYellow = playerYellow;
         this.namesEntered = true;
         console.log( 'Constructor: playerRed and playerYellow set directly' );
-        this.render();
       } else {
-        // Otherwise, prompt for player names
+        // Initialize players but allow board to render immediately
         this.namesEntered = false;
-        this.askForNames(); // Important: render is called only after names are entered
+        this.render();  // Render the board and title immediately
+        this.askForNames(); // Prompt for player names asynchronously
       }
     } catch ( error ) {
       console.error( 'Error during game initialization:', error );
       this.displayErrorMessage( 'An error occurred during the game initialization. Please reload the page.' );
     }
   }
-
 
   async askForNames ( color = 'red' ) {
     try {
@@ -42,8 +39,8 @@ export default class App {
       // Request the player's name until it is valid
       while ( !okName( playerName ) ) {
         const promptHtml = `
-        <div class="prompt-text">Enter the name of player ${ this.generateColorCircle( color ) }:</div>
-      `;
+          <div class="prompt-text">Enter the name of player ${ this.generateColorCircle( color ) }:</div>
+        `;
         playerName = await this.dialog.ask( promptHtml );
         await sleep( 500 );
       }
@@ -56,114 +53,89 @@ export default class App {
       if ( color === 'red' ) {
         await this.askForNames( 'yellow' );
       } else {
-        // Once both names are entered, set the flag and render
+        // Once both names are entered, set the flag and re-render
         this.namesEntered = true;
-        this.render(); // Render is called after both names are entered
+        this.render();  // Re-render with names and player details
       }
     } catch ( error ) {
       console.error( 'Error during name entry:', error );
       this.displayErrorMessage( 'An error occurred while entering player names. Please try again.' );
     }
   }
-  // namePossessive ( name ) {
-  //   return name.endsWith( 's' ) ? name + '\'' : name + '\'s';
-  // } 
 
-
-  namePossesive ( name ) {
-    // although not necessary, it's nice with a traditional
-    // possesive form of the name when it ends with an "s":
-    // i.e. "Thomas'" rather than "Thomas's" but "Anna's" :)
-    return name + ( name.slice( -1 ).toLowerCase() !== 's' ? `'s` : `'` )
+  namePossessive ( name ) {
+    // Possessive form of name (handles names ending with "s" properly)
+    return name + ( name.slice( -1 ).toLowerCase() !== 's' ? `'s` : `'` );
   }
 
   render () {
     try {
-      console.log( 'Render called' );
-
-      // Check if player names are entered
-      if ( !this.namesEntered ) {
-        console.log( 'Names not entered yet. Skipping render.' );
-        return; // Do not render if names are not entered yet
-      }
-
       let color = this.board.gameOver ? this.board.winner : this.board.currentPlayerColor;
       let player = color === 'red' ? this.playerRed : this.playerYellow;
       let name = player?.name || '';
 
-      console.log( `Rendering for player: ${ name }, color: ${ color }` );
-      console.log( `Player object in render:`, player );
-      console.log( 'playerRed:', this.playerRed );
-      console.log( 'playerYellow:', this.playerYellow );
-
       document.querySelector( 'main' ).innerHTML = /*html*/`
-    <h1>CONNECT FOUR</h1>
-    ${ !this.board.gameOver && player ?
-          `<p>${ this.generateColorCircle( color ) } ${ this.namePossesive( name ) } turn...</p>` :
-          ( this.namesEntered ? '' : '<p>Enter names</p>' ) }
-    ${ !this.board.gameOver ? '' : /*html*/`
-      ${ !this.board.isADraw ? '' : `<p>It's a tie...</p>` }
-      ${ !this.board.winner ? '' : `<p>${ this.generateColorCircle( color ) } ${ name } won!</p>` }
-    `}
-    ${ this.board.render() }
-    <div class="buttons">
-      ${ !this.board.gameOver ?
+        <h1>CONNECT FOUR</h1>
+        ${ !this.board.gameOver && player ?
+          `<p>${ this.generateColorCircle( color ) } ${ this.namePossessive( name ) } turn...</p>` :
+          ( this.namesEntered ? '' : '<p>Waiting for player names...</p>' ) }
+        ${ this.board.render() }
+        <div class="buttons">
+          ${ !this.board.gameOver ?
           this.renderQuitButton() :
           this.renderPlayAgainButtons() }
-    </div>
-  `;
+        </div>
+      `;
 
-      // Call createConfetti if game is over and there is a winner
+      // Create confetti if the game is over and there's a winner
       if ( this.board.gameOver && this.board.winner ) {
-        console.log( 'Game over, creating confetti!' );
         this.createConfetti();
       }
-
     } catch ( error ) {
       console.error( 'Error during rendering:', error );
       this.displayErrorMessage( 'An error occurred while rendering the game. Please try again.' );
     }
   }
 
-
   renderQuitButton () {
     try {
       if ( !this.namesEntered ) { return ''; }
 
       globalThis.quitGame = async () => {
-        let answer = await this.dialog.ask(
-          'What do you want to do?',
-          [ 'Continue', 'Replay', 'New game' ]
-        );
-        answer === 'Replay' && globalThis.playAgain();
-        answer === 'New game' && globalThis.newPlayers();
+        let answer = await this.dialog.ask( 'What do you want to do?', [ 'Continue', 'Replay', 'New game' ] );
+        if ( answer === 'Replay' ) globalThis.playAgain();
+        if ( answer === 'New game' ) globalThis.newPlayers();
       };
     } catch ( error ) {
       console.error( 'Error during quit game dialog:', error );
       this.displayErrorMessage( 'An error occurred while quitting the game. Please try again.' );
     }
 
-
     return /*html*/`
-      <div class="button" onclick="quitGame()">
-        Quit this game
-      </div>
+      <div class="button" onclick="quitGame()">Quit this game</div>
     `;
   }
-
 
   setPlayAgainGlobals () {
     // play again 
     globalThis.playAgain = async () => {
+      // Ensure that the board and state are fully reset before starting a new game
       let playerToStart = this.whoStarts === 'red' ? this.playerYellow : this.playerRed;
+
+      // Ask which player starts
       await this.dialog.ask(
-        `IT'S ${ this.namePossesive( playerToStart.name ).toUpperCase() } TURN TO START!`, [ 'OK' ] );
-      new App( this.playerRed, this.playerYellow, playerToStart.color );
+        `IT'S ${ this.namePossessive( playerToStart.name ).toUpperCase() } TURN TO START!`, [ 'OK' ]
+      );
+
+      // Create a fresh game instance with the same players but a new board
+      const newGameApp = new App( this.playerRed, this.playerYellow, playerToStart.color );
+
+      // Render the new game
+      newGameApp.render();
     }
-    // start a-fresh with new players
+
     globalThis.newPlayers = () => new App();
   }
-
 
   renderPlayAgainButtons () {
     return /*html*/`
@@ -173,9 +145,6 @@ export default class App {
   }
 
   displayErrorMessage ( message ) {
-    // Display a simple error message to the user in the DOM,
-    //making sure they are informed if something goes wrong
-
     const errorContainer = document.createElement( 'div' );
     errorContainer.style.color = 'red';
     errorContainer.textContent = message;
@@ -188,38 +157,28 @@ export default class App {
   }
 
   createConfetti () {
-    // console.log( "createConfetti function called" );
     const confettiContainer = document.getElementById( 'confetti-container' );
     confettiContainer.innerHTML = '';
 
-    const numConfetti = 150; // 
+    const numConfetti = 150;
     for ( let i = 0; i < numConfetti; i++ ) {
       const confetti = document.createElement( 'div' );
       confetti.classList.add( 'confetti' );
-
-      // Randomly position confetti
       confetti.style.left = `${ Math.random() * 100 }vw`;
       confetti.style.top = `${ Math.random() * 100 }vh`;
       confetti.style.backgroundColor = this.getRandomColor();
-
-      // Randomly vary sizes for more natural look
       confetti.style.width = `${ Math.random() * 10 + 10 }px`;
       confetti.style.height = confetti.style.width;
-
       confettiContainer.appendChild( confetti );
     }
 
-    // Remove confetti after animation ends
     setTimeout( () => {
       confettiContainer.innerHTML = '';
     }, 5000 );
   }
 
   getRandomColor () {
-    const colors = [
-      '#8CC0E6', '#FFD700', '#C0C0C0', '#FFA500', '#4CAF50', '#9C27B0', '#F48FB1', '#2196F3',
-      '#4DB6AC', '#FFEB3B', '#8D6E63', '#03A9F4', '#E1BEE7'
-    ];
+    const colors = [ '#8CC0E6', '#FFD700', '#C0C0C0', '#FFA500', '#4CAF50', '#9C27B0', '#F48FB1', '#2196F3', '#4DB6AC', '#FFEB3B', '#8D6E63', '#03A9F4', '#E1BEE7' ];
     return colors[ Math.floor( Math.random() * colors.length ) ];
   }
 }
