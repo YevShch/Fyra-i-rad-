@@ -74,7 +74,9 @@ export default class App {
       let name = player?.name || '';
 
       document.querySelector( 'main' ).innerHTML = /*html*/`
-        <h1>CONNECT FOUR</h1>
+       <h1>
+       <span class="red-text">Connect</span> <span class="yellow-text">Four</span>
+        </h1>
         ${ !this.board.gameOver && player ?
           `<p>${ this.generateColorCircle( color ) } ${ this.namePossessive( name ) } turn...</p>` :
           ( this.namesEntered ? '' : '<p>Waiting for player names...</p>' ) }
