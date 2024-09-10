@@ -24,7 +24,7 @@
   /* Rounded corners */
   box-sizing: border-box;
   /* Include padding inside the size */
-  margin: 0 auto;
+  margin: 40px 0 auto;
   /* Center the board */
 }
 

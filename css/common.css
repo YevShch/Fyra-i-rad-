@@ -12,8 +12,8 @@
 }
 
 h1 {
-  font-family: 'Inter', 'semi bold';
-  font-size: max(2vw, 3vh);
+  font-family: 'Inter', 'black italic';
+  font-size: max(4vw, 3vh);
   text-align: center;
   margin-top: -8vh;
   margin-bottom: min(-1vw, -1.5vh);
@@ -22,7 +22,8 @@ h1 {
 p {
   font-family: 'Bebas Neue';
   font-size: max(2vw, 3vh);
-  margin-bottom: -1vw;
+  margin-top: 4vh;
+  margin-bottom: 0.5vw;
   text-align: center;
 }
 
