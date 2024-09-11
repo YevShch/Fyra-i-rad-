@@ -1,18 +1,18 @@
 Feature: Replay Button Behavior
 
-  Scenario: Show dialog with message about whose turn it is
-    Given the game is running
-    When the player clicks the "Replay" button
-    Then a dialog should show whose turn it is
-    And the player should click "OK" to start the game
+  Scenario: Start the game by entering player names
+    Given the game is loaded
+    When the player enters "Eva" as the red player
+    And the player enters "Alex" as the yellow player
 
-  Scenario: Clear previous game data and restart the game
-    Given the game is running
-    When the player clicks the "Replay" button
-    Then previous game data should be cleared
-    And the game should restart
+  Scenario: Replay the game after someone wins or the game is a draw
+    Given the game is in progress
+    When the player clicks the "Replay" button after the game ends
+    Then a dialog should show whose turn it is to start the new game
+    And the player should click "OK" to start the new game
+    And the game board should be reset
 
-  Scenario: The player who started last game should not start this game
-    Given the game is running and the last game was started by the red player
+  Scenario: Alternate starting player on replay
+    Given the game was started by the red player
     When the player clicks the "Replay" button
-    Then the yellow player should start this game
+    Then the yellow player should start the next game
