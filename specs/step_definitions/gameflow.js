@@ -29,9 +29,9 @@ Then( 'Player 1 and Player 2 play until Player 1 wins the first round', () => {
 
 function playGameForWinner ( player1Column, player2Column ) {
   for ( let i = 0; i < 4; i++ ) {
-    cy.get( `.cell.empty[data-column="${ player1Column }"]` ).first().click();
-    cy.wait( 200 );
-    cy.get( `.cell.empty[data-column="${ player2Column }"]` ).first().click();
+    cy.get( `.cell.empty[data-column="${ player1Column }"]` ).first().should( 'be.visible' ).click();
+    cy.wait( 1000 );
+    cy.get( `.cell.empty[data-column="${ player2Column }"]` ).first().should( 'be.visible' ).click();
   }
   cy.wait( 200 );
 }

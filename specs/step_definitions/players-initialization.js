@@ -1,8 +1,8 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-Given( 'the game has started', () => {
-  cy.visit( 'http://localhost:5173/' );
-} );
+// Given( 'the game has started', () => {
+//   cy.visit( 'http://localhost:5173/' );
+// } );
 
 When('the system starts', () => {
   cy.contains( 'CONNECT FOUR' ).should( 'be.visible' );

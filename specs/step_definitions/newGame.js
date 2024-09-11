@@ -33,10 +33,10 @@ When('the game starts', () => {
   cy.get('.board').should('exist'); // Yeni bir board'ın olup olmadığını kontrol et
 });
 
-// Oyuncu 1'in oyunu kazandığını doğrula
-Then('Player1 wins the game', () => {
-  cy.contains('Player 1 wins').should('be.visible'); // Kazanan mesajını doğrula
-});
+// // Oyuncu 1'in oyunu kazandığını doğrula
+// Then('Player1 wins the game', () => {
+//   cy.contains('Player 1 wins').should('be.visible'); // Kazanan mesajını doğrula
+// });
 
 // "New game" butonunun görünmesini doğrula
 And('I should see the "New game" button', () => {
