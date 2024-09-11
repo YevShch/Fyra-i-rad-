@@ -1,0 +1,35 @@
+
+/* button.css */
+
+/* Base style for the buttons */
+.button {
+  box-shadow: 0px 0px 0px 2px #9fb4f2;
+  background: linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+  background-color: #7892c2;
+  border-radius: 10px;
+  border: 1px solid #4e6096;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: 'Bebas Neue', sans-serif;
+  /* Ensuring a fallback font */
+  font-size: max(2vw, 3vh);
+  padding: max(0.5vw, 1.5vh);
+  text-shadow: 0px 1px 0px #283966;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease-in-out, top 0.1s ease-in-out;
+}
+
+/* Hover state for the button */
+.button:hover {
+  background-color: #476e9e;
+  background: linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+}
+
+/* Active state for the button */
+.button:active {
+  position: relative;
+  top: 1px;
+  /* Provides a subtle pressed effect */
+}
