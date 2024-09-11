@@ -8,6 +8,8 @@
     "test": "vitest",
     "test-cypress": "cypress run --browser chrome",
     "test-cypress-ui": "cypress open --browser chrome",
+    "test-cypress-ui-edge": "cypress open --browser edge",
+    "test-cypress-edge": "cypress run --browser edge",
     "make-steps": "node _auto-generate-step-definitions.cjs",
     "dev": "vite",
     "build": "vite build",

@@ -1,4 +1,4 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, And, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 Given('the game is running', () => {
   cy.visit('http://localhost:5173/'); // Go to the game page
