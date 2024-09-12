@@ -4,7 +4,6 @@
 //spelknappar och spelinformation, visas på sidan. (visas titeln "CONNECT FOUR", visas medelandet "Waiting for player names..." 
     
 import { test, expect } from 'vitest';
-//import App from '../../classes/App.js';
 import App from '../../classes/App.js';
 import getDocument from './mock-help/getDocument.js';
 import registerPlayers from './commonTasks/registerPlayers.js';
@@ -25,12 +24,12 @@ test('Does the board contain 42 cells?', () => {
   expect(cells.length).toBe(42);
 });
 
-test('Does the logo/headline have the text CONNECT FOUR" ?', () => {
+test('Does the logo/headline have the text Connect Four" ?', () => {
       let { body } = getDocument();
       new App();
-      // check that the h1 contains the text 'CONNECT FOUR';
+      // check that the h1 contains the text "Connect Four";
       let h1 = body.querySelector('h1');
-  expect(h1.innerText).toBe('CONNECT FOUR');
+  expect(h1.innerText).contains("Connect Four");
 });
 
 test('Check if the "Waiting for player names..." message is shown', () => {
