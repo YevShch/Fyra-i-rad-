@@ -48,12 +48,6 @@ When( 'the game restarts', () => {
   cy.wait( 1000 );
 } );
 
-
-// "New game" butonuna tıkla
-//(When('I click the {string} button', (buttonText) => {
-// cy.contains(buttonText).click(); // Belirtilen butona tıkla
-//});
-
 // Yeni oyuncu isimleri ile oyunun başladığını kontrol et
 Then('the game should start with player {string} as {string}', (playerName, color) => {
   const colorClass = color === 'red' ? 'red-circle' : 'yellow-circle';
