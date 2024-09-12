@@ -1,4 +1,4 @@
-import { Given, Then, And } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, Then, And, When } from "@badeball/cypress-cucumber-preprocessor";
 
 // Background: Start the game by entering player names
 Given('the game is loaded', () => {
@@ -7,17 +7,24 @@ Given('the game is loaded', () => {
 
 And('the player enters {string} as the red player', (redPlayerName) => {
   cy.get('.prompt-text').should('contain', 'Enter the name of player'); // Wait for the name entry screen
-  cy.get('input').type(`${redPlayerName}{enter}`); // Enter the red player's name
+  // Enter the red player's name
+  cy.get( 'input[name="answer"]' ).type( redPlayerName ).should( 'have.value', redPlayerName )
+    .type( '{enter}' );
+  cy.wait( 200 );
 });
 
 And('the player enters {string} as the yellow player', (yellowPlayerName) => {
   cy.get('.prompt-text').should('contain', 'Enter the name of player'); // Wait for the name entry screen
-  cy.get('input').type(`${yellowPlayerName}{enter}`); // Enter the yellow player's name
+  // Enter the yellow player's name
+  cy.wait( 500 );
+  cy.get( 'input[name="answer"]' ).type( yellowPlayerName ).should( 'have.value', yellowPlayerName )
+    .type( '{enter}' ); 
+  cy.wait( 200 );
 });
 
-And('the game is in progress', () => {
-  cy.get('.board').should('be.visible'); // Check if the game board is visible
-});
+// And('the game is in progress', () => {
+//   cy.get('.board').should('be.visible'); // Check if the game board is visible
+// });
 
 And('the red player wins the game', () => {
   // Make moves for the red player to win the game
@@ -32,30 +39,28 @@ And('the red player wins the game', () => {
   cy.wait(1000); // Wait for animations to complete
 });
 
-// Single Scenario: Verify the winner's name is displayed and "Replay" button is clicked
+
 Then('the system should declare "Eva" as the winner', () => {
   // Verify the winner's name is displayed
   cy.contains('Eva won!').should('be.visible'); // The winner's name should be visible
-  
+} );
+
+And( 'the "Replay" button should be visible', () => {
   // Check for the Replay button and click it
-  cy.get('.button').contains('Replay').should('be.visible').click();
-  
-  // Wait for the dialog with OK button to appear
-  cy.get('dialog').should('be.visible').within(() => {
-    cy.get('.button.OK').should('be.visible').click(); // Click the OK button
-  });
+  cy.get( '.button' ).contains( 'Replay' ).should( 'be.visible' )
+} );
 
-  // Verify the game board is reset
-  cy.get('.cell').each(($cell) => {
-    cy.wrap($cell).find('.tile').should('not.exist'); // Ensure all cells are empty
-  });
-});
+When( 'the player clicks the "Replay" button', () => {
+  // Check for the Replay button and click it
+  cy.get( '.button' ).contains( 'Replay' ).should( 'be.visible' ).click();
+} );
 
-Then('a dialog should show "Alex\'s turn" to start the new game', () => {
-  // Verify the dialog shows "Alex's turn" for the new game
-  cy.get('dialog').should('be.visible');
-  cy.get('dialog').should('contain.text', "Alex's turn");
-});
+Then( 'a dialog should show {string}', ( message ) => {
+  // Verify the dialog is visible and contains the correct message
+  cy.get( 'dialog' ).should( 'be.visible' );
+  cy.get( 'dialog' ).should( 'contain.text', message );
+} );
+
 
 And('the player should click "OK" to start the new game', () => {
   // Click the OK button to start the new game
