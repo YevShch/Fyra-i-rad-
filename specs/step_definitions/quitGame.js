@@ -9,17 +9,17 @@ Given('the game is in progress', () => {
   
   // Start the game by entering player names
   // Use the correct selectors for the input fields after inspecting the page
-  //cy.get('input[name="player1_name"]').type('Alice').type('{enter}');
-  //cy.get('input[name="player2_name"]').type('Peter').type('{enter}');
+  cy.get('input[name="player1_name"]').type('Alice').type('{enter}');
+  cy.get('input[name="player2_name"]').type('Peter').type('{enter}');
 
   // Ensure that the game board is displayed
   cy.get('.board').should('exist');
 });
 
-// // When I click the 'Quit this game' button
-// When('I click the {string} button', (buttonText) => {
-//   cy.contains(buttonText).click(); // Click the 'Quit this game' button
-// });
+// When I click the 'Quit this game' button
+When('I click the {string} button', (buttonText) => {
+cy.contains(buttonText).click(); // Click the 'Quit this game' button
+});
 
 // Then a dialog box appears with the question 'What do you want to do?'
 Then('a dialog box appears with the question {string}', (questionText) => {

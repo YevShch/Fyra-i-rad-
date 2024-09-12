@@ -17,7 +17,6 @@ Given('Enter the first players name {string}', (name) => {
   cy.wait(500); // Gönderim işleminin tamamlanması için bekle
 });
 
-
 // Oyuncu 2 ismini gir
 And('Enter the second players name {string}', (name) => {
    cy.contains( 'Enter the name of player' ).should( 'be.visible' );
@@ -33,20 +32,27 @@ When('the game starts', () => {
   cy.get('.board').should('exist'); // Yeni bir board'ın olup olmadığını kontrol et
 });
 
-// // Oyuncu 1'in oyunu kazandığını doğrula
-// Then('Player1 wins the game', () => {
-//   cy.contains('Player 1 wins').should('be.visible'); // Kazanan mesajını doğrula
-// });
+// Oyuncu 1'in oyunu kazandığını doğrula
+Then('Player1 wins the game', () => {
+cy.contains('Player 1 wins').should('be.visible'); // Kazanan mesajını doğrula
+});
 
 // "New game" butonunun görünmesini doğrula
 And('I should see the "New game" button', () => {
   cy.contains('New game').should('be.visible'); // "New game" butonunun görünmesini doğrula
 });
 
+
+When( 'the game restarts', () => {
+  cy.get( '.button' ).contains( 'New game' ).click();
+  cy.wait( 1000 );
+} );
+
+
 // "New game" butonuna tıkla
-When('I click the {string} button', (buttonText) => {
-  cy.contains(buttonText).click(); // Belirtilen butona tıkla
-});
+//(When('I click the {string} button', (buttonText) => {
+// cy.contains(buttonText).click(); // Belirtilen butona tıkla
+//});
 
 // Yeni oyuncu isimleri ile oyunun başladığını kontrol et
 Then('the game should start with player {string} as {string}', (playerName, color) => {
@@ -60,7 +66,6 @@ And('a new board is displayed', () => {
   cy.get('.board').should('exist'); // Yeni tahta öğesinin var olduğunu doğrula
   cy.get('.board').should('be.visible'); // Tahtanın görünür olduğunu doğrula
 });
-
 
 // Oyunun doğru oyuncunun sırası ile başladığını kontrol et
 And('it should be {string}\'s turn with the red circle shown', (playerName) => {
