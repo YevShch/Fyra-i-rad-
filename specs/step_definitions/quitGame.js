@@ -16,10 +16,10 @@ Given('the game is in progress', () => {
   cy.get('.board').should('exist');
 });
 
-// When I click the 'Quit this game' button
-When('I click the {string} button', (buttonText) => {
-  cy.contains(buttonText).click(); // Click the 'Quit this game' button
-});
+// // When I click the 'Quit this game' button
+// When('I click the {string} button', (buttonText) => {
+//   cy.contains(buttonText).click(); // Click the 'Quit this game' button
+// });
 
 // Then a dialog box appears with the question 'What do you want to do?'
 Then('a dialog box appears with the question {string}', (questionText) => {
