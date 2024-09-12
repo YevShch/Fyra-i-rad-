@@ -78,11 +78,21 @@ export default class App {
        <span class="red-text">Connect</span> <span class="yellow-text">Four</span>
         </h1>
         ${ !this.board.gameOver && player ?
-          `<p>${ this.generateColorCircle( color ) } ${ this.namePossessive( name ) } turn...</p>` :
+        `<p>
+          <span class="player-info">
+            <span class="circle-container">${ this.generateColorCircle( color ) }</span>
+            <span class="player-name">${ this.namePossessive( name ) } turn...</span>
+          </span>
+        </p>` :
           ( this.namesEntered ? '' : '<p>Waiting for player names...</p>' ) }
         ${ !this.board.gameOver ? '' : /*html*/`
           ${ !this.board.isADraw ? '' : `<p>It's a tie...</p>` }
-          ${ !this.board.winner ? '' : `<p>${ this.generateColorCircle( color ) } ${ name } won!</p>` }
+          ${ !this.board.winner ? '' : `<p>
+    <span class="player-info">
+      <span class="circle-container">${ this.generateColorCircle( color ) }</span>
+      <span class="player-name">${ name } won!</span>
+    </span>
+  </p>` }
         `}
         ${ this.board.render() }
         <div class="buttons">

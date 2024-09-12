@@ -3,11 +3,8 @@
 .container {
   display: flex;
   flex-direction: column;
-  /* Låter elementen staplas vertikalt */
   align-items: center;
-  /* Centrera innehållet horisontellt */
   justify-content: center;
-  /* Centrera innehållet vertikalt */
   text-align: center;
 }
 
@@ -25,6 +22,43 @@ p {
   margin-top: 4vh;
   margin-bottom: 0.5vw;
   text-align: center;
+}
+
+.player-name{
+font-family: 'Bebas Neue';
+  font-size: max(2vw, 3vh);
+  margin-top: 4vh;
+  margin-bottom: 0.5vw;
+  text-align: center;
+}
+
+.player-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.circle-container {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: inherit;
+}
+
+
+.color-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 .buttons {
