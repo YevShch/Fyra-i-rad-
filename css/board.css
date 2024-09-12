@@ -24,8 +24,29 @@
   /* Rounded corners */
   box-sizing: border-box;
   /* Include padding inside the size */
-  margin: 0 auto;
+  margin: 40px 0 auto;
   /* Center the board */
+}
+
+.title {
+  font-size: 40px;
+  /* Anpassa storleken som behövs */
+  font-family: 'Arial', sans-serif;
+  /* Ange typsnittet */
+  text-align: center;
+  /* Centrera texten */
+  margin-bottom: 20px;
+  /* Lägg till marginal under texten */
+}
+
+.red-text {
+  color: #F21E1E !important;
+  /* Gör texten röd */
+}
+
+.yellow-text {
+  color: #FFC700 !important;
+  /* Gör texten gul */
 }
 
 .cell {
@@ -36,7 +57,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #ccc;
+  background-color: #54BAE5;
   /* Empty cell color */
   cursor: pointer;
   position: relative;
@@ -48,12 +69,12 @@
 }
 
 .cell.yellow {
-  background-color: #FFC700;
+  background-color: #FFFF00;
   /* Yellow player color */
 }
 
 .cell.empty {
-  background-color: #ccc;
+  background-color: #54BAE5;
   /* Empty cell color */
 }
 

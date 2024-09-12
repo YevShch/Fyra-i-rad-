@@ -5,9 +5,10 @@ Given( 'the game has started', () => {
 } );
 
 
-When( 'the system starts', () => {
-  cy.contains( 'CONNECT FOUR' ).should( 'be.visible' );
-} );
+When( 'the programm starts', () => {
+  cy.wait( 1000 );
+  cy.contains( 'Waiting for player names...' ).should( 'be.visible' );
+ } );
 
 
 When( 'I enter {string} as the name of Player 1', ( name ) => {

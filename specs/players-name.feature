@@ -6,7 +6,7 @@ Feature: Connect Four game initialization and player turns
 
   Scenario: Verify the game starts with a request for player names
     Given the game has started
-    When the system starts
+    When the programm starts
     Then the system should ask for the name of Player 1
     And the system should display the message "Enter the name of player"
 

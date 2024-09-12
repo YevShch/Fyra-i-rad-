@@ -1,18 +1,30 @@
 @import 'button.css';
 
-h1 {
-  font-family: 'Rock Salt';
-  font-size: max(2vw, 3vh);
+.container {
+  display: flex;
+  flex-direction: column;
+  /* Låter elementen staplas vertikalt */
+  align-items: center;
+  /* Centrera innehållet horisontellt */
+  justify-content: center;
+  /* Centrera innehållet vertikalt */
   text-align: center;
-  margin-top: -2vh;
+}
+
+h1 {
+  font-family: 'Inter', 'black italic';
+  font-size: max(4vw, 3vh);
+  text-align: center;
+  margin-top: -8vh;
   margin-bottom: min(-1vw, -1.5vh);
 }
 
 p {
   font-family: 'Bebas Neue';
   font-size: max(2vw, 3vh);
+  margin-top: 4vh;
+  margin-bottom: 0.5vw;
   text-align: center;
-  margin-bottom: -1vw;
 }
 
 .buttons {

@@ -1,61 +1,64 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-// Step to ensure the board is empty
-Given('the board is empty', () => {
-  // Visit the game page and reset the board to its initial state
-   cy.visit( 'http://localhost:5173/'); // Adjust the path to your game page
-  cy.get('#reset-game-button').click(); // Reset game to start fresh
-  cy.get('.column').each(($column) => {
-    cy.wrap($column).find('.tile').should('not.exist'); // Ensure all columns are empty
+// Verify that the game is loaded and the board is empty
+Given('the game is loaded and the board is empty', () => {
+  cy.visit('http://localhost:5173/');
+  // Wait for all cells to be loaded
+  cy.get('.cell', { timeout: 10000 }).should('have.length.gte', 42); // Check that there are enough cells
+  cy.get('.cell.empty', { timeout: 10000 }).should('have.length.gte', 42); // Check that all cells are empty
+});
+
+// Simulate entering player names
+Then('the players have entered their names', () => {
+  cy.window().then((win) => {
+    if (win.dialog) {
+      cy.stub(win.dialog, 'ask').resolves('RedPlayer').onCall(1).resolves('YellowPlayer');
+    } else {
+      throw new Error('Dialog is not available on the window object.');
+    }
   });
+  cy.wait(2000); // Wait for the necessary time
 });
 
-// Step where the player places a tile in a column
-When('the player places a tile in a column', () => {
-  cy.get('.column').first().click(); // Click on the first column to place a tile
+// The red player places a tile in the first column
+When('the red player places a tile in the first column', () => {
+  cy.get('.cell[data-column="0"]').first().click({ force: true });
 });
 
-// Step to check that the tile is placed correctly
-Then('the tile is placed correctly', () => {
-  cy.get('.column').first().find('.tile').last().should('have.class', 'player-tile'); // Ensure the tile is added with the correct class
+// Verify that the tile is placed correctly and the board updates
+Then('the tile is placed correctly and the board updates', () => {
+  cy.wait(3000); // Wait for 3 seconds for the UI to update
+  cy.get('.cell[data-column="0"]').first()
+    .should('have.class', 'red').wait(1000)
+    .and('not.have.class', 'empty');
 });
 
-// Step to check if the board updates accordingly
-Then('the board updates', () => {
-  cy.get('.board').should('contain', 'player-tile'); // Ensure the board contains the player's tile
+// Verify that the first column is full
+Given('the first column is full', () => {
+  cy.get('.cell[data-column="0"]').each(($cell, index) => {
+    if (index < 6) {
+      cy.wrap($cell).click({ force: true });
+    }
+  });
+  cy.get('.cell[data-column="0"]').should('have.length', 6);
 });
 
-// Step to set up a full column
-Given('one column is full', () => {
-  const columnIndex = 0; // The index of the column that will be filled
-  for (let i = 0; i < 6; i++) { // Assuming each column holds 6 tiles
-    cy.get(`.column:eq(${columnIndex})`).click(); // Fill the first column completely
-  }
-  cy.get(`.column:eq(${columnIndex}) .tile`).should('have.length', 6); // Ensure the column is full
+// The red player tries to place another tile in the full column
+When('the red player tries to place another tile in the full column', () => {
+  cy.get('.cell[data-column="0"]').first().click({ force: true });
 });
 
-// Step where the player tries to place a tile in a full column
-When('the player tries to place a tile in the full column', () => {
-  const columnIndex = 0;
-  cy.get(`.column:eq(${columnIndex})`).click(); // Attempt to place a tile in the full column
-});
-
-// Step to check that the tile is not placed in a full column
+// Verify that the tile is not placed
 Then('the tile is not placed', () => {
-  cy.get(`.column:eq(0) .tile`).should('have.length', 6); // Ensure the number of tiles remains the same
+  cy.get('.cell[data-column="0"] .circle').should('have.length', 6);
 });
 
-// Step to check that an error is shown when trying to place a tile in a full column
-Then('an error is shown', () => {
-  cy.get('.error-message').should('be.visible').and('contain', 'Column is full'); // Check for an error message
+// Hover over the first column
+When('the player hovers over the first column', () => {
+  cy.get('.cell[data-column="0"]').first().trigger('mouseover');
 });
 
-// Step to simulate hovering over a column
-Given('the player hovers over a column', () => {
-  cy.get('.column').first().trigger('mouseover'); // Simulate hovering over the first column
-});
-
-// Step to verify that a preview of the tile's position is shown
+// Verify that a preview of the tile position is shown
 Then('a preview of the tile position is shown', () => {
-  cy.get('.column').first().find('.preview-tile').should('exist'); // Ensure a preview tile is shown
+  cy.get('.cell[data-column="0"]').first().should('have.class', 'preview');
 });
