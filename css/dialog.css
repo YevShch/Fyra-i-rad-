@@ -122,3 +122,17 @@ dialog {
   text-transform: uppercase;
   /* Text in uppercase */
 }
+
+@media (max-width: 375px) {
+  .board {
+    grid-template-columns: repeat(7, 40px);
+    grid-template-rows: repeat(6, 40px);
+    gap: 3px;
+    padding: 5px;
+  }
+
+  .cell {
+    width: 40px;
+    height: 40px;
+  }
+}

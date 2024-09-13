@@ -35,6 +35,7 @@
   background-color: #54BAE5;
   cursor: pointer;
   position: relative;
+  box-sizing: border-box;
 }
 
 .cell.red {
@@ -50,7 +51,6 @@
 }
 
 
-/* Стиль для мигающих клеток при выигрыше */
 @keyframes blink {
 
   0%,
@@ -65,8 +65,12 @@
   }
 }
 
-.cell.winning-cell {
+/* .cell.winning-cell {
   animation: blink 1s infinite;
+} */
+
+.cell.winning-cell {
+  animation: blink 1s ease-in-out infinite;
 }
 
 .cell.winning-cell.red .circle {
