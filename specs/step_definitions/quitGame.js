@@ -1,19 +1,19 @@
 import { Given, When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 
-// Go to the game page
-Then('I am on the game page', () => {
-cy.visit('http://localhost:5173/');  // Go to game page
-cy.get('main').should('be.visible'); // Make sure the home screen is visible
-});
+// // Go to the game page
+// Then('I am on the game page', () => {
+// cy.visit('http://localhost:5173/');  // Go to game page
+// cy.get('main').should('be.visible'); // Make sure the home screen is visible
+// });
 
-// Write the name of player 1
-Given('Enter the first players name {string}', (name) => {
-  cy.get('input[name="answer"]')
-    .type(name)
-    .should('have.value', name)
-    .type('{enter}');
-  cy.wait(1000); 
-});
+// // Write the name of player 1
+// Given('Enter the first players name {string}', (name) => {
+//   cy.get('input[name="answer"]')
+//     .type(name)
+//     .should('have.value', name)
+//     .type('{enter}');
+//   cy.wait(1000); 
+// });
 
 // // Write the player 2
 // And('Enter the second players name {string}', (name) => {
