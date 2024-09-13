@@ -18,14 +18,15 @@ Given('the game starts with Player 1 named {string} and Player 2 named {string}'
   cy.wait(200);
 });
 
-// When step for the game beginning
-When('the game begins', () => {
-  cy.get('.board').should('be.visible'); // Kontrollera att spelbrädet visas
-});
+// // When step for the game beginning
+// When('the game begins', () => {
+//   cy.get('.board').should('be.visible'); // Kontrollera att spelbrädet visas
+// });
 
 // Then step to check the correct player turn display
-Then("the system should display that it is Player 1's turn with the red piece", () => {
-  cy.contains("Jonas's turn (Red)").should('be.visible'); // Kontrollera att det är Jonas tur med röd pjäs
+Then( "the system should display that it is Player 1's turn with the red piece", () => {
+  cy.contains( "Ola's turn...", { timeout: 10000 } ).should( 'be.visible' );
+  // cy.contains("Jonas's turn...").should('be.visible'); // Kontrollera att det är Jonas tur med röd pjäs
 });
 
 // When step for Player 1 making a move
@@ -36,7 +37,7 @@ When('Player 1 makes a move', () => {
 
 // Then step to check Player 2's turn display
 Then("the system should display that it is Player 2's turn with the yellow piece", () => {
-  cy.contains("Anna's turn (Yellow)").should('be.visible'); // Kontrollera att det är Annas tur med gul pjäs
+  cy.contains("Anna's turn...").should('be.visible'); // Kontrollera att det är Annas tur med gul pjäs
 });
 
 // When step for Player 2 making a move
@@ -45,7 +46,7 @@ When('Player 2 makes a move', () => {
   cy.wait(200);
 });
 
-// Then step to check Player 1's turn display
-Then("the system should display that it is Player 1's turn with the red piece", () => {
-  cy.contains("Jonas's turn (Red)").should('be.visible'); // Kontrollera att det är Jonas tur igen med röd pjäs
-});
+// // Then step to check Player 1's turn display
+// Then("the system should display that it is Player 1's turn with the red piece", () => {
+//   cy.contains("Jonas's turn (Red)").should('be.visible'); // Kontrollera att det är Jonas tur igen med röd pjäs
+// });

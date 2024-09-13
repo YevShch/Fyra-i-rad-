@@ -91,10 +91,10 @@ Then( 'Player 1 and Player 2 play until the game ends', () => {
   playGameForWinner( 2, 3 );
 } );
 
-When( 'the game restarts', () => {
-  cy.get( '.button' ).contains( 'New game' ).click();
-  cy.wait( 1000 );
-} );
+// When( 'the game restarts', () => {
+//   cy.get( '.button' ).contains( 'New game' ).click();
+//   cy.wait( 1000 );
+// } );
 
 
 // Checking that Player 1 can start a new game
