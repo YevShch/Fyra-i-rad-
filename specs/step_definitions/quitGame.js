@@ -1,62 +1,73 @@
-
 import { Given, When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 
-// Scenario: Display quit dialog and resume the game with no changes
-
-// Given the game is in progress (renamed to avoid conflicts)
-Given('the game is in progress for quitting', () => {  // <-- Modified step name
-  cy.visit('http://localhost:5173'); // Navigate to the game page
-  cy.get('main').should('be.visible'); // Ensure the game page is visible
-  
-  // Start the game by entering player names
-  // Use the correct selectors for the input fields after inspecting the page
-  cy.get('input[name="player1_name"]').type('Alice').type('{enter}');
-  cy.get('input[name="player2_name"]').type('Peter').type('{enter}');
-
-// Wait for the first input field to be visible, then type in the red player name
-
-  //Ensure that the game board is displayed
-  cy.get('.board').should('exist');
-  cy.wait( 2000 );
-  });
-
-
-// When I click the 'Quit this game' button
-When('I click the {string} button', (buttonText) => {
-  cy.contains(buttonText).click(); // Click the 'Quit this game' button
-    cy.wait( 2000 );
+// Go to the game page
+Then('I am on the game page', () => {
+cy.visit('http://localhost:5173/');  // Go to game page
+cy.get('main').should('be.visible'); // Make sure the home screen is visible
 });
 
-// Then a dialog box appears with the question 'What do you want to do?'
-Then('a dialog box appears with the question {string}', (questionText) => {
-  cy.get('dialog').should('be.visible'); // Ensure the dialog box is visible
-  cy.contains(questionText).should('be.visible'); // Check for the question text
+// Write the name of player 1
+Given('Enter the first players name {string}', (name) => {
+  cy.get('input[name="answer"]')
+    .type(name)
+    .should('have.value', name)
+    .type('{enter}');
+  cy.wait(1000); 
 });
 
-// And three buttons: 'Continue', 'Replay', 'New Game' are displayed
-And('three buttons: {string}, {string}, {string} are displayed', (continueButton, replayButton, newGameButton) => {
-  // Check that the three buttons are visible
-  cy.contains(continueButton).should('be.visible');
-  cy.contains(replayButton).should('be.visible');
-  cy.contains(newGameButton).should('be.visible');
+// Write the player 2
+And('Enter the second players name {string}', (name) => {
+  cy.contains('Enter the name of player').should('be.visible');
+  cy.get('input[name="answer"]')
+    .type(name)
+    .should('have.value', name)
+    .type('{enter}');
+  cy.wait(1000);
 });
 
-// When I select the 'Continue' button
-When('I select the {string} button', (buttonText) => {
-  cy.contains(buttonText).click(); // Click the 'Continue' button
+// Check if the game starts correctly when it starts
+When('the game starts', () => {
+  cy.get('.board').should('exist'); // Check if a new board is displayed
 });
 
-// Then I return to the game
-Then('I return to the game', () => {
-  cy.get('.board').should('exist'); // Ensure the game board is still displayed
+// Quit game functionality
+
+// Step for clicking the 'Quit this game' button
+When('I click to "Quit this game" button', () => {
+  cy.get('.button').contains('Quit this game').click(); // Click the 'Quit' button
+  //cy.contains('Quit this game').click();
 });
 
-// And the game data is unchanged
-And('the game data is unchanged', () => {
-  // Assert that the current game state is unchanged (board state remains the same)
-  cy.get('.board .cell').each(($cell) => {
-    cy.wrap($cell).should('have.class', 'empty'); // Checking that the cells are still in their previous state
-  });
+// Verify that the dialog box appears
+Then('a dialog box appears with the question "What do you want to do?"', () => {
+  cy.contains('What do you want to do?').should('be.visible'); // Verify that the dialog box appears with the correct text
 });
+
+// Verify that the three buttons are displayed
+And('three buttons: "Continue", "Replay", "New Game" are displayed', () => {
+  cy.contains('Continue').should('be.visible'); // Verify 'Continue' button is visible
+  cy.contains('Replay').should('be.visible'); // Verify 'Replay' button is visible
+  cy.contains('New Game').should('be.visible'); // Verify 'New Game' button is visible
+});
+
+// Step for clicking the 'Continue' button
+When('I click to "Continue" button', () => {
+  cy.contains('Continue').click(); // Click the 'Continue' button
+});
+
+// Verify that the game returns to the game page
+Then('I return to the game page', () => {
+  cy.get('.board').should('exist'); // Check that the game page (board) is still displayed
+  cy.get('.board').should('be.visible'); // Verify the board is still visible
+});
+
+// Verify that the game page is unchanged
+And('the game page is unchanged', () => {
+  cy.get('.board').should('exist'); // Ensure the board is still there
+  cy.get('.red-circle, .yellow-circle').should('exist'); // Verify that player circles still exist
+  cy.contains("'s turn").should('be.visible'); // Ensure it is still someone's turn
+});
+
+
 
 
