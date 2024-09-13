@@ -24,3 +24,19 @@
     top: 1px;
   }
 }
+
+@media (max-width: 375px) {
+  .title {
+    font-size: 28px;
+   
+  }
+
+  .button {
+    font-size: 14px;
+  }
+
+  .player-name,
+  p {
+    font-size: 16px;
+  }
+}
