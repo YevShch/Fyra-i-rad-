@@ -2,11 +2,11 @@ import { Given, When, Then, And } from "@badeball/cypress-cucumber-preprocessor"
 
 // Go to the game page
 Then('I am on the game page', () => {
-  cy.visit('http://localhost:5173/');  // Oyun sayfasına git
-  cy.get('main').should('be.visible'); // Ana ekranın göründüğünden emin ol
+  cy.visit('http://localhost:5173/');  // Go to game page
+  cy.get('main').should('be.visible'); // Make sure the home screen is visible
 });
 
-// Write the player 1
+// Write the name of player 1
 Given('Enter the first players name {string}', (name) => {
  
   // Write the player's name and send the form
@@ -14,7 +14,7 @@ Given('Enter the first players name {string}', (name) => {
     .type(name)
     .should('have.value', name)
     .type('{enter}');
-  cy.wait(1000); // Wait for sending 
+  cy.wait(1000); 
 });
 
 // Write the player 2
@@ -29,12 +29,12 @@ And('Enter the second players name {string}', (name) => {
 
 //Check if the game starts correctly when it starts
 When('the game starts', () => {
-  cy.get('.board').should('exist'); // Yeni bir board'ın olup olmadığını kontrol et
+  cy.get('.board').should('exist'); // Check if you have a new board
 });
 
 // Verify that Player 1 won the game
 Then('Player1 wins the game', () => {
-cy.contains('Player 1 wins').should('be.visible'); // Kazanan mesajını doğrula
+cy.contains('Player 1 wins').should('be.visible'); // Verify your winning message
 });
 
 // Verify that the "New game" button appears

@@ -1,11 +1,16 @@
 Feature: Quit game functionality
+As a user, 
+I want to be able to continue the game after clicking the Quit button and 
+then the Continue button once the game has started.
 
   Scenario: Display quit dialog and resume the game with no changes
-    Given the game is in progress
-    Then I write the players name
-    When I click the 'Quit this game' button
+    Then I am on the game page for Quitting
+    Given Enter the first players name "Emily"
+    And Enter the second players name "Alice"
+    When the game starts
+    When I click to 'Quit this game' button
     Then a dialog box appears with the question 'What do you want to do?'
     And three buttons: 'Continue', 'Replay', 'New Game' are displayed
-    When I select the 'Continue' button
-    Then I return to the game
-    And the game data is unchanged
+    When I click to 'Continue' button
+    Then I return to the game page
+    And the game page is unchanged
