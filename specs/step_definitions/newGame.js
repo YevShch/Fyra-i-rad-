@@ -43,6 +43,12 @@ And('I should see the "New game" button', () => {
     cy.wait( 3000 );
 });
 
+// Step for clicking the 'Continue' button
+When( 'I click the "New game" button', () => {
+  cy.contains( 'New game' ).click(); // Click the 'Continue' button
+} );
+
+
 When( 'the game restarts', () => {
   cy.get( '.button' ).contains( 'New game' ).click();
   cy.wait( 1000 );
