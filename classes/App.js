@@ -57,7 +57,8 @@ export default class App {
       if ( color === 'red' ) {
         await this.askForNamesAndTypes( 'yellow' ); return;
       } else {
-        // Once both names are entered, set the flag and re-render
+        // Once both names are entered, set the flag and re-render 
+        console.log( 'Both players registered' );
         this.namesEntered = true;
         this.render();  // Re-render with names and player details
         this.board.initiateBotMove();

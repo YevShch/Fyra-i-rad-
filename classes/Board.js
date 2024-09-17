@@ -26,7 +26,7 @@ export default class Board {
     // makeMove and if makeMove returns true
     // then call the app render method
     globalThis.makeMoveOnClick = ( column ) => {
-      if ( this.makeMove( this.currentPlayerColor, column, true ) ) {
+      if ( this.makeMove( this.currentPlayerColor, column ) ) {
         this.app.render();
       }
     };
@@ -61,15 +61,15 @@ export default class Board {
     };
 
    
-
     // Render the game board as HTML
     return /*html*/`<div class="board">
       ${ this.matrix.map( ( row, rowIndex ) =>
       row.map( ( cell, columnIndex ) => /*html*/`
           <div
             class="cell ${ cell === 'red' ? 'red' : ( cell === 'yellow' ? 'yellow' : 'empty' ) } 
-                  ${ this.winningCombo.some( ( [ r, c ] ) => r === rowIndex && c === columnIndex ) ? 'winning-cell' : '' }"
-            data-column="${ columnIndex }"
+                  ${ this.winningCombo && this.winningCombo.some( ( [ r, c ] ) => r === rowIndex && c === columnIndex ) ? 'winning-cell' : '' }
+
+            data-column="${columnIndex }"
             onmouseover="showPreview(${ columnIndex })"
             onmouseout="hidePreview(${ columnIndex })"
             onclick="makeMoveOnClick(${ columnIndex })">
