@@ -17,24 +17,25 @@ export default class App {
         this.playerRed = playerRed;
         this.playerYellow = playerYellow;
         this.namesEntered = true;
+        this.board.initiateBotMove();
         console.log( 'Constructor: playerRed and playerYellow set directly' );
       } else {
-        // Initialize players but allow board to render immediately
-        this.namesEntered = false;
-        this.render();  // Render the board and title immediately
-        this.askForNames(); // Prompt for player names asynchronously
+        // enter new players
+        this.askForNamesAndTypes();
       }
+      this.render();
+
     } catch ( error ) {
       console.error( 'Error during game initialization:', error );
       this.displayErrorMessage( 'An error occurred during the game initialization. Please reload the page.' );
     }
   }
 
-  async askForNames ( color = 'red' ) {
+  async askForNamesAndTypes ( color = 'red' ) {
     try {
       const okName = name => name.match( /[a-zåäöA-ZÅÄÖ]{2,}/ );
       let playerName = '';
-
+      let playerType = '';
       // Request the player's name until it is valid
       while ( !okName( playerName ) ) {
         const promptHtml = `
@@ -42,19 +43,28 @@ export default class App {
         `;
         playerName = await this.dialog.ask( promptHtml );
         await sleep( 500 );
+        playerType = await this.dialog.ask(
+          `Which type of player is ${ playerName }?`,
+          [ 'Human', 'A dumb bot', 'A smart bot' ]
+        )
       }
 
       // Create a player object
-      this[ `player${ color.charAt( 0 ).toUpperCase() + color.slice( 1 ) }` ] = new Player( playerName, color );
+      this[ `player${ color.charAt( 0 ).toUpperCase() + color.slice( 1 ) }` ] = new Player( playerName, playerType, color, this.board );
       console.log( `Created ${ color } player: ${ playerName }` );
 
       // If the red player's name is entered, prompt for the yellow player's name
       if ( color === 'red' ) {
-        await this.askForNames( 'yellow' );
+        await this.askForNamesAndTypes( 'yellow' ); return;
       } else {
         // Once both names are entered, set the flag and re-render
         this.namesEntered = true;
         this.render();  // Re-render with names and player details
+        this.board.initiateBotMove();
+
+        // make players global for debugging
+        globalThis.playerX = this.playerX;
+        globalThis.playerO = this.playerO;
       }
     } catch ( error ) {
       console.error( 'Error during name entry:', error );
@@ -78,7 +88,7 @@ export default class App {
        <span class="red-text">Connect</span> <span class="yellow-text">Four</span>
         </h1>
         ${ !this.board.gameOver && player ?
-        `<p>
+          `<p>
           <span class="player-info">
             <span class="circle-container">${ this.generateColorCircle( color ) }</span>
             <span class="player-name">${ this.namePossessive( name ) } turn...</span>
@@ -117,7 +127,8 @@ export default class App {
       if ( !this.namesEntered ) { return ''; }
 
       globalThis.quitGame = async () => {
-        let answer = await this.dialog.ask( 'What do you want to do?', [ 'Continue', 'Replay', 'New game' ] );
+        let answer = await this.dialog.ask( 'What do you want to do?',
+          [ 'Continue', 'Replay', 'New game' ] );
         if ( answer === 'Replay' ) globalThis.playAgain();
         if ( answer === 'New game' ) globalThis.newPlayers();
       };
