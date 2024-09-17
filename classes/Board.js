@@ -106,16 +106,17 @@ export default class Board {
         this.matrix[ r ][ column ] = this.currentPlayerColor;
         console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
 
-        // Check for win immediately after the move
-        if ( this.winCheck( r, column ) ) {
-          this.gameOver = true;
-        } else if ( this.drawCheck() ) {  // Check for draw if game is not over
-          this.isADraw = true;
-          this.gameOver = true;
-        }
-
-        // Change the player
-        this.currentPlayerColor = this.currentPlayerColor === 'red' ? 'yellow' : 'red';
+        // check if someone has won or if it's a draw/tie and update properties
+        this.winner = this.winCheck();
+        this.isADraw = this.drawCheck();
+        // the game is over if someone has won or if it's a draw
+        this.gameOver = this.winner || this.isADraw;
+        // change the current player color, if the game is not over
+        !this.gameOver
+          && ( this.currentPlayerColor = this.currentPlayerColor === 'red' ? 'yellow' : 'red' );
+        // make bot move if the next player is a bot
+        this.initiateBotMove();
+        // return true if the move could be made
         return true;
       }
     }
