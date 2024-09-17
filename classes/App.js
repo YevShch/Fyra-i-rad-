@@ -54,9 +54,8 @@ export default class App {
       console.log( `Created ${ color } player: ${ playerName }` );
 
       // If the red player's name is entered, prompt for the yellow player's name
-      if ( color === 'red' ) {
-        await this.askForNamesAndTypes( 'yellow' ); return;
-      } else {
+      if ( color === 'red' ) { this.askForNamesAndTypes( 'yellow' ); return; }
+     
         // Once both names are entered, set the flag and re-render 
         console.log( 'Both players registered' );
         this.namesEntered = true;
@@ -66,7 +65,7 @@ export default class App {
         // make players global for debugging
         globalThis.playerX = this.playerX;
         globalThis.playerO = this.playerO;
-      }
+      
     } catch ( error ) {
       console.error( 'Error during name entry:', error );
       this.displayErrorMessage( 'An error occurred while entering player names. Please try again.' );
@@ -80,9 +79,12 @@ export default class App {
 
   render () {
     try {
-      let color = this.board.gameOver ? this.board.winner : this.board.currentPlayerColor;
+      let color = this.board.currentPlayerColor;
       let player = color === 'red' ? this.playerRed : this.playerYellow;
       let name = player?.name || '';
+      // let color = this.board.gameOver ? this.board.winner : this.board.currentPlayerColor;
+      // let player = color === 'red' ? this.playerRed : this.playerYellow;
+      // let name = player?.name || '';
 
       document.querySelector( 'main' ).innerHTML = /*html*/`
        <h1>

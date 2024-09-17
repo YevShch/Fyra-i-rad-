@@ -25,17 +25,18 @@ export default class Board {
     // Create the click handler for the column
     // makeMove and if makeMove returns true
     // then call the app render method
-    globalThis.makeMoveOnClick = ( column ) => {
-      if ( this.makeMove( this.currentPlayerColor, column ) ) {
-        this.app.render();
-      }
+    globalThis.makeMoveOnClick = ( column ) => 
+       this.makeMove( this.currentPlayerColor, column, true )  
+      && this.app.render();
+    
+    // Create the hide preview handlers
+    globalThis.hidePreview = ( column ) => {
+      document.querySelectorAll( `.cell[data-column="${ column }"]` ).forEach( cell => {
+        cell.classList.remove( 'preview' );
+        cell.style.backgroundColor = '';
+      } );
     };
 
-    // Set game statuses in the body for styling purposes
-    document.body.setAttribute( 'currentPlayerColor',
-      this.gameOver ? '' : this.currentPlayerColor );
-    document.body.setAttribute( 'gameInProgress',
-      this.app.namesEntered && !this.gameOver );
 
     // Create the hover handlers
     globalThis.showPreview = ( column ) => {
@@ -50,26 +51,21 @@ export default class Board {
         }
       }
     };
-
-
-    // Create the hide preview handlers
-    globalThis.hidePreview = ( column ) => {
-      document.querySelectorAll( `.cell[data-column="${ column }"]` ).forEach( cell => {
-        cell.classList.remove( 'preview' );
-        cell.style.backgroundColor = '';
-      } );
-    };
-
-   
+    
+    // Set game statuses in the body for styling purposes
+    document.body.setAttribute( 'currentPlayerColor',
+      this.gameOver ? '' : this.currentPlayerColor );
+    document.body.setAttribute( 'gameInProgress',
+      this.app.namesEntered && !this.gameOver );
+    
     // Render the game board as HTML
     return /*html*/`<div class="board">
       ${ this.matrix.map( ( row, rowIndex ) =>
       row.map( ( cell, columnIndex ) => /*html*/`
           <div
             class="cell ${ cell === 'red' ? 'red' : ( cell === 'yellow' ? 'yellow' : 'empty' ) } 
-                  ${ this.winningCombo && this.winningCombo.some( ( [ r, c ] ) => r === rowIndex && c === columnIndex ) ? 'winning-cell' : '' }
-
-            data-column="${columnIndex }"
+                  ${ this.winningCombo && this.winningCombo.some( ( [ r, c ] ) => r === rowIndex && c === columnIndex ) ? 'winning-cell' : '' }"
+            data-column="${ columnIndex }"
             onmouseover="showPreview(${ columnIndex })"
             onmouseout="hidePreview(${ columnIndex })"
             onclick="makeMoveOnClick(${ columnIndex })">
@@ -77,7 +73,9 @@ export default class Board {
           </div>
         `).join( '' ) ).join( '' ) }
     </div>`;
-  }
+}
+   
+
   makeMove ( color, column, fromClick ) {
     let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
 
@@ -151,3 +149,4 @@ export default class Board {
   }
 
 }
+ 
