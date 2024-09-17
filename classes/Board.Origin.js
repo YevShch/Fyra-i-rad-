@@ -1,41 +1,24 @@
-import Cell from './Cell.js';
-import WinChecker from './WinChecker.js';
-
-
+//yevheniia's version with drop and hover preview, and animation for the winning combination 
+// to test this board start test-board.html with Live Server 
 export default class Board {
-
   constructor ( app ) {
     this.app = app;
-    this.matrix = [ ...new Array( 6 ) ].map( ( row, rowIndex ) =>
-      [ ...new Array( 7 ) ].map( ( column, columnIndex ) =>
-        new Cell( rowIndex, columnIndex )
-      ) );
-    // create a new winChecker
-    this.winChecker = new WinChecker( this );
-    // currentPlayer, whose turn is it?
-    this.currentPlayerColor = 'red'; 
-    // status of game (updated after each move)
+    this.matrix = [ ...new Array( 6 ) ].map( () =>
+      [ ...new Array( 7 ) ].map( () => ' ' ) );
+    this.currentPlayerColor = 'red';  // Color of the current player
     this.winner = false;
     this.isADraw = false;
     this.gameOver = false;
-    this.winningCombo = null;
+    this.winningCombo = [];
   }
 
   render () {
     // Create the click handler for the column
-    // makeMove and if makeMove returns true
-    // then call the app render method
     globalThis.makeMoveOnClick = ( column ) => {
-      if ( this.makeMove( this.currentPlayerColor, column, true ) ) {
+      if ( this.makeMove( this.currentPlayerColor, column ) ) {
         this.app.render();
       }
     };
-
-    // Set game statuses in the body for styling purposes
-    document.body.setAttribute( 'currentPlayerColor',
-      this.gameOver ? '' : this.currentPlayerColor );
-    document.body.setAttribute( 'gameInProgress',
-      this.app.namesEntered && !this.gameOver );
 
     // Create the hover handlers
     globalThis.showPreview = ( column ) => {
@@ -51,8 +34,6 @@ export default class Board {
       }
     };
 
-
-    // Create the hide preview handlers
     globalThis.hidePreview = ( column ) => {
       document.querySelectorAll( `.cell[data-column="${ column }"]` ).forEach( cell => {
         cell.classList.remove( 'preview' );
@@ -60,7 +41,11 @@ export default class Board {
       } );
     };
 
-   
+    // Set game statuses in the body for styling purposes
+    document.body.setAttribute( 'currentPlayerColor',
+      this.gameOver ? '' : this.currentPlayerColor );
+    document.body.setAttribute( 'gameInProgress',
+      this.app.namesEntered && !this.gameOver );
 
     // Render the game board as HTML
     return /*html*/`<div class="board">
@@ -78,13 +63,9 @@ export default class Board {
         `).join( '' ) ).join( '' ) }
     </div>`;
   }
-  makeMove ( color, column, fromClick ) {
-    let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
 
-    // don't allow move fromClick if it's a bot's turn to play
-    if ( fromClick && player.type !== 'Human' ) { return; }
-
-    // check that the game is not over
+  makeMove ( color, column ) {
+    //check that the game is not over
     if ( this.gameOver ) { return false; }
 
     // check that the color is red or yellow - otherwise don't make the move
@@ -93,61 +74,77 @@ export default class Board {
     // check that the color matches the player's turn - otherwise don't make the move
     if ( color !== this.currentPlayerColor ) { return false; }
 
-    // check that the column is a number - otherwise don't make the move
-    if ( isNaN( column ) ) { return false; }
-
-    // check that the column is between 0 and 6 - otherwise don't make the move
-    if ( column < 0 || column >= this.matrix[ 0 ].length ) { return false; }
-
     // check that column is not full
     if ( this.matrix[ 0 ][ column ] !== ' ' ) { return false; }
 
-    // Iterate through rows from bottom to top to find the first empty slot
+    //make move
     for ( let r = this.matrix.length - 1; r >= 0; r-- ) {
       if ( this.matrix[ r ][ column ] === ' ' ) {
         this.matrix[ r ][ column ] = this.currentPlayerColor;
         console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
-
-        // Check for win immediately after the move
+        // Check the win immediately after the move
         if ( this.winCheck( r, column ) ) {
           this.gameOver = true;
-        } else if ( this.drawCheck() ) {  // Check for draw if game is not over
+        } else if ( this.drawCheck() ) {  // Check the draw if game is not over 
           this.isADraw = true;
           this.gameOver = true;
         }
-
-        // Change the player
+        // Change the prlayer
         this.currentPlayerColor = this.currentPlayerColor === 'red' ? 'yellow' : 'red';
         return true;
       }
     }
-
-    return false;  // No valid move made
+    return false;
   }
-
 
   winCheck ( row, col ) {
-    return this.winChecker.winCheck();
-  };
+    const playerColor = this.matrix[ row ][ col ];
+    if ( !playerColor ) return false;
 
+    const directions = [
+      [ 0, 1 ],   // horizontal (right)
+      [ 1, 0 ],   // vertical (down)
+      [ 1, 1 ],   // diagonal (down-right)
+      [ 1, -1 ],  // diagonal (down-left)
+    ];
+
+    for ( const [ rowStep, colStep ] of directions ) {
+      let count = [ [ row, col ] ];
+      count = count.concat( this.countInDirection( row, col, rowStep, colStep, playerColor ) );
+      count = count.concat( this.countInDirection( row, col, -rowStep, -colStep, playerColor ) );
+
+      if ( count.length >= 4 ) {
+        this.winner = playerColor;
+        console.log( this.winner ); 
+        this.gameOver = true;
+        this.winningCombo = count;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  countInDirection ( row, col, rowStep, colStep, playerColor ) {
+    let count = [];
+    for ( let i = 1; i < 4; i++ ) {
+      const newRow = row + i * rowStep;
+      const newCol = col + i * colStep;
+
+      // Check boundaries
+      if ( newRow < 0 || newRow >= this.matrix.length || newCol < 0 || newCol >= this.matrix[ 0 ].length ) {
+        break;
+      }
+      if ( this.matrix[ newRow ][ newCol ] === playerColor ) {
+        count.push( [ newRow, newCol ] );
+      } else {
+        break;
+      }
+    }
+    return count;
+  }
 
   drawCheck () {
-    // if no one has won and no empty positions then it's a draw
-    return !this.winCheck() &&
-      !this.matrix.flat().map( cell => cell.color ).includes( ' ' );
+    // Check if there is no winner and all cells are filled
+    return !this.winner && !this.matrix.flat().includes( ' ' );
   }
-
-  // note: this does nothing if the player is a human
-  async initiateBotMove () {
-    // get the current player
-    let player = this.currentPlayerColor === 'red' ? this.app.playerRed : this.app.playerYellow;
-    // if the game isn't over and the player exists and the player is non-human / a bot
-    if ( !this.gameOver && player && player.type !== 'Human' ) {
-      document.body.classList.add( 'botPlaying' );
-      await player.makeBotMove();
-      this.app.render();
-      document.body.classList.remove( 'botPlaying' );
-    }
-  }
-
 }

@@ -51,6 +51,15 @@
 }
 
 
+body.botPlaying .cell {
+  cursor: default !important;
+}
+
+body.botPlaying .cell:hover::before {
+  content: '' !important;
+}
+
+
 @keyframes blink {
 
   0%,
