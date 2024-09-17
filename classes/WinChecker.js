@@ -35,8 +35,8 @@ export default class WinChecker {
           // If all 4 positions are found, add the combo to the list
           if ( combo.length === 4 ) {
             // this.winCombos.push( new WinCombo( combo ) ); 
-            let cellCombo = combo.map( ( [ row, col ] ) => this.matrix[ row ][ col ] );  // Преобразуем координаты в объекты Cell
-            this.winCombos.push( new WinCombo( cellCombo ) );  // Передаём объекты Cell
+            let cellCombo = combo.map( ( [ row, col ] ) => this.matrix[ row ][ col ] );  
+            this.winCombos.push( new WinCombo( cellCombo ) );  
           }
         }
       }

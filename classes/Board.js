@@ -6,8 +6,8 @@ export default class Board {
 
   constructor ( app ) {
     this.app = app;
-    this.matrix = [ ...new Array( 6 ) ].map( ( row, rowIndex ) =>
-      [ ...new Array( 7 ) ].map( ( column, columnIndex ) =>
+    this.matrix = [ ...new Array( 6 ) ].map( ( _, rowIndex ) =>
+      [ ...new Array( 7 ) ].map( ( _, columnIndex ) =>
         new Cell( rowIndex, columnIndex )
       ) );
     // create a new winChecker
@@ -77,10 +77,10 @@ export default class Board {
    
 
   makeMove ( color, column, fromClick ) {
-    let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
+    // let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
 
-    // don't allow move fromClick if it's a bot's turn to play
-    if ( fromClick && player.type !== 'Human' ) { return; }
+    // // don't allow move fromClick if it's a bot's turn to play
+    // if ( fromClick && player.type !== 'Human' ) { return; }
 
     // check that the game is not over
     if ( this.gameOver ) { return false; }
@@ -98,11 +98,11 @@ export default class Board {
     if ( column < 0 || column >= this.matrix[ 0 ].length ) { return false; }
 
     // check that column is not full
-    if ( this.matrix[ 0 ][ column ] !== ' ' ) { return false; }
+    if ( this.matrix[ 0 ][ column ].color !== ' ' ) { return false; }
 
     // Iterate through rows from bottom to top to find the first empty slot
     for ( let r = this.matrix.length - 1; r >= 0; r-- ) {
-      if ( this.matrix[ r ][ column ] === ' ' ) {
+      if ( this.matrix[ r ][ column ].color === ' ' ) {
         this.matrix[ r ][ column ] = this.currentPlayerColor;
         console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
 
