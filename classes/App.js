@@ -2,6 +2,7 @@ import Dialog from './Dialog.js';
 import Board from './Board.js';
 import Player from './Player.js';
 import sleep from './helpers/sleep.js';
+import createConfetti from './helpers/createConfetti.js';
 
 export default class App {
   constructor ( playerRed, playerYellow, whoStarts = 'red' ) {
@@ -82,9 +83,6 @@ export default class App {
       let color = this.board.currentPlayerColor;
       let player = color === 'red' ? this.playerRed : this.playerYellow;
       let name = player?.name || '';
-      // let color = this.board.gameOver ? this.board.winner : this.board.currentPlayerColor;
-      // let player = color === 'red' ? this.playerRed : this.playerYellow;
-      // let name = player?.name || '';
 
       document.querySelector( 'main' ).innerHTML = /*html*/`
        <h1>
@@ -117,7 +115,7 @@ export default class App {
 
       // Create confetti if the game is over and there's a winner
       if ( this.board.gameOver && this.board.winner ) {
-        this.createConfetti();
+        createConfetti();
       }
     } catch ( error ) {
       console.error( 'Error during rendering:', error );
@@ -185,29 +183,4 @@ export default class App {
     return `<div class="color-circle ${ colorClass }"></div>`;
   }
 
-  createConfetti () {
-    const confettiContainer = document.getElementById( 'confetti-container' );
-    confettiContainer.innerHTML = '';
-
-    const numConfetti = 150;
-    for ( let i = 0; i < numConfetti; i++ ) {
-      const confetti = document.createElement( 'div' );
-      confetti.classList.add( 'confetti' );
-      confetti.style.left = `${ Math.random() * 100 }vw`;
-      confetti.style.top = `${ Math.random() * 100 }vh`;
-      confetti.style.backgroundColor = this.getRandomColor();
-      confetti.style.width = `${ Math.random() * 10 + 10 }px`;
-      confetti.style.height = confetti.style.width;
-      confettiContainer.appendChild( confetti );
-    }
-
-    setTimeout( () => {
-      confettiContainer.innerHTML = '';
-    }, 5000 );
-  }
-
-  getRandomColor () {
-    const colors = [ '#8CC0E6', '#FFD700', '#C0C0C0', '#FFA500', '#4CAF50', '#9C27B0', '#F48FB1', '#2196F3', '#4DB6AC', '#FFEB3B', '#8D6E63', '#03A9F4', '#E1BEE7' ];
-    return colors[ Math.floor( Math.random() * colors.length ) ];
-  }
 }
