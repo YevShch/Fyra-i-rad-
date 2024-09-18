@@ -64,8 +64,8 @@ export default class App {
         this.board.initiateBotMove();
 
         // make players global for debugging
-        globalThis.playerX = this.playerX;
-        globalThis.playerO = this.playerO;
+        globalThis.playerRed = this.playerRed;
+        globalThis.playerYellow = this.playerYellow;
       
     } catch ( error ) {
       console.error( 'Error during name entry:', error );
