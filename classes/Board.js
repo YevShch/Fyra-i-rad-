@@ -63,8 +63,10 @@ export default class Board {
       ${ this.matrix.map( ( row, rowIndex ) =>
       row.map( ( cell, columnIndex ) => /*html*/`
           <div
-            class="cell ${ cell === 'red' ? 'red' : ( cell === 'yellow' ? 'yellow' : 'empty' ) } 
-                  ${ this.winningCombo && this.winningCombo.some( ( [ r, c ] ) => r === rowIndex && c === columnIndex ) ? 'winning-cell' : '' }"
+           class="cell ${ cell.color === 'red' ? 'red' : ( cell.color === 'yellow' ? 'yellow' : 'empty' ) }"
+                 ${ this.winningCombo && this.winningCombo.cells.find(
+                   cell => cell.row === rowIndex && cell.column === columnIndex
+                 ) ? 'winning-cell' : '' }
             data-column="${ columnIndex }"
             onmouseover="showPreview(${ columnIndex })"
             onmouseout="hidePreview(${ columnIndex })"
@@ -77,10 +79,10 @@ export default class Board {
    
 
   makeMove ( color, column, fromClick ) {
-    // let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
+    let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
 
-    // // don't allow move fromClick if it's a bot's turn to play
-    // if ( fromClick && player.type !== 'Human' ) { return; }
+    // don't allow move fromClick if it's a bot's turn to play
+    if ( fromClick && player.type !== 'Human' ) { return; }
 
     // check that the game is not over
     if ( this.gameOver ) { return false; }
@@ -103,8 +105,10 @@ export default class Board {
     // Iterate through rows from bottom to top to find the first empty slot
     for ( let r = this.matrix.length - 1; r >= 0; r-- ) {
       if ( this.matrix[ r ][ column ].color === ' ' ) {
-        this.matrix[ r ][ column ] = this.currentPlayerColor;
+        this.matrix[ r ][ column ].color = this.currentPlayerColor;
         console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
+
+        console.log( this.matrix );
 
         // check if someone has won or if it's a draw/tie and update properties
         this.winner = this.winCheck();
@@ -112,6 +116,12 @@ export default class Board {
         // the game is over if someone has won or if it's a draw
         this.gameOver = this.winner || this.isADraw;
         // change the current player color, if the game is not over
+
+        // *** Add logs for game status ***
+        console.log( `Winner: ${ this.winner }` );
+        console.log( `Is a draw: ${ this.isADraw }` );
+        console.log( `Game over: ${ this.gameOver }` );
+
         !this.gameOver
           && ( this.currentPlayerColor = this.currentPlayerColor === 'red' ? 'yellow' : 'red' );
         // make bot move if the next player is a bot
