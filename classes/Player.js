@@ -11,6 +11,7 @@ export default class Player {
   }
 
   async makeBotMove () {
+    console.log( 'makeBotMove has been called' )
     await sleep( 500 ); // Delay for bot's "thinking" to simulate human-like behavior
     let column;
     if ( this.type === 'A dumb bot' ) {
@@ -22,8 +23,10 @@ export default class Player {
   }
 
   makeDumbBotMove () {
-    return [ shuffleArray( this.legalMoves )[ 0 ] ]; // Randomly select a legal move
+    // Randomly select a legal move
+    return [ shuffleArray( this.legalMoves )[ 0 ] ];
   }
+
 
   makeSmartBotMove () {
     let orgState = this.state(); // Get the current state of the board
@@ -32,13 +35,13 @@ export default class Player {
     // Loop through each legal move
     for ( let column of this.legalMoves ) {
       // Find the lowest empty row in this column
-      let row = this.board.matrix.findIndex( r => r[ column ] === ' ' );
+      let row = this.board.matrix.findIndex( r => r[ column ].color === ' ' );
       if ( row === -1 ) continue; // Skip if no valid row is found
 
       // Temporarily make the move
-      this.board.matrix[ row ][ column ] = this.color;
+      this.board.matrix[ row ][ column ].color = this.color;
       let futureState = this.state(); // Get the state of the board after the move
-      this.board.matrix[ row ][ column ] = ' '; // Undo the temporary move
+      this.board.matrix[ row ][ column ].color = ' '; // Undo the temporary move
 
       // Score this move based on the future state
       scores.push( { column, score: this.score( orgState, futureState ) } );
@@ -79,9 +82,10 @@ export default class Player {
     // (ie. directly "above") the chosen move
     // you can avoid this by trying to play an opponent move in the same column
     // and if that gives a win set score to negative - 1)
-    
+
     return score; // Return the total score for the move
   }
+
 
   get legalMoves () {
     let moves = [];
@@ -89,12 +93,13 @@ export default class Player {
     for ( let column = 0; column < this.board.matrix[ 0 ].length; column++ ) {
       // Check from the bottom-most row upwards
       for ( let row = this.board.matrix.length - 1; row >= 0; row-- ) {
-        if ( this.board.matrix[ row ][ column ] === ' ' ) {
+        if ( this.board.matrix[ row ][ column ].color === ' ' ) {
           moves.push( column ); // Add column to list of legal moves
           break; // Exit loop as we found an available slot
         }
       }
     }
+    console.log( 'Legal moves:', moves );
     return moves; // Return the list of legal columns
   }
 
