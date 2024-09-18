@@ -135,7 +135,7 @@ export default class Board {
   }
 
 
-  winCheck ( row, col ) {
+  winCheck ( ) {
     return this.winChecker.winCheck();
   };
 
