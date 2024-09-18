@@ -29,6 +29,7 @@ export default class Player {
 
 
   makeSmartBotMove () {
+    console.log(' makeSmartBotMove has been called')
     let orgState = this.state(); // Get the current state of the board
     let scores = [];
     // console.log( 'THE CURRENT STATE', orgState );
@@ -120,7 +121,7 @@ export default class Player {
   score ( orgState, futureState ) {
     // Define priorities for scoring moves
     let priorities = [
-      { me: 4 }, { opp: 3}, { me: 3 }, { opp: 2 }, { me: 2 }, { me: 1 }
+      { me: 4 }, { opp: 3 }, { me: 3 }, { opp: 2 }, { me: 2 }, { opp: 2 }, { me: 1 }, { opp: 1},
     ];
     // score variable - which we will use to calculate a score
     let score = 0;
