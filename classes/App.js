@@ -2,6 +2,7 @@ import Dialog from './Dialog.js';
 import Board from './Board.js';
 import Player from './Player.js';
 import sleep from './helpers/sleep.js';
+import createConfetti from './helpers/createConfetti.js';
 
 export default class App {
   constructor ( playerRed, playerYellow, whoStarts = 'red' ) {
@@ -12,13 +13,11 @@ export default class App {
       this.whoStarts = whoStarts;
       this.setPlayAgainGlobals();
 
-      // If players are passed into the constructor, set them directly
       if ( playerRed && playerYellow ) {
         this.playerRed = playerRed;
         this.playerYellow = playerYellow;
         this.namesEntered = true;
         this.board.initiateBotMove();
-        console.log( 'Constructor: playerRed and playerYellow set directly' );
       } else {
         // enter new players
         this.askForNamesAndTypes();
@@ -54,18 +53,18 @@ export default class App {
       console.log( `Created ${ color } player: ${ playerName }` );
 
       // If the red player's name is entered, prompt for the yellow player's name
-      if ( color === 'red' ) {
-        await this.askForNamesAndTypes( 'yellow' ); return;
-      } else {
-        // Once both names are entered, set the flag and re-render
-        this.namesEntered = true;
-        this.render();  // Re-render with names and player details
-        this.board.initiateBotMove();
+      if ( color === 'red' ) { this.askForNamesAndTypes( 'yellow' ); return; }
 
-        // make players global for debugging
-        globalThis.playerX = this.playerX;
-        globalThis.playerO = this.playerO;
-      }
+      // Once both names are entered, set the flag and re-render 
+      console.log( 'Both players registered' );
+      this.namesEntered = true;
+      this.render();  // Re-render with names and player details
+      this.board.initiateBotMove();
+
+      // make players global for debugging
+      globalThis.playerRed = this.playerRed;
+      globalThis.playerYellow = this.playerYellow;
+
     } catch ( error ) {
       console.error( 'Error during name entry:', error );
       this.displayErrorMessage( 'An error occurred while entering player names. Please try again.' );
@@ -79,7 +78,7 @@ export default class App {
 
   render () {
     try {
-      let color = this.board.gameOver ? this.board.winner : this.board.currentPlayerColor;
+      let color = this.board.currentPlayerColor;
       let player = color === 'red' ? this.playerRed : this.playerYellow;
       let name = player?.name || '';
 
@@ -114,7 +113,7 @@ export default class App {
 
       // Create confetti if the game is over and there's a winner
       if ( this.board.gameOver && this.board.winner ) {
-        this.createConfetti();
+        createConfetti();
       }
     } catch ( error ) {
       console.error( 'Error during rendering:', error );
@@ -182,29 +181,4 @@ export default class App {
     return `<div class="color-circle ${ colorClass }"></div>`;
   }
 
-  createConfetti () {
-    const confettiContainer = document.getElementById( 'confetti-container' );
-    confettiContainer.innerHTML = '';
-
-    const numConfetti = 150;
-    for ( let i = 0; i < numConfetti; i++ ) {
-      const confetti = document.createElement( 'div' );
-      confetti.classList.add( 'confetti' );
-      confetti.style.left = `${ Math.random() * 100 }vw`;
-      confetti.style.top = `${ Math.random() * 100 }vh`;
-      confetti.style.backgroundColor = this.getRandomColor();
-      confetti.style.width = `${ Math.random() * 10 + 10 }px`;
-      confetti.style.height = confetti.style.width;
-      confettiContainer.appendChild( confetti );
-    }
-
-    setTimeout( () => {
-      confettiContainer.innerHTML = '';
-    }, 5000 );
-  }
-
-  getRandomColor () {
-    const colors = [ '#8CC0E6', '#FFD700', '#C0C0C0', '#FFA500', '#4CAF50', '#9C27B0', '#F48FB1', '#2196F3', '#4DB6AC', '#FFEB3B', '#8D6E63', '#03A9F4', '#E1BEE7' ];
-    return colors[ Math.floor( Math.random() * colors.length ) ];
-  }
 }
