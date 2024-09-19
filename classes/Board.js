@@ -105,7 +105,7 @@ export default class Board {
     // Iterate through rows from bottom to top to find the first empty slot
     for ( let r = this.matrix.length - 1; r >= 0; r-- ) {
       if ( this.matrix[ r ][ column ].color === ' ' ) {
-        this.matrix[ r ][ column ].color = this.currentPlayerColor;
+        this.matrix[ r ][ column ].color = color;
         console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
 
         console.log( this.matrix );
@@ -118,9 +118,9 @@ export default class Board {
         // change the current player color, if the game is not over
 
         // *** Add logs for game status ***
-        console.log( `Winner: ${ this.winner }` );
-        console.log( `Is a draw: ${ this.isADraw }` );
-        console.log( `Game over: ${ this.gameOver }` );
+        // console.log( `Winner: ${ this.winner }` );
+        // console.log( `Is a draw: ${ this.isADraw }` );
+        // console.log( `Game over: ${ this.gameOver }` );
 
         !this.gameOver
           && ( this.currentPlayerColor = this.currentPlayerColor === 'red' ? 'yellow' : 'red' );
@@ -130,6 +130,7 @@ export default class Board {
         return true;
       }
     }
+
     return false;  // No valid move made
   }
 
@@ -147,6 +148,7 @@ export default class Board {
 
   // note: this does nothing if the player is a human
   async initiateBotMove () {
+    console.log( 'initiateBotMove is called' )
     // get the current player
     let player = this.currentPlayerColor === 'red' ? this.app.playerRed : this.app.playerYellow;
     // if the game isn't over and the player exists and the player is non-human / a bot
