@@ -17,6 +17,10 @@ export default class App {
       if ( playerRed && playerYellow ) {
         this.playerRed = playerRed;
         this.playerYellow = playerYellow;
+        // update players so that they know about the new borard
+        this.playerRed.board = this.board;
+        this.playerYellow.board = this.board;
+        // start the new game
         this.namesEntered = true;
         this.board.initiateBotMove();
         console.log( 'Constructor: playerRed and playerYellow set directly' );
