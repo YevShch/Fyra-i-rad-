@@ -47,8 +47,8 @@ export default class WinChecker {
   // Check if there is a winning combo on the board
   winCheck() {
     for (let winCombo of this.winCombos) {
-      if (winCombo.isWin('X')) { this.board.winningCombo = winCombo; return 'X'; }
-      if (winCombo.isWin('O')) { this.board.winningCombo = winCombo; return 'O'; }
+      if (winCombo.isWin('red')) { this.board.winningCombo = winCombo; return 'red'; }
+      if (winCombo.isWin('yellow')) { this.board.winningCombo = winCombo; return 'yellow'; }
     }
     return false;
   }
