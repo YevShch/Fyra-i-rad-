@@ -51,7 +51,7 @@ export default class App {
         await sleep( 500 );
         playerType = await this.dialog.ask(
           `Which type of player is ${ playerName }?`,
-          [ 'Human', 'A dumb bot', 'A smart bot', 'External AI' ]
+          [ 'Human', 'A dumb bot', 'A smart bot' ]
         )
       }
 
