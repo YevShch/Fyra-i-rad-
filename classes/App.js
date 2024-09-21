@@ -23,6 +23,7 @@ export default class App {
         // start the new game
         this.namesEntered = true;
         this.board.initiateBotMove();
+      
         console.log( 'Constructor: playerRed and playerYellow set directly' );
       } else {
         // enter new players
@@ -50,7 +51,7 @@ export default class App {
         await sleep( 500 );
         playerType = await this.dialog.ask(
           `Which type of player is ${ playerName }?`,
-          [ 'Human', 'A dumb bot', 'A smart bot' ]
+          [ 'Human', 'A dumb bot', 'A smart bot', 'External AI' ]
         )
       }
 

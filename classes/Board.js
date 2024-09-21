@@ -10,6 +10,9 @@ export default class Board {
       [ ...new Array( 7 ) ].map( ( _, columnIndex ) =>
         new Cell( rowIndex, columnIndex )
       ) );
+    // implement for testing
+    this.movesHistory = [];
+    // this.movesHistory = { red: [], yellow: [] };
     // create a new winChecker
     this.winChecker = new WinChecker( this );
     // currentPlayer, whose turn is it?
@@ -107,14 +110,22 @@ export default class Board {
       if ( this.matrix[ r ][ column ].color === ' ' ) {
         this.matrix[ r ][ column ].color = color;
         console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
+      
+        this.movesHistory.push( column + 1 );
 
-        console.log( this.matrix );
+        // console.log( this.matrix );
 
         // check if someone has won or if it's a draw/tie and update properties
         this.winner = this.winCheck();
         this.isADraw = this.drawCheck();
         // the game is over if someone has won or if it's a draw
         this.gameOver = this.winner || this.isADraw;
+
+        // add number of column after move
+        // let playedColumn = column + 1; // Convert 0-indexed number to 1-indexed
+        // this.stateMoves.push( playedColumn ); //Save the column number to an array
+
+        console.log( 'MovesHistory array:', this.movesHistory );
         // change the current player color, if the game is not over
 
         // *** Add logs for game status ***
