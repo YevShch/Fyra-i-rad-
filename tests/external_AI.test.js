@@ -56,7 +56,10 @@ test( 'Check that system can play with external AI', async () => {
   // Wait for the winning message
   try {
     await waitUntil( () => body.querySelector( 'main p' ).textContent.includes( 'Smarty won!' ), 500 );
+    const winningMessage = body.querySelector( 'main p' ).innerText;
+    expect( winningMessage).toContain( 'Smarty won!' );
     console.log( 'Winning message is shown.' );
+    expect()
   } catch ( error ) {
     console.error( 'Error waiting for winning message:', error );
   }
