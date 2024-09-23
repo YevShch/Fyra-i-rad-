@@ -9,7 +9,6 @@ globalThis.mockMinimalSleep = true;
 
 test( "Test the performance of a smart bot by comparing it to an external AI at level 1", async () => {
 
- 
     let { body } = getDocument();
 
     globalThis.mockAnswers = [ 'Smarty', 'A smart bot', 'AI', 'External AI' ];
