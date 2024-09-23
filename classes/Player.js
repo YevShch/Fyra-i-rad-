@@ -28,23 +28,22 @@ export default class Player {
   }
 
 
-  async makeExternAIBotMove() {
-    console.log('External AI has been called');
-    const aiLevel = globalThis.aiLevel;
-    console.log('External AI level is:', aiLevel);
+   async makeExternAIBotMove () {
+    console.log( 'External AI has been called' );
+     const aiLevel = globalThis.aiLevel; 
+     console.log( 'External AI level is:', aiLevel );
 
     const stateString = this.generateStateString(); // Method to generate the game state string
-
+   
 
     // Get the column for a move from the external AI
-    const column = await getMoveFromExternalAI(aiLevel, stateString);
+    const column =  await getMoveFromExternalAI( aiLevel, stateString );
 
-    console.log(`Generated move by External AI: column ${column}`);
+    console.log( `Generated move by External AI: column ${ column }` );
 
     // Return the column
     return column - 1;
   }
-
 
   generateStateString () {
     let state = ' ';
