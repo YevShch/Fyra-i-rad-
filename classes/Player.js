@@ -27,14 +27,14 @@ export default class Player {
    
   }
 
-  
 
    async makeExternAIBotMove () {
     console.log( 'External AI has been called' );
-   
+     const aiLevel = globalThis.aiLevel; 
+     console.log( 'External AI level is:', aiLevel );
 
     const stateString = this.generateStateString(); // Method to generate the game state string
-    const aiLevel = 3; // AI level
+   
 
     // Get the column for a move from the external AI
     const column =  await getMoveFromExternalAI( aiLevel, stateString );
@@ -63,11 +63,11 @@ export default class Player {
   }
 
   makeSmartBotMove () {
-    console.log( 'Matrix BEFORE a temporary move', this.board.matrix );
+    // console.log( 'Matrix BEFORE a temporary move', this.board.matrix );
 
     // orgState - the current state on the board
     let orgState = this.state();
-    console.log( 'Current state', orgState );
+    // console.log( 'Current state', orgState );
 
     // store scores for each possible move in scores
     let scores = [];
