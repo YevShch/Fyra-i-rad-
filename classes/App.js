@@ -51,8 +51,15 @@ export default class App {
         await sleep( 500 );
         playerType = await this.dialog.ask(
           `Which type of player is ${ playerName }?`,
-          [ 'Human', 'A dumb bot', 'A smart bot' ]
+          [ 'Human', 'A dumb bot', 'A smart bot', 'External AI' ]
         )
+        if ( playerType === 'External AI' ) {
+          const aiLevel = await this.dialog.ask(
+            `Which AI level for ${ playerName }?`,
+            [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10' ]
+          );
+          console.log( `AI level chosen: ${ aiLevel }` );
+        }
       }
 
       // Create a player object
