@@ -159,7 +159,6 @@ export default class Board {
 
   // note: this does nothing if the player is a human
   async initiateBotMove () {
-    console.log('initiateBotMove is called')
     // get the current player
     let player = this.currentPlayerColor === 'red' ? this.app.playerRed : this.app.playerYellow;
     // if the game isn't over and the player exists and the player is non-human / a bot
