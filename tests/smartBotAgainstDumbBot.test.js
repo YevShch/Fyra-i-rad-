@@ -37,8 +37,8 @@ test("Test if Smart Bot always wins against Dumb Bot", async () => {
   expect(app.playerRed.name).toBe('SmartBot');
   expect(app.playerYellow.name).toBe('DumbBot');
 
-  // Play 3 matches between Smart Bot and Dumb Bot
-  for (let match = 1; match <= 3; match++) {
+  // Play 5 matches between Smart Bot and Dumb Bot
+  for (let match = 1; match <= 5; match++) {
     console.log(`\n=== Match ${match} starts ===`);
 
     let gameOver = false;
