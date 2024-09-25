@@ -16,6 +16,7 @@
 
 
 export async function getMoveFromExternalAI ( aiLevel = ' ', state ) {
+  console.log( "AI level from a request: ", aiLevel );
   // Fetch data about possible moves from the external AI
   let response = await ( await fetch( 'https://ludolab.net/solve/connect4?level=' + aiLevel + '&position=' + state ) ).json();
 
@@ -35,7 +36,7 @@ export async function getMoveFromExternalAI ( aiLevel = ' ', state ) {
   if ( blockingMove && aiLevel >= 4 ) {
     // If there's a blocking move and the AI is "smart" (level 4+), prioritize blocking the opponent
     chosenMove = blockingMove.move;
-  } else if ( aiLevel >= 10 ) {
+  } else if ( aiLevel === 10 ) {
     // For level 10, always select the best possible move
     chosenMove = movesSortedByHowGood[ 0 ].move;
   } else if ( aiLevel >= 7 && aiLevel <= 9 ) {

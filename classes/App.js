@@ -24,7 +24,6 @@ export default class App {
         this.namesEntered = true;
         this.board.initiateBotMove();
       
-        console.log( 'Constructor: playerRed and playerYellow set directly' );
       } else {
         // enter new players
         this.askForNamesAndTypes();

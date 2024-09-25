@@ -116,7 +116,7 @@ export default class Board {
     for ( let r = this.matrix.length - 1; r >= 0; r-- ) {
       if ( this.matrix[ r ][ column ].color === ' ' ) {
         this.matrix[ r ][ column ].color = color;
-        console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
+        // console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
 
         this.movesHistory.push( column + 1 );
 
@@ -125,7 +125,9 @@ export default class Board {
         // check if someone has won or if it's a draw/tie and update properties
         this.winner = this.winCheck();
 
-        console.log( "Winnings combo: ", this.winningCombo );
+        console.log("Vinner: ", this.winner)
+
+        // console.log( "Winnings combo: ", this.winningCombo );
 
         this.isADraw = this.drawCheck();
         // the game is over if someone has won or if it's a draw

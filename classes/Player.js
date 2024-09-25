@@ -30,10 +30,10 @@ export default class Player {
 
 
    async makeExternAIBotMove () {
-    console.log( 'External AI has been called' );
+    // console.log( 'External AI has been called' );
      // Use the player's own aiLevel
      const aiLevel = this.aiLevel;
-     console.log( 'External AI level is:', aiLevel );
+    //  console.log( 'External AI level is:', aiLevel );
 
     const stateString = this.generateStateString(); // Method to generate the game state string
    
@@ -41,7 +41,7 @@ export default class Player {
     // Get the column for a move from the external AI
     const column =  await getMoveFromExternalAI( aiLevel, stateString );
 
-    console.log( `Generated move by External AI: column ${ column }` );
+    // console.log( `Generated move by External AI: column ${ column }` );
 
     // Return the column
     return column - 1;
@@ -54,7 +54,7 @@ export default class Player {
       // Convert the movesHistory array to a string 
       state = this.board.movesHistory.join( '' );
     }
-    console.log('AI State', state)
+    // console.log('AI State', state)
     return state;
   }
 
@@ -160,7 +160,7 @@ export default class Player {
         }
       }
     }
-    console.log( 'Legal moves:', moves );
+    // console.log( 'Legal moves:', moves );
     return moves; // Return the list of legal columns
   }
 

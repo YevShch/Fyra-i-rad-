@@ -11,7 +11,7 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
 
    let { body } = getDocument();
 
-   globalThis.mockAnswers = [ 'Smarty', 'A smart bot', 'AI', 'External AI' ];
+   globalThis.mockAnswers = [ 'Smarty', 'A smart bot', 'AI', 'External AI', '1' ];
   
    let app = new App();   
 
@@ -43,7 +43,7 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
   expect( app.playerYellow.name ).toBe( 'AI' );
   
     // Initialize AI Level for the test
-    globalThis.aiLevel = 1;
+    // globalThis.aiLevel = 1;
 
   for ( let i = 0; i < 10; i++ ) {
 
@@ -52,21 +52,20 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
     while ( !gameOver ) {
 
       // Checking for the winning message
-      try {
-        await waitUntil( () => body.querySelector( 'main p' ).textContent.includes( 'won!' ), 50 );
+       try {
+         await waitUntil( () => body.querySelector( 'main p' ).textContent.includes( 'won!' ), 50 );
         const winningMessage = body.querySelector( 'main p' ).innerText;
         expect( winningMessage ).toContain( 'won!' );
         console.log( 'Winning message is shown:', winningMessage );
         gameOver = true;
 
-        if ( this.winner === 'red' ) {
-          smartBotWins += 1;
-         
-        }
+         if ( winningMessage.includes( 'Smarty won!' ) ) {
+           smartBotWins += 1;
+         }
       
       } catch ( error ) {
         // If no winning message is found, continue the game
-        console.log( 'No winner yet, continuing...' );
+        // console.log( 'No winner yet, continuing...' );
       }
     }
 
