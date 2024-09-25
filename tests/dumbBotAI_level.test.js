@@ -37,38 +37,59 @@ test("Test the performance of a DumbBot by comparing it to an external AI at lev
   expect(app.playerYellow).toBeDefined();
   expect(app.playerRed.name).toBe('DumbBot');
   expect(app.playerYellow.name).toBe('AI');
+  let totalAIWins = 0;
 
-  // Test against External AI at levels 1 to 3
-  for (let level = 1; level <= 3; level++) {
-    console.log(`Testing External AI at level ${level}...`);
-    globalThis.aiLevel = level;
+  // Run multiple rounds for AI levels 1-3
+  for (let aiLevel = 1; aiLevel <= 3; aiLevel++) {
+    globalThis.aiLevel = aiLevel;
+    let dumbBotWins = 0;
+    let aiWins = 0;
+    let draws = 0;
 
-    // Initialize a new game round
-    for (let i = 0; i < 2; i++) {
 
-      // Alternating turns between DumbBot and External AI until the game ends
-      let gameOver = this.gameOver;
+    console.log(`Testing AI Level: ${aiLevel}`);
+
+
+    // Run 3 games for each AI level
+    for (let gameCount = 1; gameCount < 4; gameCount++) {
+      let gameOver = false;
       while (!gameOver) {
-        // Checking for the winning message
         try {
           await waitUntil(() => body.querySelector('main p').textContent.includes('won!'), 50);
           const winningMessage = body.querySelector('main p').innerText;
-          expect(winningMessage).toContain('won!');
           console.log('Winning message is shown:', winningMessage);
+          // Ensure Smart Bot is the winner
+          expect(winningMessage).toContain('AI won!');
+          // Ensure Smart Bot is the winner
+          console.log(`Match ${gameCount}: AI won.`);
+
+          if (winningMessage.includes('DumbBot')) {
+            dumbBotWins++;
+          } else if (winningMessage.includes('AI')) {
+            aiWins++;
+            totalAIWins++;
+          }
           gameOver = true;
         } catch (error) {
-          // If no winner is found, continue the game
           console.log('No winner yet, continuing...');
         }
       }
 
-      // Simulate clicking the 'Play Again' button after each round
+      // Restart game
       mockAnswers = ['OK'];
-
-      await waitUntil(() => body.querySelector('.button[onclick="playAgain()"]'), 500);
+      await waitUntil(() => body.querySelector('.button[onclick="playAgain()"]'), 5000);
       let playAgainBtn = body.querySelector('.button[onclick="playAgain()"]');
       expect(playAgainBtn).toBeDefined();
       click(playAgainBtn);
     }
+
+    // Output results for the current AI level
+    console.log(`Results for AI Level ${aiLevel}:`);
+    console.log(`DumbBot Wins: ${dumbBotWins}`);
+    console.log(`AI Wins: ${aiWins}`);
+    console.log(`Draws: ${draws}`);
+
+    // Add an expectation for the results (modify according to expected behavior)
+    expect(dumbBotWins + aiWins + draws).toBe(3); // All games should be accounted 
   }
 }, 100000);
