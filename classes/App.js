@@ -42,6 +42,7 @@ export default class App {
       const okName = name => name.match( /[a-zåäöA-ZÅÄÖ]{2,}/ );
       let playerName = '';
       let playerType = '';
+      let aiLevel = null; // To store the AI level for external AI
       // Request the player's name until it is valid
       while ( !okName( playerName ) ) {
         const promptHtml = `
@@ -54,16 +55,17 @@ export default class App {
           [ 'Human', 'A dumb bot', 'A smart bot', 'External AI' ]
         )
         if ( playerType === 'External AI' ) {
-          const aiLevel = await this.dialog.ask(
+            aiLevel = await this.dialog.ask(
             `Which AI level for ${ playerName }?`,
             [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10' ]
           );
-          console.log( `AI level chosen: ${ aiLevel }` );
+          aiLevel = parseInt( aiLevel );
+          console.log( `AI level chosen for ${ playerName }: ${ aiLevel }` );
         }
       }
 
       // Create a player object
-      this[ `player${ color.charAt( 0 ).toUpperCase() + color.slice( 1 ) }` ] = new Player( playerName, playerType, color, this.board );
+      this[ `player${ color.charAt( 0 ).toUpperCase() + color.slice( 1 ) }` ] = new Player( playerName, playerType, color, this.board, aiLevel );
       console.log( `Created ${ color } player: ${ playerName }` );
 
       // If the red player's name is entered, prompt for the yellow player's name

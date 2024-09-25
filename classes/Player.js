@@ -3,12 +3,13 @@ import sleep from './helpers/sleep.js';
 import { getMoveFromExternalAI } from "./helpers/miner.js";
 
 export default class Player {
-  constructor ( name, type, color, board ) {
+  constructor ( name, type, color, board, aiLevel = null ) {
     this.name = name;
     this.type = type;
     this.color = color;
     this.opponent = this.color === 'red' ? 'yellow' : 'red'; // Determine opponent color
     this.board = board;
+    this.aiLevel = aiLevel; // Add aiLevel property to store AI level for External AI players
   }
 
   async makeBotMove () {
@@ -30,7 +31,8 @@ export default class Player {
 
    async makeExternAIBotMove () {
     console.log( 'External AI has been called' );
-     const aiLevel = globalThis.aiLevel; 
+     // Use the player's own aiLevel
+     const aiLevel = this.aiLevel;
      console.log( 'External AI level is:', aiLevel );
 
     const stateString = this.generateStateString(); // Method to generate the game state string
