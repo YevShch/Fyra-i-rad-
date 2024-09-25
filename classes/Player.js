@@ -12,7 +12,6 @@ export default class Player {
   }
 
   async makeBotMove () {
-    console.log( 'makeBotMove has been called' );
     await sleep( 500 ); // Delay for bot's "thinking" to simulate human-like behavior
     let column;
     if ( this.type === 'A dumb bot' ) {

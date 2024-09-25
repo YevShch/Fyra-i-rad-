@@ -60,26 +60,33 @@ export default class Board {
       this.gameOver ? '' : this.currentPlayerColor );
     document.body.setAttribute( 'gameInProgress',
       this.app.namesEntered && !this.gameOver );
-    
-    // Render the game board as HTML
-    return /*html*/`<div class="board">
-      ${ this.matrix.map( ( row, rowIndex ) =>
-      row.map( ( cell, columnIndex ) => /*html*/`
-          <div
-           class="cell ${ cell.color === 'red' ? 'red' : ( cell.color === 'yellow' ? 'yellow' : 'empty' ) }"
-                 ${ this.winningCombo && this.winningCombo.cells.find(
-                   cell => cell.row === rowIndex && cell.column === columnIndex
-                 ) ? 'winning-cell' : '' }
-            data-column="${ columnIndex }"
-            onmouseover="showPreview(${ columnIndex })"
-            onmouseout="hidePreview(${ columnIndex })"
-            onclick="makeMoveOnClick(${ columnIndex })">
-            <div class="circle"></div>
-          </div>
-        `).join( '' ) ).join( '' ) }
-    </div>`;
-}
    
+  
+      // Render the game board as HTML
+      return /*html*/`<div class="board">
+      ${ this.matrix.map( ( row, rowIndex ) =>
+        row.map( ( cell, columnIndex ) => {
+          // Find if the current cell is in a winning combination
+          const isWinningCell = this.winningCombo && this.winningCombo.cells.find(
+            winningCell => winningCell.row === rowIndex && winningCell.column === columnIndex
+          );
+
+          return /*html*/`
+            <div
+              class="cell ${ cell.color === 'red' ? 'red' : ( cell.color === 'yellow' ? 'yellow' : 'empty' ) } 
+                         ${ isWinningCell ? 'winning-cell' : '' }"
+              data-column="${ columnIndex }"
+              onmouseover="showPreview(${ columnIndex })"
+              onmouseout="hidePreview(${ columnIndex })"
+              onclick="makeMoveOnClick(${ columnIndex })">
+              <div class="circle"></div>
+            </div>
+          `;
+        } ).join( '' )
+      ).join( '' ) }
+    </div>`;
+    }
+
 
   makeMove ( color, column, fromClick ) {
     let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
@@ -117,6 +124,9 @@ export default class Board {
 
         // check if someone has won or if it's a draw/tie and update properties
         this.winner = this.winCheck();
+
+        console.log( "Winnings combo: ", this.winningCombo ); 
+
         this.isADraw = this.drawCheck();
         // the game is over if someone has won or if it's a draw
         this.gameOver = this.winner || this.isADraw;
@@ -159,7 +169,6 @@ export default class Board {
 
   // note: this does nothing if the player is a human
   async initiateBotMove () {
-    console.log('initiateBotMove is called')
     // get the current player
     let player = this.currentPlayerColor === 'red' ? this.app.playerRed : this.app.playerYellow;
     // if the game isn't over and the player exists and the player is non-human / a bot
