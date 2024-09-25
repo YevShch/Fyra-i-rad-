@@ -1,67 +1,73 @@
-import Player from './Player.js';
-import Board from './Board.js'; // Assuming you have a Board class that handles the game logic
-import sleep from './helpers/sleep.js';
+import { expect, test } from 'vitest';
+import getDocument from './helpers/mock-help/getDocument.js';
+import click from './helpers/mock-help/triggerOnclick.js';
+import waitUntil from './helpers/mock-help/waitUntil.js';
+import App from '../classes/App.js';
 
-class Game {
-  constructor() {
-    this.board = new Board(); // Yeni bir oyun tahtası oluştur
-    this.smartBot = new Player('Smart Bot', 'A smart bot', 'red', this.board); // Smart Bot tanımlandı
-    this.dumbBot = new Player('Dumb Bot', 'A dumb bot', 'yellow', this.board); // Dumb Bot tanımlandı
+// Minimize the sleep duration (see classes/helpers/sleep.js)
+globalThis.mockMinimalSleep = true;
+
+test("Test if Smart Bot always wins against Dumb Bot", async () => {
+  let { body } = getDocument();
+
+  // Set player names and types: Smart Bot vs Dumb Bot
+  globalThis.mockAnswers = ['SmartBot', 'A smart bot', 'DumbBot', 'A dumb bot'];
+  let app = new App();
+
+  try {
+    await waitUntil(() => app.namesEntered, 500);
+    console.log('Names entered.');
+  } catch (error) {
+    console.error('Error while waiting for namesEntered:', error);
   }
 
-  async playMatch() {
-    this.board.reset(); // Her maçın başında oyun tahtasını sıfırlayın
+  // Check if the "Waiting for player names..." message has disappeared
+  try {
+    await waitUntil(() =>
+      !body.querySelector('main p').innerText.includes('Waiting for player names...'), 500
+    );
+    console.log('Player names successfully received.');
+  } catch (error) {
+    console.error('Error while waiting for player names:', error);
+  }
 
-    let currentPlayer = this.smartBot; // İlk hamleyi Smart Bot yapsın
+  // Ensure the players are correctly created
+  expect(app.playerRed).toBeDefined();
+  expect(app.playerYellow).toBeDefined();
+  expect(app.playerRed.name).toBe('SmartBot');
+  expect(app.playerYellow.name).toBe('DumbBot');
+
+  // Play 3 matches between Smart Bot and Dumb Bot
+  for (let match = 1; match <= 3; match++) {
+    console.log(`\n=== Match ${match} starts ===`);
+
     let gameOver = false;
 
+    // Players take turns making moves until the game is over
     while (!gameOver) {
-      await currentPlayer.makeBotMove(); // Sıradaki oyuncunun hamlesini yap
-      gameOver = this.board.isGameOver(); // Oyun bitmiş mi kontrol et
-      currentPlayer = currentPlayer === this.smartBot ? this.dumbBot : this.smartBot; // Sıra diğer oyuncuya geçsin
-      await sleep(500); // Oyunun hızını ayarlamak için bir gecikme ekleyin (daha insana yakın simülasyon)
+      // Loop through moves
+      try {
+        await waitUntil(() => body.querySelector('main p').textContent.includes('won!'), 50);
+        const winningMessage = body.querySelector('main p').innerText;
+        console.log('Winning message:', winningMessage);
+
+        // Ensure Smart Bot is the winner
+        expect(winningMessage).toContain('SmartBot won!');
+        console.log(`Match ${match}: Smart Bot won.`);
+        gameOver = true; // The game is over
+      } catch (error) {
+        // If there's no winner yet, continue the game
+        console.log('No winner yet, game continues...');
+      }
     }
 
-    return this.board.getWinner(); // Kazananı geri döndürün ('red' Smart Bot, 'yellow' Dumb Bot)
-  }
-}
-
-async function testBots() {
-  let smartBotWins = 0;
-  const numberOfMatches = 5;  // 5 maç oynanacak
-
-  console.log(`Test başlatılıyor: Smart Bot vs Dumb Bot - ${numberOfMatches} maç.`);
-
-  for (let i = 0; i < numberOfMatches; i++) {
-    console.log(`\n=== Maç ${i + 1} ===`);
-    const game = new Game();
-    const winner = await game.playMatch();
-
-    if (winner === 'red') {
-      smartBotWins++;
-      console.log(`Smart Bot ${i + 1}. maçı kazandı.`);
-    } else if (winner === 'yellow') {
-      console.log(`Beklenmeyen sonuç: Dumb Bot ${i + 1}. maçı kazandı. Test başarısız!`);
-      return; // Eğer Dumb Bot kazanırsa, testi erken sonlandır
-    } else {
-      console.log(`Maç ${i + 1} berabere bitti. Test başarısız!`);
-      return; // Eğer beraberlik olursa testi erken sonlandır
-    }
-
-    // Bir sonraki maça geçmeden önce 1 saniye bekle
-    await sleep(1000);
+    // After the match ends, click the "Play Again" button to start a new game
+    globalThis.mockAnswers = ['OK'];
+    await waitUntil(() => body.querySelector('.button[onclick="playAgain()"]'), 500);
+    let playAgainBtn = body.querySelector('.button[onclick="playAgain()"]');
+    expect(playAgainBtn).toBeDefined();
+    click(playAgainBtn); // Clicks the "Play Again" button
   }
 
-  console.log(`\nTest Sonuçları:`);
-  console.log(`Smart Bot, ${numberOfMatches} maçın tamamını kazandı.`);
-
-  // Smart Bot'un tüm oyunları kazanıp kazanmadığını kontrol edin
-  if (smartBotWins === numberOfMatches) {
-    console.log('Smart Bot tüm maçları kazandı. Test başarılı.');
-  } else {
-    console.log('Smart Bot tüm maçları kazanmadı. Test başarısız.');
-  }
-}
-
-// Testi başlat
-testBots();
+  console.log('\nAll matches are over, Smart Bot won all matches.');
+}, 100000);
