@@ -12,7 +12,6 @@ export default class Board {
       ) );
     // implement for testing
     this.movesHistory = [];
-    // this.movesHistory = { red: [], yellow: [] };
     // create a new winChecker
     this.winChecker = new WinChecker( this );
     // currentPlayer, whose turn is it?
@@ -120,7 +119,6 @@ export default class Board {
       
         this.movesHistory.push( column + 1 );
 
-        // console.log( this.matrix );
 
         // check if someone has won or if it's a draw/tie and update properties
         this.winner = this.winCheck();
@@ -131,17 +129,8 @@ export default class Board {
         // the game is over if someone has won or if it's a draw
         this.gameOver = this.winner || this.isADraw;
 
-        // add number of column after move
-        // let playedColumn = column + 1; // Convert 0-indexed number to 1-indexed
-        // this.stateMoves.push( playedColumn ); //Save the column number to an array
-
         console.log( 'MovesHistory array:', this.movesHistory );
-        // change the current player color, if the game is not over
 
-        // *** Add logs for game status ***
-        // console.log( `Winner: ${ this.winner }` );
-        // console.log( `Is a draw: ${ this.isADraw }` );
-        // console.log( `Game over: ${ this.gameOver }` );
 
         !this.gameOver
           && ( this.currentPlayerColor = this.currentPlayerColor === 'red' ? 'yellow' : 'red' );

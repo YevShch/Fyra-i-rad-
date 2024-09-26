@@ -28,9 +28,8 @@ export default class Player {
 
 
    async makeExternAIBotMove () {
-    console.log( 'External AI has been called' );
      const aiLevel = globalThis.aiLevel; 
-     console.log( 'External AI level is:', aiLevel );
+    //  console.log( 'External AI level is:', aiLevel );
 
     const stateString = this.generateStateString(); // Method to generate the game state string
    
@@ -38,7 +37,7 @@ export default class Player {
     // Get the column for a move from the external AI
     const column =  await getMoveFromExternalAI( aiLevel, stateString );
 
-    console.log( `Generated move by External AI: column ${ column }` );
+    // console.log( `Generated move by External AI: column ${ column }` );
 
     // Return the column
     return column - 1;
@@ -51,19 +50,16 @@ export default class Player {
       // Convert the movesHistory array to a string 
       state = this.board.movesHistory.join( '' );
     }
-    console.log('AI State', state)
+    // console.log('AI State', state)
     return state;
   }
 
   makeDumbBotMove () {
-    console.log(' makeDumbBotMove was called')
     // Randomly select a legal move
     return [ shuffleArray( this.legalMoves )[ 0 ] ];
   }
 
   makeSmartBotMove () {
-    // console.log( 'Matrix BEFORE a temporary move', this.board.matrix );
-
     // orgState - the current state on the board
     let orgState = this.state();
     // console.log( 'Current state', orgState );
@@ -86,14 +82,10 @@ export default class Player {
 
       let cell = this.board.matrix[ row ][ column ];
       cell.color = this.color; // make temporary move
-      // console.log( 'Cell I would change', cell );
-      // console.log( 'Matrix AFTER temporary move', this.board.matrix );
+    
 
       let futureState = this.state(); // the state if we made this move
       cell.color = ' '; // undo temporary move
-
-      // console.log( 'IF I MADE THE MOVE', column );
-      // console.log( 'THE NEW STATE WOULD BE', futureState );
 
       // remember the score for this possible move
       scores.push( { column, score: this.score( orgState, futureState ) } );
@@ -127,11 +119,9 @@ export default class Player {
       // winCombo can't be won by either player (both already have pieces in place)
       if ( b.me > 0 && b.opp > 0 ) { continue; }
       // there has been change in this winCombo, so I must have added a piece
+      
       let partScore = '';
-      // partScore is how good the move is for ONE winCombo
-      // partScore will become number of different priorities x 2 long
-      // initially it is a string, but we will convert to a number before
-      // adding to the total score
+     
       for ( let j = 0; j < priorities.length; j++ ) {
         let key = Object.keys( priorities[ j ] )[ 0 ];
         let value = priorities[ j ][ key ];
@@ -157,7 +147,7 @@ export default class Player {
         }
       }
     }
-    console.log( 'Legal moves:', moves );
+    // console.log( 'Legal moves:', moves );
     return moves; // Return the list of legal columns
   }
 

@@ -23,8 +23,6 @@ export default class App {
         // start the new game
         this.namesEntered = true;
         this.board.initiateBotMove();
-      
-        console.log( 'Constructor: playerRed and playerYellow set directly' );
       } else {
         // enter new players
         this.askForNamesAndTypes();
@@ -63,7 +61,6 @@ export default class App {
       if ( color === 'red' ) { this.askForNamesAndTypes( 'yellow' ); return; }
      
         // Once both names are entered, set the flag and re-render 
-        console.log( 'Both players registered' );
         this.namesEntered = true;
         this.render();  // Re-render with names and player details
         this.board.initiateBotMove();
