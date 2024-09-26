@@ -9,14 +9,15 @@ globalThis.mockMinimalSleep = true;
 
 test( "Test the performance of a smart bot by comparing it to an external AI at level 1", async () => {
 
-   let { body } = getDocument();
+  let { body } = getDocument();
 
-   globalThis.mockAnswers = [ 'Smarty', 'A smart bot', 'AI', 'External AI' ];
-  
-   let app = new App();   
+  globalThis.mockAnswers = [ 'Smarty', 'A smart bot', 'AI', 'External AI' ];
+
+  let app = new App();
 
   // counter for smart bot's wins
-   let smartBotWins = 0;
+  let smartBotWins = 0;
+  let totalDraw = 0;
 
   // Waiting for player names to be entered
   try {
@@ -41,33 +42,39 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
   expect( app.playerYellow ).toBeDefined();
   expect( app.playerRed.name ).toBe( 'Smarty' );
   expect( app.playerYellow.name ).toBe( 'AI' );
-  
-    // Initialize AI Level for the test
-    globalThis.aiLevel = 1;
+
+  // Initialize AI Level for the test
+  globalThis.aiLevel = 1;
+
 
   for ( let i = 0; i < 10; i++ ) {
 
     // Alternating turns between players until someone wins
     let gameOver = this.gameOver;
     while ( !gameOver ) {
+      // Waiting for a win or draw message
+      await waitUntil( () => {
+        const message = body.querySelector( 'main p' ).textContent;
+        return message.includes( 'won!' ) || message.includes( "It's a tie" );
+      }, 50 );
 
-      // Checking for the winning message
-      try {
-        await waitUntil( () => body.querySelector( 'main p' ).textContent.includes( 'won!' ), 50 );
-        const winningMessage = body.querySelector( 'main p' ).innerText;
-        expect( winningMessage ).toContain( 'won!' );
-        console.log( 'Winning message is shown:', winningMessage );
+      const gameOverMessage = body.querySelector( 'main p' ).innerText;
+
+      if ( gameOverMessage.includes( 'won!' ) || gameOverMessage.includes( "It's a tie" ) ) {
+        console.log( 'Game over message is shown:', gameOverMessage );
         gameOver = true;
 
-        if ( winningMessage.includes( 'Smarty won!' ) ) {
+        // Checking who won
+        if ( gameOverMessage.includes( 'Smarty won!' ) ) {
           smartBotWins += 1;
         }
-      
-      } catch ( error ) {
-        // If no winning message is found, continue the game
-        console.log( 'No winner yet, continuing...' );
+        else if ( gameOverMessage.includes( "It's a tie..." ) ) {
+          totalDraw += 1;
+        }
+      } else {
+        // console.log( 'No winner yet, continuing...' );
       }
-    }
+    }  
 
     // mock answer to click OK button after "Replay" button
     mockAnswers = [ 'OK' ];
@@ -78,18 +85,15 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
     expect( playAgainBtn ).toBeDefined();
     click( playAgainBtn );
   }
-  
-  console.log( "Total smart bot wins:", smartBotWins )
+
+  console.log( "Total smart bot wins:", smartBotWins );
+  console.log( "Draws total:", totalDraw )
 
   //Check that the smart bot won at least 5 times in 10 rounds
   expect( smartBotWins ).toBeGreaterThanOrEqual( 5 );
-  console.log("PASS: smart bot won at least 5 times in 10 round and its performance is better than the external AI at level 1.")
+  console.log( "PASS: smart bot won at least 5 times in 10 round and its performance is better than the external AI at level 1." )
 
 }, 500000 ); 
-
-
-
-
 
 
 
