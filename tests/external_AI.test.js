@@ -50,7 +50,7 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
   for ( let i = 0; i < 10; i++ ) {
 
     // Alternating turns between players until someone wins
-    let gameOver = this.gameOver;
+    let gameOver = false;
     while ( !gameOver ) {
       // Waiting for a win or draw message
       await waitUntil( () => {
