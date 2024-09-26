@@ -59,9 +59,8 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
         console.log( 'Winning message is shown:', winningMessage );
         gameOver = true;
 
-        if ( this.winner === 'red' ) {
+        if ( winningMessage.includes( 'Smarty won!' ) ) {
           smartBotWins += 1;
-         
         }
       
       } catch ( error ) {
