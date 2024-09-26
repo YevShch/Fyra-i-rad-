@@ -91,3 +91,4 @@ test("Test the performance of a DumbBot by comparing it to an external AI at lev
     expect(dumbBotWins + aiWins + draws).toBe(3); // All games should be accounted for
   }
 }, 100000);
+
