@@ -71,7 +71,7 @@ test("Test the performance of a DumbBot by comparing it to an external AI at lev
           }
           gameOver = true;
         } catch (error) {
-          console.log('No winner yet, continuing...');
+          // console.log('No winner yet, continuing...');
         }
       }
 
