@@ -2,54 +2,56 @@ import WinCombo from "./WinCombo.js";
 
 export default class WinChecker {
 
-  constructor(board) {
+  constructor ( board ) {
     this.board = board;
     this.matrix = board.matrix;
-    // 69 different winCombos for Connect-4
     this.winCombos = [];
     this.calculateWinCombos();
   }
 
-  // Calculate all the win combos for Connect-4
-  calculateWinCombos() {
+
+  // calculate all the win combos once and remember them
+  // this programming pattern is called memoization
+  // (and helps save processing power / speeds up the program)
+  calculateWinCombos () {
     // m - a short alias for this.matrix
     let m = this.matrix;
-    // Represent ways you can win as offset from ONE position on the board
-    // For Connect-4, we need to check for horizontal, vertical and two diagonal directions
+    // represent ways you can win as offset from ONE position on the board
     let offsets = [
-      [[0, 0], [0, 1], [0, 2], [0, 3]],  // horizontal win
-      [[0, 0], [1, 0], [2, 0], [3, 0]],  // vertical win
-      [[0, 0], [1, 1], [2, 2], [3, 3]],  // diagonal 1 (from top-left to bottom-right)
-      [[0, 0], [1, -1], [2, -2], [3, -3]] // diagonal 2 (from top-right to bottom-left)
+      [ [ 0, 0 ], [ 0, 1 ], [ 0, 2 ], [ 0, 3 ] ],  // horizontal win
+      [ [ 0, 0 ], [ 1, 0 ], [ 2, 0 ], [ 3, 0 ] ],  // vertical win
+      [ [ 0, 0 ], [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ],  // diagonal win (from bottom left to top right)
+      [ [ 0, 0 ], [ 1, -1 ], [ 2, -2 ], [ 3, -3 ] ] // diagonal win (from top left to bottom right)
     ];
-
-    // Loop through the board to find all winCombos
+    // loop through the board to find all winCombos
 
     // r = row, c = column
-    for (let r = 0; r < m.length; r++) {
-      for (let c = 0; c < m[0].length; c++) {
-        // ro = row offset, co = column offset
-        for (let winType of offsets) {
+    for ( let r = 0; r < m.length; r++ ) {
+      for ( let c = 0; c < m[ 0 ].length; c++ ) {
+  
+        for ( let winType of offsets ) {
           let combo = [];
-          for (let [ro, co] of winType) {
-            if (r + ro < 0 || r + ro >= m.length) { continue; }
-            if (c + co < 0 || c + co >= m[0].length) { continue; }
-            combo.push(m[r + ro][c + co]);
+          for ( let [ ro, co ] of winType ) {
+            if ( r + ro < 0 || r + ro >= m.length ) { continue; }
+            if ( c + co < 0 || c + co >= m[ 0 ].length ) { continue; }
+            combo.push( m[ r + ro ][ c + co ] );
           }
-          if (combo.length === 4) {
-            this.winCombos.push(new WinCombo(combo));
+          if ( combo.length === 4 ) {
+            // console.log( 'Combo:', combo );  // Output of the combination
+            this.winCombos.push( new WinCombo( combo ) ); // save coordinate combinations
+            
           }
         }
       }
     }
   }
 
-  // Check if there is a winning combo on the board
-  winCheck() {
-    for (let winCombo of this.winCombos) {
-      if (winCombo.isWin('red')) { this.board.winningCombo = winCombo; return 'red'; }
-      if (winCombo.isWin('yellow')) { this.board.winningCombo = winCombo; return 'yellow'; }
+  winCheck () {
+    for ( let winCombo of this.winCombos ) {
+      if ( winCombo.isWin( 'red' ) ) { this.board.winningCombo = winCombo; return 'red'; }
+      if ( winCombo.isWin( 'yellow' ) ) { this.board.winningCombo = winCombo; return 'yellow'; }
     }
     return false;
   }
+
 }

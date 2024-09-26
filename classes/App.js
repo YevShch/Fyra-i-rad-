@@ -23,6 +23,7 @@ export default class App {
         // start the new game
         this.namesEntered = true;
         this.board.initiateBotMove();
+      
         console.log( 'Constructor: playerRed and playerYellow set directly' );
       } else {
         // enter new players
@@ -60,17 +61,17 @@ export default class App {
 
       // If the red player's name is entered, prompt for the yellow player's name
       if ( color === 'red' ) { this.askForNamesAndTypes( 'yellow' ); return; }
+     
+        // Once both names are entered, set the flag and re-render 
+        console.log( 'Both players registered' );
+        this.namesEntered = true;
+        this.render();  // Re-render with names and player details
+        this.board.initiateBotMove();
 
-      // Once both names are entered, set the flag and re-render 
-      console.log( 'Both players registered' );
-      this.namesEntered = true;
-      this.render();  // Re-render with names and player details
-      this.board.initiateBotMove();
-
-      // make players global for debugging
-      globalThis.playerRed = this.playerRed;
-      globalThis.playerYellow = this.playerYellow;
-
+        // make players global for debugging
+        globalThis.playerRed = this.playerRed;
+        globalThis.playerYellow = this.playerYellow;
+      
     } catch ( error ) {
       console.error( 'Error during name entry:', error );
       this.displayErrorMessage( 'An error occurred while entering player names. Please try again.' );

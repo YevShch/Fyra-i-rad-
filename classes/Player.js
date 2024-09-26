@@ -1,5 +1,6 @@
 import shuffleArray from "./helpers/arrayShuffle.js";
 import sleep from './helpers/sleep.js';
+import { getMoveFromExternalAI } from "./helpers/miner.js";
 
 export default class Player {
   constructor ( name, type, color, board ) {
@@ -11,28 +12,61 @@ export default class Player {
   }
 
   async makeBotMove () {
-    console.log( 'makeBotMove has been called' );
     await sleep( 500 ); // Delay for bot's "thinking" to simulate human-like behavior
     let column;
     if ( this.type === 'A dumb bot' ) {
       [ column ] = this.makeDumbBotMove(); // Get a random column for a dumb bot
     } else if ( this.type === 'A smart bot' ) {
       [ column ] = this.makeSmartBotMove(); // Get the best column for a smart bot
+    } else if ( this.type === 'External AI' ) {
+      column  = await this.makeExternAIBotMove(); // Get the column for an extern AI bot
     }
-    await this.board.makeMove( this.color, column ); // Make the chosen move
+    // await this.board.makeMove( this.color, column ); // Make the chosen move
+     await this.board.makeMove( this.color, column ) 
+   
+  }
+
+
+   async makeExternAIBotMove () {
+    console.log( 'External AI has been called' );
+     const aiLevel = globalThis.aiLevel; 
+     console.log( 'External AI level is:', aiLevel );
+
+    const stateString = this.generateStateString(); // Method to generate the game state string
+   
+
+    // Get the column for a move from the external AI
+    const column =  await getMoveFromExternalAI( aiLevel, stateString );
+
+    console.log( `Generated move by External AI: column ${ column }` );
+
+    // Return the column
+    return column - 1;
+  }
+
+  generateStateString () {
+    let state = ' ';
+
+    if ( this.board.movesHistory.length > 0 ) {
+      // Convert the movesHistory array to a string 
+      state = this.board.movesHistory.join( '' );
+    }
+    console.log('AI State', state)
+    return state;
   }
 
   makeDumbBotMove () {
+    console.log(' makeDumbBotMove was called')
     // Randomly select a legal move
     return [ shuffleArray( this.legalMoves )[ 0 ] ];
   }
 
   makeSmartBotMove () {
-    console.log( 'Matrix BEFORE a temporary move', this.board.matrix );
+    // console.log( 'Matrix BEFORE a temporary move', this.board.matrix );
 
     // orgState - the current state on the board
     let orgState = this.state();
-    console.log( 'Current state', orgState );
+    // console.log( 'Current state', orgState );
 
     // store scores for each possible move in scores
     let scores = [];
@@ -52,14 +86,14 @@ export default class Player {
 
       let cell = this.board.matrix[ row ][ column ];
       cell.color = this.color; // make temporary move
-      console.log( 'Cell I would change', cell );
-      console.log( 'Matrix AFTER temporary move', this.board.matrix );
+      // console.log( 'Cell I would change', cell );
+      // console.log( 'Matrix AFTER temporary move', this.board.matrix );
 
       let futureState = this.state(); // the state if we made this move
       cell.color = ' '; // undo temporary move
 
-      console.log( 'IF I MADE THE MOVE', column );
-      console.log( 'THE NEW STATE WOULD BE', futureState );
+      // console.log( 'IF I MADE THE MOVE', column );
+      // console.log( 'THE NEW STATE WOULD BE', futureState );
 
       // remember the score for this possible move
       scores.push( { column, score: this.score( orgState, futureState ) } );

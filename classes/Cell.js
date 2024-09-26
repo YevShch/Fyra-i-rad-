@@ -1,13 +1,13 @@
 export default class Cell {
 
-  constructor(row, column) {
+  constructor ( row, column ) {
     this.row = row;
     this.column = column;
-    // will be filled by 'Red' or 'Yellow' eventually
-    this.color = ' ';  // Initially, the cell is empty
+    // will be filled by X or O eventually
+    this.color = ' ';
   }
 
-  toString() {
+  toString () {
     return this.color;
   }
 
