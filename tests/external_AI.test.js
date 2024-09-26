@@ -15,9 +15,10 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
 
   let app = new App();
 
-  // counter for smart bot's wins
+  // Counter for smart bot's wins
   let smartBotWins = 0;
-  let totalDraw = 0;
+  let totalGamesWithWin = 0; // Tracks only games with a win (not draws)
+  let totalDraws = 0; // Tracks the total number of draws
 
   // Waiting for player names to be entered
   try {
@@ -44,11 +45,10 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
   expect( app.playerYellow.name ).toBe( 'AI' );
 
   // Initialize AI Level for the test
-  globalThis.aiLevel = 1;
+  globalThis.aiLevel = 2;
 
-
-  for ( let i = 0; i < 10; i++ ) {
-
+  // Continue running games until 10 non-draw games are completed
+  while ( totalGamesWithWin < 10 ) {
     // Alternating turns between players until someone wins
     let gameOver = false;
     while ( !gameOver ) {
@@ -67,19 +67,22 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
         // Checking who won
         if ( gameOverMessage.includes( 'Smarty won!' ) ) {
           smartBotWins += 1;
-        }
-        else if ( gameOverMessage.includes( "It's a tie..." ) ) {
-          totalDraw += 1;
+          totalGamesWithWin += 1; // Count this as a completed game with a win
+        } else if ( gameOverMessage.includes( 'AI won!' ) ) {
+          totalGamesWithWin += 1; // Count this as a completed game with a win
+        } else if ( gameOverMessage.includes( "It's a tie..." ) ) {
+          totalDraws += 1;
+          console.log( 'Game ended in a draw. Not counting this game towards total wins.' );
         }
       } else {
-        // console.log( 'No winner yet, continuing...' );
+        // If no win or draw message is shown, continue
       }
-    }  
+    }
 
-    // mock answer to click OK button after "Replay" button
+    // Mock answer to click OK button after "Replay" button
     mockAnswers = [ 'OK' ];
 
-    // click Replay button to continue a game 
+    // Click Replay button to continue a game
     await waitUntil( () => body.querySelector( '.button[onclick="playAgain()"]' ), 500 );
     let playAgainBtn = body.querySelector( '.button[onclick="playAgain()"]' );
     expect( playAgainBtn ).toBeDefined();
@@ -87,13 +90,10 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
   }
 
   console.log( "Total smart bot wins:", smartBotWins );
-  console.log( "Draws total:", totalDraw )
+  console.log( "Total draws (not counted in games):", totalDraws );
 
-  //Check that the smart bot won at least 5 times in 10 rounds
+  // Check that the smart bot won at least 5 times in the 10 valid games (excluding draws)
   expect( smartBotWins ).toBeGreaterThanOrEqual( 5 );
-  console.log( "PASS: smart bot won at least 5 times in 10 round and its performance is better than the external AI at level 1." )
+  console.log( "PASS: Smart bot won at least 5 times in 10 valid games (excluding draws) and its performance is better than the external AI at level 1." );
 
-}, 500000 ); 
-
-
-
+}, 500000 );

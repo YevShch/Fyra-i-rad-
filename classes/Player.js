@@ -92,7 +92,7 @@ export default class Player {
     }
 
     scores = shuffleArray( scores ).sort( ( a, b ) => a.score > b.score ? -1 : 1 );
-    console.log( 'Scores:', scores );
+    // console.log( 'Scores:', scores );
     let { column } = scores[ 0 ];
     return [ column ];
   }
