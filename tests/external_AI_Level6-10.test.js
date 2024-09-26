@@ -42,7 +42,7 @@ for (let level = 6; level <= 10; level++) {
     let smartBotWins = 0;
     for (let i = 0; i < 10; i++) {
       let gameOver = false;
-      let maxTurns = 10;
+      let maxTurns = 100;
       let turnCount = 0;
 
       while (!gameOver && turnCount < maxTurns) {
