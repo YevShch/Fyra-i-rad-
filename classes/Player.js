@@ -18,6 +18,7 @@ export default class Player {
       [ column ] = this.makeDumbBotMove(); // Get a random column for a dumb bot
     } else if ( this.type === 'A smart bot' ) {
       [ column ] = this.makeSmartBotMove(); // Get the best column for a smart bot
+      // implement for testing
     } else if ( this.type === 'External AI' ) {
       column  = await this.makeExternAIBotMove(); // Get the column for an extern AI bot
     }

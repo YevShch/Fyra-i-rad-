@@ -10,8 +10,7 @@ export default class Board {
       [ ...new Array( 7 ) ].map( ( _, columnIndex ) =>
         new Cell( rowIndex, columnIndex )
       ) );
-    // implement for testing
-    this.movesHistory = [];
+  
     // create a new winChecker
     this.winChecker = new WinChecker( this );
     // currentPlayer, whose turn is it?
@@ -21,6 +20,7 @@ export default class Board {
     this.isADraw = false;
     this.gameOver = false;
     this.winningCombo = null;
+    this.movesHistory = [];  // implement for testing
   }
 
   render () {
@@ -117,7 +117,7 @@ export default class Board {
         this.matrix[ r ][ column ].color = color;
         // console.log( `Move made by ${ this.currentPlayerColor } at (${ r }, ${ column })` );
       
-        this.movesHistory.push( column + 1 );
+        this.movesHistory.push( column + 1 ); // implement for testing
 
 
         // check if someone has won or if it's a draw/tie and update properties
