@@ -13,6 +13,9 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
 
   globalThis.mockAnswers = [ 'Smarty', 'A smart bot', 'AI', 'External AI' ];
 
+  // Initialize AI Level for the test
+  globalThis.aiLevel = 1;
+
   let app = new App();
 
   // Counter for smart bot's wins
@@ -44,8 +47,7 @@ test( "Test the performance of a smart bot by comparing it to an external AI at 
   expect( app.playerRed.name ).toBe( 'Smarty' );
   expect( app.playerYellow.name ).toBe( 'AI' );
 
-  // Initialize AI Level for the test
-  globalThis.aiLevel = 2;
+ 
 
   // Continue running games until 10 non-draw games are completed
   while ( totalGamesWithWin < 10 ) {
