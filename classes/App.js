@@ -1,7 +1,9 @@
 import Dialog from './Dialog.js';
 import Board from './Board.js';
 import Player from './Player.js';
+import Network from './helpers/Network.js';
 import sleep from './helpers/sleep.js';
+import generateCode from './helpers/generateCode.js';
 import createConfetti from './helpers/createConfetti.js';
 
 export default class App {
