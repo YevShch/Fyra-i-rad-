@@ -7,7 +7,7 @@ import generateCode from './helpers/generateCode.js';
 import createConfetti from './helpers/createConfetti.js';
 
 export default class App {
-  constructor ( playerRed, playerYellow, whoStarts = 'red' ) {
+  constructor ( playerRed, playerYellow, whoStarts = 'red', myColor, networkPlay ) {
     try {
       // network related properties
       this.networkPlay = networkPlay;
