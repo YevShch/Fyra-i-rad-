@@ -83,8 +83,8 @@ export default class App {
       }
     }
     // create players
-    this.playerX = new Player( this.joiners.shift(), 'Human', 'red', this.board );
-    this.playerO = new Player( this.joiners.shift(), 'Human', 'yellow', this.board );
+    this.playerRed = new Player( this.joiners.shift(), 'Human', 'red', this.board );
+    this.playerYellow = new Player( this.joiners.shift(), 'Human', 'yellow', this.board );
     this.namesEntered = true;
     this.render();
   }
