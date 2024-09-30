@@ -51,11 +51,11 @@
 }
 
 
-body.botPlaying .cell {
+body.notMyTurn .cell {
   cursor: default !important;
 }
 
-body.botPlaying .cell:hover::before {
+body.notMyTurn .cell:hover::before {
   content: '' !important;
 }
 

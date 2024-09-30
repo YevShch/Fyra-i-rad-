@@ -1,6 +1,6 @@
 import Cell from './Cell.js';
 import WinChecker from './WinChecker.js';
-
+import Network from './helpers/Network.js';
 
 export default class Board {
 
@@ -89,6 +89,10 @@ export default class Board {
 
   makeMove ( color, column, fromClick ) {
     let player = color === 'red' ? this.app.playerRed : this.app.playerYellow;
+    // don't allow move fromClick if it's network play and not myColor
+    if ( fromClick && this.app.networkPlay && color !== this.app.myColor ) {
+      return false;
+    }
 
     // don't allow move fromClick if it's a bot's turn to play
     if ( fromClick && player.type !== 'Human' ) { return; }
@@ -129,6 +133,10 @@ export default class Board {
         // the game is over if someone has won or if it's a draw
         this.gameOver = this.winner || this.isADraw;
 
+        // if network play then send the move
+        this.app.networkPlay && this.app.myColor === color &&
+          Network.send( { color, column } );
+
         // console.log( 'MovesHistory array:', this.movesHistory );
 
 
@@ -162,10 +170,10 @@ export default class Board {
     let player = this.currentPlayerColor === 'red' ? this.app.playerRed : this.app.playerYellow;
     // if the game isn't over and the player exists and the player is non-human / a bot
     if ( !this.gameOver && player && player.type !== 'Human' ) {
-      document.body.classList.add( 'botPlaying' );
+      document.body.classList.add( 'notMyTurn' );
       await player.makeBotMove();
       this.app.render();
-      document.body.classList.remove( 'botPlaying' );
+      document.body.classList.remove( 'notMyTurn' );
     }
   }
 
