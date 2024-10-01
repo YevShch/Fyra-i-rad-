@@ -228,7 +228,7 @@ export default class App {
       if ( !this.namesEntered ) { return ''; }
 
       // don't show button for the joining player during network play
-      if ( this.networkPlay && this.myColor === "O" ) { return ''; }
+      if ( this.networkPlay && this.myColor === "yellow" ) { return ''; }
 
       globalThis.quitGame = async () => {
         let answer = await this.dialog.ask( 'What do you want to do?',
