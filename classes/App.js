@@ -264,8 +264,8 @@ export default class App {
 
   renderPlayAgainButtons () {
 
-    // // don't show buttons for the joining player during network play
-    // if ( this.networkPlay && this.myColor === 'O' ) { return ''; }
+    // don't show buttons for the joining player during network play
+    if ( this.networkPlay && this.myColor === 'yellow' ) { return ''; }
 
     return /*html*/`
       <div class="button" onclick="playAgain()">Replay</div>
