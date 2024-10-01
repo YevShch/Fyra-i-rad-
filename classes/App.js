@@ -256,7 +256,7 @@ export default class App {
         Network.send( { action: 'playAgain' } );
       }
       new App( this.playerRed, this.playerYellow, playerToStart.color,
-        this.networkPlay, this.myColor );
+        this.myColor, this.networkPlay );
     }
 
     globalThis.newPlayers = () => new App();
@@ -264,8 +264,8 @@ export default class App {
 
   renderPlayAgainButtons () {
 
-    // don't show buttons for the joining player during network play
-    if ( this.networkPlay && this.myColor === 'O' ) { return ''; }
+    // // don't show buttons for the joining player during network play
+    // if ( this.networkPlay && this.myColor === 'O' ) { return ''; }
 
     return /*html*/`
       <div class="button" onclick="playAgain()">Replay</div>
