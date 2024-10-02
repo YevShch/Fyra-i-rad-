@@ -4,12 +4,12 @@ iframe {
   position: fixed;
 }
 
-iframe#playerX {
+iframe#playerRed {
   top: 0;
   left: 0;
 }
 
-iframe#playerO {
+iframe#playerYellow {
   top: 0;
   left: 50vw;
 }

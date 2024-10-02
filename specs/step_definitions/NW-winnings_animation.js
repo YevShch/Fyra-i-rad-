@@ -1,5 +1,5 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
-import { getIframeBody } from "../helpers/iframes";
+import { getIframeBody } from "../helpers/iframes.js";
 
 Given('that there are two players, and one creates a game while the other joins it', () => {
   // TODO: implement step
@@ -7,7 +7,7 @@ Given('that there are two players, and one creates a game while the other joins 
   // where each iframe emulates one player in a network
   cy.visit( '/iframed-network-play.html' );
 
-  // player X - first player - start network game and get code
+  // player red - first player - start network game and get code
   getIframeBody( 'iframe#playerRed' ).find( '.button.Yes' ).click();
   getIframeBody( 'iframe#playerRed' ).find( '.button.Create' ).click();
   getIframeBody( 'iframe#playerRed' ).find( 'input[name="answer"]' ).type( 'Anna{enter}' );
@@ -15,7 +15,7 @@ Given('that there are two players, and one creates a game while the other joins 
     // we have the join code
     let joinCode = element.val();
 
-    // player O - second player join the game
+    // player yellow - second player join the game
     getIframeBody( 'iframe#playerYellow' ).find( '.button.Yes' ).click();
     getIframeBody( 'iframe#playerYellow' ).find( '.button.Join' ).click();
     getIframeBody( 'iframe#playerYellow' ).find( 'input[name="answer"]' ).type( 'Beata{enter}' );
