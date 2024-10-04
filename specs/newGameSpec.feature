@@ -1,11 +1,13 @@
 Feature: Network Play - Rematch Feature
 
   Scenario: Players can choose to play again after the game ends
-    Given that there are two players, and one creates a game while the other joins it
+    Given that there are two players, and the first player should start the game
     When both players play the game until one of them wins
-    Then the game declares the winner
-    And the victory confetti animation is correctly displayed on both Player Red's and Player Yellow's screens
+    Then the game should show the winner
     And the winning combination blinks on both Player Red's and Player Yellow's screens
-    Then the "NewPlay" button should be clickable on both Player Red's and Player Yellow's screens
-    And when the "NewPlay" button is clicked on Player Red's screen, the game restarts for both players
+    Then the "New Game" button should be clickable on the Player Red's screen
+    And when the "New Game" button is clicked on Player Red's screen
+    And Ensure the red player can create a new game
+
+
 

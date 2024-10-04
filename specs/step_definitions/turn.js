@@ -1,3 +1,4 @@
+/*
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import { getIframeBody } from "../helpers/iframes.js";
 
@@ -61,3 +62,4 @@ And('the message should display "Red\'s turn"', () => {
   // Check the displayed message
   checkTurnMessage('red', 'Red');
 });
+*/

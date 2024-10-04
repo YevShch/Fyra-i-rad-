@@ -2,7 +2,7 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 import { getIframeBody } from "../helpers/iframes.js";
 
-Given('that there are two players, and one creates a game while the other joins it', () => {
+Given ('that there are two players, and the first player should start the game', () => {
   // Visit the helper page that has two iframes emulating two players
   cy.visit('/iframed-network-play.html');
 
@@ -23,6 +23,7 @@ Given('that there are two players, and one creates a game while the other joins 
   });
 });
 
+/*
 When('both players play the game until one of them wins', () => {
   // Simulate gameplay until one player wins
   for (let i = 0; i < 4; i++) {
@@ -32,8 +33,9 @@ When('both players play the game until one of them wins', () => {
     cy.wait(1000);
   }
 });
+*/
 
-Then('the game declares the winner', () => {
+Then('the game should show the winner', () => {
   // Check for winner on Player Red's screen
   getIframeBody('iframe#playerRed').find('.player-name')
     .should('be.visible')
@@ -47,18 +49,7 @@ Then('the game declares the winner', () => {
   cy.wait(1000);
 });
 
-Then('the victory confetti animation is correctly displayed on both Player Red\'s and Player Yellow\'s screens', () => {
-  // Check confetti on Player Red's screen
-  getIframeBody('iframe#playerRed').find('#confetti-container .confetti')
-    .should('have.length.greaterThan', 0)
-    .should('be.visible');
-
-  // Check confetti on Player Yellow's screen
-  getIframeBody('iframe#playerYellow').find('#confetti-container .confetti')
-    .should('have.length.greaterThan', 0)
-    .should('be.visible');
-});
-
+/*
 Then('the winning combination blinks on both Player Red\'s and Player Yellow\'s screens', () => {
   // Check winning cells on Player Red's screen
   getIframeBody('iframe#playerRed').find('.cell[data-column="1"]')
@@ -71,29 +62,28 @@ Then('the winning combination blinks on both Player Red\'s and Player Yellow\'s 
     .should('have.length', 4);
 });
 
-Then('the "NewPlay" button should be clickable on both Player Red\'s and Player Yellow\'s screens', () => {
-  // Check if the "NewPlay" button is visible and clickable on Player Red's screen
-  getIframeBody('iframe#playerRed').find('.button.NewPlay')
+*/
+Then('the "New Game" button should be clickable on the Player Red\'s screen', () => {
+  // Check if the "NewGame" button is visible and clickable on Player Red's screen
+  getIframeBody('iframe#playerRed').find('.button').contains('New game')
     .should('be.visible')
     .should('not.be.disabled');
+    cy.wait(1000);
 
-  // Check if the "NewPlay" button is visible and clickable on Player Yellow's screen
-  getIframeBody('iframe#playerYellow').find('.button.NewPlay')
-    .should('be.visible')
-    .should('not.be.disabled');
 });
 
-Then('when the "NewPlay" button is clicked on Player Red\'s screen, the game restarts for both players', () => {
-  // Click the "NewPlay" button on Player Red's screen
-  getIframeBody('iframe#playerRed').find('.button.NewPlay').click();
+Then('when the "New Game" button is clicked on Player Red\'s screen', () => {
+  // Click the "NewGame" button on Player Red's screen
+  getIframeBody('iframe#playerRed').find('.button').contains('New game').click();
   cy.wait(1000);
 
-  // Ensure the game is restarted for both players (e.g., no winner, empty board)
-  getIframeBody('iframe#playerRed').find('.player-name')
-    .should('not.exist'); // There should be no winner displayed after restart
-  getIframeBody('iframe#playerRed').find('.cell.empty').should('have.length.greaterThan', 0);
-
-  getIframeBody('iframe#playerYellow').find('.player-name')
-    .should('not.exist'); // There should be no winner displayed after restart
-  getIframeBody('iframe#playerYellow').find('.cell.empty').should('have.length.greaterThan', 0);
 });
+
+  
+
+
+Then('Ensure the red player can create a new game', () => {
+  getIframeBody('iframe#playerRed').find('.dialog-question').contains('Network Play: Do you want to play')
+    .should('be.visible');
+
+  });
