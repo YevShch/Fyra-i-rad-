@@ -32,6 +32,7 @@ function playGameForWinner ( player1Column, player2Column ) {
     cy.get( `.cell.empty[data-column="${ player1Column }"]` ).first().should( 'be.visible' ).click();
     cy.wait( 2000 );
     cy.get( `.cell.empty[data-column="${ player2Column }"]` ).first().should( 'be.visible' ).click();
+    cy.wait( 2000 );
   }
   cy.wait( 1000 );
 }
