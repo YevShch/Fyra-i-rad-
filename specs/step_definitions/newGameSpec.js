@@ -1,45 +1,99 @@
 
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { getIframeBody } from "../helpers/iframes.js";
 
-Given('I am on the game page', () => {
-  // Visit the root URL of the app (or wherever the game is hosted)
-  cy.visit('/http://127.0.0.1:5500/index.html');
+Given('that there are two players, and one creates a game while the other joins it', () => {
+  // Visit the helper page that has two iframes emulating two players
+  cy.visit('/iframed-network-play.html');
+
+  // Player Red starts the game and gets the join code
+  getIframeBody('iframe#playerRed').find('.button.Yes').click();
+  getIframeBody('iframe#playerRed').find('.button.Create').click();
+  getIframeBody('iframe#playerRed').find('input[name="answer"]').type( 'Gursel{enter}' );
+  
+  getIframeBody('iframe#playerRed').find('input[name="joinCode"]').then((element) => {
+    const joinCode = element.val(); // Capture the join code
+
+    // Player Yellow joins the game using the join code
+    getIframeBody('iframe#playerYellow').find('.button.Yes').click();
+    getIframeBody('iframe#playerYellow').find('.button.Join').click();
+    getIframeBody('iframe#playerYellow').find('input[name="answer"]').type( 'Esra{enter}' );
+    getIframeBody('iframe#playerYellow').find('dialog:contains("join code") input[name="answer"]').type(joinCode + '{enter}');
+    cy.wait(1000);
+  });
 });
 
-Given('the game is in progress', () => {
-  // Simulate starting the game or make sure the game has started.
-  cy.contains('Waiting for player names...'); // Game is waiting for names
-  cy.get('.prompt-text').contains('Enter the name of player red:').type('Player1');
-  cy.get('input[type="text"]').type('Player2');
-  cy.contains('Player1 turn...'); // Ensure the game starts and the red player has their turn
+When('both players play the game until one of them wins', () => {
+  // Simulate gameplay until one player wins
+  for (let i = 0; i < 4; i++) {
+    getIframeBody('iframe#playerRed').find('.cell.empty[data-column="1"]').first().should('be.visible').click();
+    cy.wait(1000);
+    getIframeBody('iframe#playerYellow').find('.cell.empty[data-column="2"]').first().should('be.visible').click();
+    cy.wait(1000);
+  }
 });
 
-Given('the game is over', () => {
-  // Simulate the game over condition, either through UI actions or by setting the game state directly
-  cy.contains('Player1 turn...'); // Make sure the game started first
-  cy.get('.column').first().click();  // Player1 makes a move
-  cy.contains('Player2 turn...');
-  // Assume the game has ended (player 2 won or it's a tie)
-  cy.contains('It\'s a tie...');  // Or Player 1/2 won, adjust for the actual condition
+Then('the game declares the winner', () => {
+  // Check for winner on Player Red's screen
+  getIframeBody('iframe#playerRed').find('.player-name')
+    .should('be.visible')
+    .and('have.text', 'Gursel won!');
+  cy.wait(1000);
+
+  // Check for winner on Player Yellow's screen
+  getIframeBody('iframe#playerYellow').find('.player-name')
+    .should('be.visible')
+    .and('have.text', 'Gursel won!');
+  cy.wait(1000);
 });
 
-When('I click on the "New game" button', () => {
-  // Click the "New game" button
-  cy.contains('New game').click();
+Then('the victory confetti animation is correctly displayed on both Player Red\'s and Player Yellow\'s screens', () => {
+  // Check confetti on Player Red's screen
+  getIframeBody('iframe#playerRed').find('#confetti-container .confetti')
+    .should('have.length.greaterThan', 0)
+    .should('be.visible');
+
+  // Check confetti on Player Yellow's screen
+  getIframeBody('iframe#playerYellow').find('#confetti-container .confetti')
+    .should('have.length.greaterThan', 0)
+    .should('be.visible');
 });
 
-When('I click on the "Quit this game" button', () => {
-  // Click the "Quit this game" button
-  cy.contains('Quit this game').click();
+Then('the winning combination blinks on both Player Red\'s and Player Yellow\'s screens', () => {
+  // Check winning cells on Player Red's screen
+  getIframeBody('iframe#playerRed').find('.cell[data-column="1"]')
+    .filter('.winning-cell')
+    .should('have.length', 4);
+
+  // Check winning cells on Player Yellow's screen
+  getIframeBody('iframe#playerYellow').find('.cell[data-column="1"]')
+    .filter('.winning-cell')
+    .should('have.length', 4);
 });
 
-Then('the game should reset and ask for new player names', () => {
-  // Check that the game state is reset and it asks for new player names
-  cy.contains('Waiting for player names...');
+Then('the "NewPlay" button should be clickable on both Player Red\'s and Player Yellow\'s screens', () => {
+  // Check if the "NewPlay" button is visible and clickable on Player Red's screen
+  getIframeBody('iframe#playerRed').find('.button.NewPlay')
+    .should('be.visible')
+    .should('not.be.disabled');
+
+  // Check if the "NewPlay" button is visible and clickable on Player Yellow's screen
+  getIframeBody('iframe#playerYellow').find('.button.NewPlay')
+    .should('be.visible')
+    .should('not.be.disabled');
 });
 
-Then('the "New game" button should be visible', () => {
-  // After quitting, the "New game" button should appear
-  cy.contains('New game').should('exist');
-});
+Then('when the "NewPlay" button is clicked on Player Red\'s screen, the game restarts for both players', () => {
+  // Click the "NewPlay" button on Player Red's screen
+  getIframeBody('iframe#playerRed').find('.button.NewPlay').click();
+  cy.wait(1000);
 
+  // Ensure the game is restarted for both players (e.g., no winner, empty board)
+  getIframeBody('iframe#playerRed').find('.player-name')
+    .should('not.exist'); // There should be no winner displayed after restart
+  getIframeBody('iframe#playerRed').find('.cell.empty').should('have.length.greaterThan', 0);
+
+  getIframeBody('iframe#playerYellow').find('.player-name')
+    .should('not.exist'); // There should be no winner displayed after restart
+  getIframeBody('iframe#playerYellow').find('.cell.empty').should('have.length.greaterThan', 0);
+});

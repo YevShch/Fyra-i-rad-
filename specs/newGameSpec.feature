@@ -1,16 +1,11 @@
-Feature: New Game Feature
+Feature: Network Play - Rematch Feature
 
-  As a player I want to be able to reset the game state
-  So that I can start a fresh game when I click the "New Game" button
+  Scenario: Players can choose to play again after the game ends
+    Given that there are two players, and one creates a game while the other joins it
+    When both players play the game until one of them wins
+    Then the game declares the winner
+    And the victory confetti animation is correctly displayed on both Player Red's and Player Yellow's screens
+    And the winning combination blinks on both Player Red's and Player Yellow's screens
+    Then the "NewPlay" button should be clickable on both Player Red's and Player Yellow's screens
+    And when the "NewPlay" button is clicked on Player Red's screen, the game restarts for both players
 
-  Scenario: Resetting the game state when the "New Game" button is clicked
-    Given I am on the game page
-    And the game is in progress
-    When I click on the "New game" button
-    Then the game should reset and ask for new player names
-
-  Scenario: Displaying the "New Game" option when the game is over
-    Given I am on the game page
-    And the game is over
-    When I click on the "Quit this game" button
-    Then the "New game" button should be visible
