@@ -1,11 +1,12 @@
-Feature: Players take turns correctly in the game
 
-  Scenario: Players take turns and the turn message is updated correctly
-    Given the game has started
-    When Player Red makes a move
-    Then it should be Player Yellow's turn
-    And the message should display "Yellow's turn"
+Feature: Network Play - Turn Management and Turn Message Display
 
-    When Player Yellow makes a move
-    Then it should be Player Red's turn
-    And the message should display "Red's turn"
+  Scenario: Players take turns correctly, and the "turn" message is displayed properly on both screens
+    Given that there are two players, and the first player can start the game
+    When both players take their turns in the game
+    Then the game can display "Gursel's turn" on Player Red's screen when it's Player Red's turn
+    And the game can display "Esra's turn" on Player Yellow's screen when it's Player Yellow's turn
+    Then the game can show the winner
+   
+
+  

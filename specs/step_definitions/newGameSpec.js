@@ -23,17 +23,7 @@ Given ('that there are two players, and the first player should start the game',
   });
 });
 
-/*
-When('both players play the game until one of them wins', () => {
-  // Simulate gameplay until one player wins
-  for (let i = 0; i < 4; i++) {
-    getIframeBody('iframe#playerRed').find('.cell.empty[data-column="1"]').first().should('be.visible').click();
-    cy.wait(1000);
-    getIframeBody('iframe#playerYellow').find('.cell.empty[data-column="2"]').first().should('be.visible').click();
-    cy.wait(1000);
-  }
-});
-*/
+
 
 Then('the game should show the winner', () => {
   // Check for winner on Player Red's screen
@@ -49,20 +39,7 @@ Then('the game should show the winner', () => {
   cy.wait(1000);
 });
 
-/*
-Then('the winning combination blinks on both Player Red\'s and Player Yellow\'s screens', () => {
-  // Check winning cells on Player Red's screen
-  getIframeBody('iframe#playerRed').find('.cell[data-column="1"]')
-    .filter('.winning-cell')
-    .should('have.length', 4);
 
-  // Check winning cells on Player Yellow's screen
-  getIframeBody('iframe#playerYellow').find('.cell[data-column="1"]')
-    .filter('.winning-cell')
-    .should('have.length', 4);
-});
-
-*/
 Then('the "New Game" button should be clickable on the Player Red\'s screen', () => {
   // Check if the "NewGame" button is visible and clickable on Player Red's screen
   getIframeBody('iframe#playerRed').find('.button').contains('New game')
@@ -79,11 +56,10 @@ Then('when the "New Game" button is clicked on Player Red\'s screen', () => {
 
 });
 
-  
-
 
 Then('Ensure the red player can create a new game', () => {
   getIframeBody('iframe#playerRed').find('.dialog-question').contains('Network Play: Do you want to play')
     .should('be.visible');
 
   });
+  
