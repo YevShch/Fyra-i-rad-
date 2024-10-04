@@ -1,4 +1,5 @@
-import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { getIframeBody } from "../helpers/iframes.js";
 
 Given('that Player1 chooses to create a new game', () => {
   // Oyuncu 1 yeni bir oyun oluşturmak için "Create" butonuna tıklar
