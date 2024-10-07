@@ -32,8 +32,10 @@ When('both players play the game until one of them wins', () => {
   for ( let i = 0; i < 4; i++ ) {
     getIframeBody( 'iframe#playerRed' ).find( `.cell.empty[data-column="1"]` ).first().should( 'be.visible' ).click();
     cy.wait( 1000 );
-    getIframeBody( 'iframe#playerYellow' ).find( `.cell.empty[data-column="2"]` ).first().should( 'be.visible' ).click();
-    cy.wait( 1000 );
+    if ( i < 3 ) {
+      getIframeBody( 'iframe#playerYellow' ).find( `.cell.empty[data-column="2"]` ).first().should( 'be.visible' ).click();
+      cy.wait( 1000 );
+    }
   }
 });
 
