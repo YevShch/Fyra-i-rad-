@@ -29,8 +29,9 @@ When('Player 1 makes a move in column {int}', (column) => {
 
 // Draget ska visas på Player 2:s skärm
 Then('The move should appear on Player 2\'s screen in column {int}', (column) => {
-  getIframeBody('iframe#playerYellow').find(`.cell[data-column="${column}"][data-player="red"]`).should('be.visible');
-  cy.wait(1000);
+  getIframeBody('iframe#playerYellow').find(`.cell[data-column="${column}"]`).should('have.class', 'red');
+  getIframeBody('iframe#playerRed').find(`.cell[data-column="${column}"]`).should('have.class', 'red');
+  cy.wait(1000)
 });
 
 // Player 2 gör ett drag
@@ -41,5 +42,6 @@ When('Player 2 makes a move in column {int}', (column) => {
 
 // Draget ska visas på Player 1:s skärm
 Then('The move should appear on Player 1\'s screen in column {int}', (column) => {
-  getIframeBody('iframe#playerRed').find(`.cell[data-column="${column}"][data-player="yellow"]`).should('be.visible');
+  getIframeBody('iframe#playerYellow').find(`.cell[data-column="${column}"]`).should('have.class', 'yellow');
+  getIframeBody('iframe#playerRed').find(`.cell[data-column="${column}"]`).should('have.class', 'yellow');
 });
