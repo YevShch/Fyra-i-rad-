@@ -21,7 +21,8 @@ Given('that there are two players, and one creates a game while the other joins 
     getIframeBody( 'iframe#playerYellow' ).find( 'input[name="answer"]' ).type( 'Beata{enter}' );
     getIframeBody( 'iframe#playerYellow' ).find( 'dialog:contains("join code") input[name="answer"]' )
       .type( joinCode + '{enter}' );
-    cy.wait( 1000 );
+    // Wait until the dialog modal is closed
+    getIframeBody( 'iframe#playerYellow' ).find( '.dialog-content' ).should( 'not.be.visible' );
   } );
 });
 
