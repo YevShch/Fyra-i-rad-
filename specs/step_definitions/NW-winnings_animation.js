@@ -27,7 +27,8 @@ Given('that there are two players, and one creates a game while the other joins 
 });
 
 When('both players play the game until one of them wins', () => {
-  // TODO: implement step
+  cy.wait( 1000 );
+  // simulate the red player wins
   for ( let i = 0; i < 4; i++ ) {
     getIframeBody( 'iframe#playerRed' ).find( `.cell.empty[data-column="1"]` ).first().should( 'be.visible' ).click();
     cy.wait( 1000 );
