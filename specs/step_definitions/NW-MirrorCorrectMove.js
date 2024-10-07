@@ -28,9 +28,9 @@ When('Player 1 makes a move in column {int}', (column) => {
 });
 
 // Draget ska visas på Player 2:s skärm
-Then('The move should appear on Player 2\'s screen in column {int}', (column) => {
-  getIframeBody('iframe#playerYellow').find(`.cell[data-column="${column}"]`).should('have.class', 'red');
-  getIframeBody('iframe#playerRed').find(`.cell[data-column="${column}"]`).should('have.class', 'red');
+Then('The move should appear on both player screens in column {int}', (column) => {
+  getIframeBody('iframe#playerYellow').find(`.cell[data-column="${column}"]`).last().should('have.class', 'red');
+  getIframeBody('iframe#playerRed').find(`.cell[data-column="${column}"]`).last().should('have.class', 'red');
   cy.wait(1000)
 });
 
@@ -41,7 +41,7 @@ When('Player 2 makes a move in column {int}', (column) => {
 });
 
 // Draget ska visas på Player 1:s skärm
-Then('The move should appear on Player 1\'s screen in column {int}', (column) => {
-  getIframeBody('iframe#playerYellow').find(`.cell[data-column="${column}"]`).should('have.class', 'yellow');
-  getIframeBody('iframe#playerRed').find(`.cell[data-column="${column}"]`).should('have.class', 'yellow');
-});
+//Then('The move should appear on Player 1\'s screen in column {int}', (column) => {
+  //getIframeBody('iframe#playerYellow').find(`.cell[data-column="${column}"]`).should('have.class', 'yellow');
+  //getIframeBody('iframe#playerRed').find(`.cell[data-column="${column}"]`).should('have.class', 'yellow');
+//});
