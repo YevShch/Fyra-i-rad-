@@ -116,7 +116,7 @@ export default class App {
       this.board.makeMove( color, column, false ) && this.render();
     }
 
-    // if playAgain sent to player O from player X, playAgain
+    // if playAgain sent to player yellow from player red, playAgain
     if ( this.myColor === 'yellow' && data.action === 'playAgain' ) {
       globalThis.playAgain();
     }

@@ -33,6 +33,9 @@ export default class Board {
     
     // Create the hide preview handlers
     globalThis.hidePreview = ( column ) => {
+      // If the game is over, don't allow previews
+      if ( this.gameOver ) return;
+
       document.querySelectorAll( `.cell[data-column="${ column }"]` ).forEach( cell => {
         cell.classList.remove( 'preview' );
         cell.style.backgroundColor = '';
@@ -42,6 +45,8 @@ export default class Board {
 
     // Create the hover handlers
     globalThis.showPreview = ( column ) => {
+      // If the game is over, don't allow previews
+      if ( this.gameOver ) return;
       // Find the lowest empty cell in the column
       const cells = document.querySelectorAll( `.cell[data-column="${ column }"]` );
       for ( let i = cells.length - 1; i >= 0; i-- ) {
