@@ -1,4 +1,4 @@
-#### School Assignment: Four in a Row - Sprint 4
+## School Assignment: Four in a Row - Sprint 4
 ### EPIC for this Sprint
 Develop network functionality to allow players to compete over the internet, and test this feature.
 
@@ -7,7 +7,7 @@ Develop network functionality to allow players to compete over the internet, and
 
 2. As a system owner, I want automated tests to be performed to ensure that network games are working properly.
 
-## EPICS in Previous Sprints:
+### EPICS in Previous Sprints:
 
 **[Sprint 1](https://github.com/YevShch/Fyra-i-rad-/tree/dev-SPRINT1):** Develop the core game logic (for two human players) without a graphical interface, ensuring it follows test-driven development (TDD) principles with object-oriented JavaScript and Vitest/Jest for testing.
 
@@ -24,7 +24,7 @@ To test the network game on two screens simultaneously, we used **iframes** with
 
 You can find our detailed Cypress test cases **[here](https://github.com/YevShch/Fyra-i-rad-/tree/dev-Network-Sprint4/specs).**
 
-## How to Run the Tests
+### How to Run the Tests
 To run the Cypress tests on your local machine, follow these steps:
 
 1. Install Cypress (if not installed): If you do not have Cypress installed, you can install it by running:
