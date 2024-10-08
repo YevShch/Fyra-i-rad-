@@ -123,17 +123,12 @@ export default class Board {
       
         this.movesHistory.push( column + 1 ); // implement for testing
 
-
         // check if someone has won or if it's a draw/tie and update properties
         this.winner = this.winCheck();
-
-        // console.log( "Winnings combo: ", this.winningCombo ); 
 
         this.isADraw = this.drawCheck();
         // the game is over if someone has won or if it's a draw
         this.gameOver = this.winner || this.isADraw;
-
-        // console.log( 'MovesHistory array:', this.movesHistory );
 
 
         !this.gameOver

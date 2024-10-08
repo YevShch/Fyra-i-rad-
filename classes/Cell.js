@@ -3,7 +3,7 @@ export default class Cell {
   constructor ( row, column ) {
     this.row = row;
     this.column = column;
-    // will be filled by X or O eventually
+    // will be filled by red or yellow eventually
     this.color = ' ';
   }
 

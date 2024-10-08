@@ -1,4 +1,3 @@
-//chanched version with 
 export default class Dialog {
   // call with await!
   ask ( question, limitedAnswers ) {
