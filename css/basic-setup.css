@@ -18,8 +18,6 @@ body {
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  /* Remove any scrolling to keep confetti within the screen */
-  /* background-image: url(/images/table-top.jpg); */
   background-attachment: fixed;
   background-size: cover;
 }

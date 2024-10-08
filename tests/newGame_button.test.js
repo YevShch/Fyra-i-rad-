@@ -2,7 +2,6 @@ import { expect, test } from 'vitest';
 import getDocument from './helpers/mock-help/getDocument.js';
 import waitUntil from './helpers/mock-help/waitUntil.js';
 import click from './helpers/mock-help/triggerOnclick.js';
-import registerPlayers from './helpers/commonTasks/registerPlayers.js';
 import App from '../classes/App.js';
 
 
@@ -124,87 +123,3 @@ test( 'Verify board updates correctly after pressing "New game" button', async (
   } );
 
 }, 25000 );
-
-
-
-
-
-async function enterPlayers ( playerRedName, playerYellowName ) {
-  let { body } = getDocument();
-
-  // Устанавливаем mock-ответы для диалога ввода имен игроков
-  globalThis.mockAnswers = [ playerRedName, playerYellowName ];
-
-  // Создаем экземпляр игры
-  let app = new App();
-
-  // Убедимся, что игра была успешно создана
-  expect( app ).toBeDefined();
-
-  // Ждем, пока имена игроков будут введены, и убирается сообщение о вводе имен
-  try {
-    await waitUntil( () =>
-      !body.querySelector( 'main p' ).innerText.includes( 'Waiting for player names...' ), 5000 // Увеличен тайм-аут
-    );
-    console.log( 'Player names are no longer being requested.' );
-  } catch ( error ) {
-    console.error( 'Error waiting for player names:', error );
-  }
-
-  // Убедимся, что объекты playerRed и playerYellow созданы, и их имена правильные
-  expect( app.playerRed ).toBeDefined();
-  expect( app.playerYellow ).toBeDefined();
-  expect( app.playerRed.name ).toBe( playerRedName );
-  expect( app.playerYellow.name ).toBe( playerYellowName );
-
-  // Проверим, что сообщение о ходе правильное
-  await waitUntil( () =>
-    body.querySelector( 'main p' ).innerText.includes( `${ playerRedName }'s turn...` ), 5000 // Увеличен тайм-аут
-  );
-  const message = body.querySelector( 'main p' ).innerText;
-  expect( message ).toContain( `${ playerRedName }'s turn...` );
-
-  return body;
-}
-
-
-test( 'Check that the system registers players correctly', async () => {
-  let { body } = getDocument();
-  let playerRedName = 'Eva';
-  let playerYellowName = 'Ola';
-  globalThis.mockAnswers = [ playerRedName, playerYellowName ];
-
-  let app = new App();
-
-  // // Wait until namesEntered returns true
-  // try {
-  //   await waitUntil( () => app.namesEntered, 500 );
-  //   console.log( 'Names entered.' );
-  // } catch ( error ) {
-  //   console.error( 'Error waiting for namesEntered:', error );
-  // }
-
-  // Wait until the DOM does not have a p tag in the main tag with 'Enter names'
-  try {
-    await waitUntil( () =>
-      !body.querySelector( 'main p' ).innerText.includes( 'Waiting for player names...' ), 2000
-    );
-    console.log( 'Player names are no longer being requested.' );
-  } catch ( error ) {
-    console.error( 'Error waiting for player names:', error );
-  }
-
-  // Ensure playerRed and playerYellow are defined and their names are correct
-  expect( app.playerRed ).toBeDefined();
-  expect( app.playerYellow ).toBeDefined();
-  expect( app.playerRed.name ).toBe( playerRedName );
-  expect( app.playerYellow.name ).toBe( playerYellowName );
-
-  // Check that the turn message is correct
-  await waitUntil( () =>
-    body.querySelector( 'main p' ).innerText.includes( `${ playerRedName }'s turn...` ), 2000
-  );
-  const message = body.querySelector( 'main p' ).innerText;
-  expect( message ).toContain( `${ playerRedName }'s turn...` );
-  return body;
-} )

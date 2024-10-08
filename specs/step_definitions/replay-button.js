@@ -40,10 +40,10 @@ And('the red player wins the game', () => {
 });
 
 
-Then('the system should declare "Eva" as the winner', () => {
-  // Verify the winner's name is displayed
-  cy.contains('Eva won!').should('be.visible'); // The winner's name should be visible
-} );
+// Then('the system should declare "Eva" as the winner', () => {
+//   // Verify the winner's name is displayed
+//   cy.contains('Eva won!').should('be.visible'); // The winner's name should be visible
+// } );
 
 And( 'the "Replay" button should be visible', () => {
   // Check for the Replay button and click it

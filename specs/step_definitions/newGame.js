@@ -1,36 +1,17 @@
-import { Given, When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
+import { When, Then, And } from "@badeball/cypress-cucumber-preprocessor";
 
-// Go to the game page
-Then('I am on the game page', () => {
-  cy.visit('http://localhost:5173/');  // Go to game page
-  cy.get('main').should('be.visible'); // Make sure the home screen is visible
-});
+// Duplicated steps
+// Then('I am on the game page', () => {
+// });
 
-// Write the name of player 1
-Given('Enter the first players name {string}', (name) => {
- 
-  // Write the player's name and send the form
-  cy.get('input[name="answer"]')
-    .type(name)
-    .should('have.value', name)
-    .type('{enter}');
-  cy.wait(1000); 
-});
+// Given('Enter the first players name {string}', (name) => {
+// });
 
-// Write the player 2
-And('Enter the second players name {string}', (name) => {
-   cy.contains( 'Enter the name of player' ).should( 'be.visible' );
-  cy.get( 'input[name="answer"]' )
-    .type( name )
-    .should( 'have.value', name )
-    .type( '{enter}' );
-  cy.wait( 1000 );
-});
+// And('Enter the second players name {string}', (name) => {
+// });
 
-//Check if the game starts correctly when it starts
-When('the game starts', () => {
-  cy.get('.board').should('exist'); // Check if you have a new board
-});
+// When('the game starts', () => {
+// });
 
 // Verify that Player 1 won the game
 Then('Player1 wins the game', () => {
