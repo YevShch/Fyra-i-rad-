@@ -74,9 +74,6 @@ body.botPlaying .cell:hover::before {
   }
 }
 
-/* .cell.winning-cell {
-  animation: blink 1s infinite;
-} */
 
 .cell.winning-cell {
   animation: blink 1s ease-in-out infinite;
