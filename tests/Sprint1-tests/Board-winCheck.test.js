@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'; // or 'jest' if you're using Jest
 //import { winCheck } from '../classes/Board.js'; // Import your winCheck function
-import Board from '../classes/Board.js';
+import Board from '../../classes/Board.js';
 describe( 'winCheck', () => {
 
   it( 'should return true for a horizontal win', () => {

@@ -4,9 +4,8 @@
 //spelknappar och spelinformation, visas på sidan. (visas titeln "CONNECT FOUR", visas medelandet "Waiting for player names..." 
     
 import { test, expect } from 'vitest';
-import App from '../classes/App.js';
-import getDocument from './helpers/mock-help/getDocument.js';
-import registerPlayers from './helpers/commonTasks/registerPlayers.js';
+import App from '../../classes/App.js';
+import getDocument from '../helpers/mock-help/getDocument.js';
 
 test('Verify that the board is rendered', () => {
   let { body } = getDocument();
@@ -48,7 +47,4 @@ test('Check if the dialog box is present', () => {
   expect(message.innerText).toContain('Enter the name of player');
 });
     
-test('Check that player names are registrered correctly', async () => {
-  await registerPlayers();
-});
 

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import Board from '../classes/Board.js';
+import Board from '../../classes/Board.js';
 
 test( '11. Confirm that the board is updated correctly after a valid move.', () => {
   const board = new Board();

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import Board from '../classes/Board.js';
+import Board from '../../classes/Board.js';
 
 
 test( '6. Check that makeMove should only allow colors "red" or "yellow"', () => {

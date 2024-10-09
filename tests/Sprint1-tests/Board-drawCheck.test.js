@@ -1,6 +1,5 @@
-
 import { expect, test } from 'vitest';
-import Board from '../classes/Board.js';
+import Board from '../../classes/Board.js';
 
 test( "17. Check that drawCheck returns true if the board is filled", () => {
   const board = new Board();
