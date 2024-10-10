@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import Board from '../classes/Board.js';
+import Board from '../../classes/Board.js';
 
 
 test( '1. Check that the matrix property is defined when a Board is created', () => {

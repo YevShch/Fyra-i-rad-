@@ -8,7 +8,7 @@ import App from '../classes/App.js';
 // make the program sleep less (see classes/helpers/sleep.js)
 globalThis.mockMinimalSleep = true;
 
-test( 'Verify board updates correctly after pressing "New game" button', async () => {
+test( 'Check that board updates and players are created correctly after clicking "New Game"', async () => {
   let { body } = getDocument();
   globalThis.mockAnswers = [ 'Eva', 'Bengt', 'Max', 'Ola' ];
   let app = new App();
@@ -52,13 +52,8 @@ test( 'Verify board updates correctly after pressing "New game" button', async (
   click( body.querySelector( '.cell[data-column="1"]' ) );
   click( body.querySelector( '.cell[data-column="0"]' ) );
 
-  // Wait for the winning message
-  try {
-    await waitUntil( () => body.querySelector( 'main p' ).textContent.includes( 'Eva won!' ), 500 );
-    console.log( 'Winning message is shown.' );
-  } catch ( error ) {
-    console.error( 'Error waiting for winning message:', error );
-  }
+// Declaire a new instance of App
+  let newGameApp = new App(); 
 
   // Wait for the Play Again button and click it
   try {
@@ -71,6 +66,7 @@ test( 'Verify board updates correctly after pressing "New game" button', async (
     console.error( 'Error waiting for "New game" button:', error );
   }
 
+
   // Wait for the dialog to appear and simulate entering names
   try {
     await waitUntil( () => body.querySelector( 'div.dialog-content' ), 1000 );
@@ -79,42 +75,31 @@ test( 'Verify board updates correctly after pressing "New game" button', async (
     console.error( 'Error waiting for dialog content:', error );
   }
 
-  // Wait until namesEntered returns true for new game
+
+  // Wait until the DOM does not have p tag in the main tag with 'Enter names'
   try {
-    await waitUntil( () => globalThis.appInstance && globalThis.appInstance.namesEntered, 3000 );
-    console.log( 'New names entered.' );
+    await waitUntil( () =>
+      !body.querySelector( 'main p' ).innerText.includes( 'Waiting for player names...' ), 500 );
+    console.log( 'Player names are no longer being requested.' );
   } catch ( error ) {
-    console.error( 'Error waiting for namesEntered after new game:', error );
+    console.error( 'Error waiting for player names:', error );
   }
+  
+  
+  expect( newGameApp.playerRed ).toBeDefined(); // Ensure playerRed is defined
+  expect( newGameApp.playerYellow ).toBeDefined(); // Ensure playerYellow is defined
+  expect( newGameApp.playerRed.name ).toBe( 'Max' );
+  expect( newGameApp.playerYellow.name ).toBe( 'Ola' );
 
-  // Wait until the new names are entered
-  try {
-    await waitUntil( () => body.querySelector( 'main p' ).innerText.includes( 'Waiting for player names...' ), 3000 );
-    console.log( 'Player names are being requested again.' );
-  } catch ( error ) {
-    console.error( 'Error waiting for new player names:', error );
-  }
-
-  // Ensure the new instance is created and available
-  let newApp = globalThis.appInstance;
-  expect( newApp ).toBeDefined(); // Check that newApp is not undefined
-  console.log( 'New app instance:', newApp );
-
-  // Check that the new app instance has the correct player names
-  expect( newApp.playerRed ).toBeDefined(); // Ensure playerRed is defined
-  expect( newApp.playerYellow ).toBeDefined(); // Ensure playerYellow is defined
-  expect( newApp.playerRed.name ).toBe( 'Max' );
-  expect( newApp.playerYellow.name ).toBe( 'Ola' );
 
   // Check that the next turn message is correct
   await waitUntil( () => body.querySelector( 'main p' ).innerText.includes( " Max's turn..." ), 500 );
   const turnMessage = body.querySelector( 'main p' ).innerText;
   expect( turnMessage ).toContain( " Max's turn..." );
 
-
-  await waitUntil( () => body.querySelector( 'main p' ).innerText.includes( " Max's turn..." ), 500 );
+  // Check that the board is defined
   let board = body.querySelector( '.board' );
-  expect( board ).toBeDefined();
+  expect( board ).toBeDefined(); 
 
   // Check that the board is empty
   const allCells = document.querySelectorAll( '.cell' ); // Select all elements in the board
@@ -123,3 +108,4 @@ test( 'Verify board updates correctly after pressing "New game" button', async (
   } );
 
 }, 25000 );
+

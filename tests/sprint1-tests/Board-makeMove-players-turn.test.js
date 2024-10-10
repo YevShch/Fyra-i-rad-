@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import Board from '../classes/Board.js';
+import Board from '../../classes/Board.js';
 
 test( "13. Check that after a valid move, the current player's turn is updated to the opposite player.", () => {
   const board = new Board();

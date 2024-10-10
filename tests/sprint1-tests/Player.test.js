@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import Player from '../classes/Player.js'; // Import the Player class
+import Player from '../../classes/Player.js'; // Import the Player class
 
 describe( 'Player', () => {
 

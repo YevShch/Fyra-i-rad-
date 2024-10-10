@@ -1,5 +1,5 @@
 import { expect, vi, test } from 'vitest';
-import Board from '../classes/Board.js';
+import Board from '../../classes/Board.js';
 
 test( '4. Verify that the makeMove method exists', () => {
   let aBoard = new Board();
