@@ -90,7 +90,15 @@ npm run tests/your-test-file-name
 ```bash
 npm install @amiceli/vitest-cucumber --save-dev
 ```
-2. 
-Our tests utilizing Vitest and Cucumber can be found here.
+2. Generate spec file from feature file
+If you want to save time, vitest-cucumber can generate a spec file.
 
+You can use it like this :
+```bash
+npx @amiceli/vitest-cucumber <path-to-feature> <path-to-spec>
+```
 
+An example :
+```bash
+npx @amiceli/vitest-cucumber tests/board.feature tests/board.spec.ts
+```
