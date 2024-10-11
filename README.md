@@ -1,4 +1,4 @@
-## School Assignment: Four in a Row - Sprint 3
+ # 🔴🟡 Connect Four Game 🎮 - Sprint 3
 ### EPIC for this Sprint
 Develop an AI player for the Four-in-a-Row game, building on the functionality from previous sprints. Implement and test the AI logic with multiple difficulty levels.
 
