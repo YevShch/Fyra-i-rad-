@@ -1,6 +1,6 @@
  # 🔴🟡 Connect Four Game 🎮 - Sprint 1
 
-### EPIC's for this sprint
+### EPIC for this sprint
 Create the logic for a working Four in a row game (for two human players at the same computer) - no GUI.
 Work according to TDD (Test Driven Development) - break down each user story into shared tasks - i.e. detailed specifications of which classes and methods should be created and how they should work. Write comprehensive unit tests before the corresponding program logic.
 Work object-oriented in JavaScript and with Vitest/Jest as a testing tool.
