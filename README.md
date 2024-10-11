@@ -85,7 +85,7 @@ npm run tests/your-test-file-name
 
 #### Testing the GUI Version with Vitest and Cucumber
 
-We attempted to use Gherkin scenarios to write unit tests and employed the **vitest-cucumber** tool for this purpose. The documentation for this tool can be found here - (https://vitest-cucumber.miceli.click/)
+We attempted to use Gherkin scenarios to write unit tests and employed the **vitest-cucumber** tool for this purpose. The documentation for this tool can be found **[here](https://vitest-cucumber.miceli.click/)**
 
 1. Install Vitest-Cucumber: For running Gherkin scenarios with Vitest, you can install the Vitest-Cucumber library:
 
