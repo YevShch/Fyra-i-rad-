@@ -6,9 +6,12 @@ Work according to TDD (Test Driven Development) - break down each user story int
 Work object-oriented in JavaScript and with Vitest/Jest as a testing tool.
 
 ### EPICS in upcoming sprints:
-1. **Sprint 2:** Create a graphical user interface and test it.
-2. **Sprint 3:** Create a rules-based AI and test it.
-3. **Sprint 4:** Add ability to play over network and test this functionality.
+-  **[Sprint 2](https://github.com/YevShch/Fyra-i-rad-/tree/dev-GUI-Sprint-2):** Build a graphical user interface (GUI) for the game and ensure it is thoroughly tested.
+
+-  **[Sprint 3](https://github.com/YevShch/Fyra-i-rad-/tree/dev-AI-Sprint3):** Create a rules-based AI and test it.
+
+-  **[Sprint 4](https://github.com/YevShch/Fyra-i-rad-/tree/dev-Network-Sprint4):** Develop network functionality to allow players to compete over the internet, and test this feature.
+
 
 **User stories**
 1. As a user, I want to be able to enter my name at the start of the game so that the computer can then use it to announce whose turn it is and who has won.
