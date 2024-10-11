@@ -10,7 +10,7 @@ then the Continue button once the game has started.
     When the game starts
     When I click to 'Quit this game' button
     Then a dialog box appears with the question 'What do you want to do?'
-    And three buttons: 'Continue', 'Replay', 'New Game' are displayed
-    When I click to 'Continue' button
+    And three buttons: 'Continue', 'Replay', 'New game' are displayed
+    When I click to the 'Continue' button
     Then I return to the game page
     And the game page is unchanged
