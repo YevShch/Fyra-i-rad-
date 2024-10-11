@@ -1,48 +1,67 @@
-## School Assignment: Four in a Row - Sprint 4
-### EPIC for this Sprint
-Develop network functionality to allow players to compete over the internet, and test this feature.
+ # 🔴🟡 Connect Four Game 🎮
+### Project Overview
+This project is a classic Connect Four game developed as part of a group school project. Both development and testing students participated in the project to build and test the functionality of the game.
 
-### User Stories
-1. As a user I want to be able to play against another user via network/internet so we can meet in game even if we can't meet IRL/in real life.
+### Project Participants:
+1. Anam  **[DevAnamTales](https://github.com/DevAnamTales)**
+2. Esra   **[esraunal07](https://github.com/esraunal07)**
+3. Gursell  **[gursell](https://github.com/gursell)**
+4. Neby **[Nebshi](https://github.com/Nebshi)**
+5. Yevheniia **[YevShch](https://github.com/YevShch)**
 
-2. As a system owner, I want automated tests to be performed to ensure that network games are working properly.
+This repository contains the main branch of the project, which reflects the final version of the game developed during Sprint 4.
 
-### EPICS in Previous Sprints:
+### Game Description
+Connect Four is a strategic two-player board game, where the goal is to connect four of your pieces in a row either horizontally, vertically, or diagonally on the game board.
+
+#### Key Features:
+The game supports two players (red and yellow).
+Players take turns dropping their pieces into columns.
+The game ends when one player connects four pieces in a row or when the board is full (resulting in a draw).
+The interface allows players to start a new game or continue with the current players.
+
+### Versions and Sprints
+Main Branch (Current Version)
+The main branch contains the latest version of the game developed during Sprint 4, which includes all the final features and improvements. The game has been tested and is ready for use. This version includes key game mechanics, bug fixes, and a refined interface.
+
+### Sprint Branches:
+Each previous version of the game is stored in a separate branch, corresponding to the sprint in which it was developed. These branches contain intermediate versions showcasing various steps in development and bug fixes:
 
 **[Sprint 1](https://github.com/YevShch/Fyra-i-rad-/tree/dev-SPRINT1):** Develop the core game logic (for two human players) without a graphical interface, ensuring it follows test-driven development (TDD) principles with object-oriented JavaScript and Vitest/Jest for testing.
 
 **[Sprint 2](https://github.com/YevShch/Fyra-i-rad-/tree/dev-GUI-Sprint-2):** Build a graphical user interface (GUI) for the game and ensure it is thoroughly tested.
 
-
 **[Sprint 3](https://github.com/YevShch/Fyra-i-rad-/tree/dev-AI-Sprint3):** Create a rules-based AI and test it.
 
-### Testing the Network Version with Cypress
-In this sprint, we focused on thoroughly testing the network functionality using Cypress. 
-Our tests were designed to simulate the entire flow, where two players can select the option to play against each other via the internet. One player creates a game, receives a unique join code, and the other player uses that code to join the game. The main focus of these tests was to verify that the game mirrors the actions of both players correctly and consistently on both ends. This includes ensuring that the gameplay reflects synchronously for both players, regardless of their location.
+**[Sprint 4](https://github.com/YevShch/Fyra-i-rad-/tree/dev-Network-Sprint4):** Develop network functionality to allow players to compete over the internet, and test this feature.
 
-To test the network game on two screens simultaneously, we used **iframes** within Cypress. This allowed us to simulate two separate player sessions within the same browser instance, ensuring that both players could interact with the game from their respective perspectives. By embedding the game into iframes, we could efficiently test the network play experience for both users in a synchronized and automated manner.
+Each sprint included both manual testing and automated tests to ensure code stability and high quality.
 
-You can find our detailed Cypress test cases **[here](https://github.com/YevShch/Fyra-i-rad-/tree/dev-Network-Sprint4/specs).**
+### Running the Project
 
-### How to Run the Tests
-To run the Cypress tests on your local machine, follow these steps:
-
-1. Install Cypress (if not installed): If you do not have Cypress installed, you can install it by running:
-
+1. Install dependencies:
 ```bash
-npm install cypress --save-dev
+npm install
 ```
-2. Start the Game: Open your terminal and start the game server by running:
-
+2. Run the local server:
 ```bash
 npm start
 ```
-3. Open Cypress Tests: In a separate terminal window, run the following command to open the Cypress test runner:
+The game will be available at: http://localhost:5173
 
+3. Run tests:
+**Vitest tests:**
+```bash
+npm test
+```
+**Cypress tests:**
+```bash
+npm run test-cypress
+```
+**or web version:**
 ```bash
 npm run test-cypress-ui
 ```
 
-Once Cypress is open, select the test you want to run from the UI and observe the automated testing process for the network functionality.
-
-By running these tests, you can confirm that the network gameplay works as expected, ensuring a smooth experience for both players.
+### Conclusion
+The project was successfully completed as part of the school curriculum. All participants contributed to the development and testing, which resulted in a high-quality game version. Further improvements and feature expansions may be implemented based on feedback and analysis.
