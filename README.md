@@ -1,4 +1,4 @@
-## School assignment: Four in a row - sprint 1
+ # 🔴🟡 Connect Four Game 🎮 - Sprint 1
 
 ### EPIC's for this sprint
 Create the logic for a working Four in a row game (for two human players at the same computer) - no GUI.
@@ -20,6 +20,9 @@ Work object-oriented in JavaScript and with Vitest/Jest as a testing tool.
 7. As a system owner, I want the program to be written object-oriented so that the code base is easy to maintain.
 8. As a system owner, I want all methods in all classes to be tested with unit tests, so we know that logic and subsets of the program are working as they should. (Perhaps this is a subset of each user story, "to test", rather than a separate user story?)
 
+The **spesifications** can be found **[here](https://github.com/YevShch/Fyra-i-rad-/blob/dev-SPRINT1/specification.md)** 
+
+The diagram of the game flow can be found  **[here](https://github.com/YevShch/Fyra-i-rad-/blob/dev-SPRINT1/gameFlowFunctions.md)** 
 
 ### Installation Guide
 **Follow these steps to set up the game, run it, and perform unit testing using Vitest:**
