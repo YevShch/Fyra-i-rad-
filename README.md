@@ -1,4 +1,4 @@
-## School Assignment: Four in a Row - Sprint 2
+## # 🔴🟡 Connect Four Game 🎮 - Sprint 2
 ### EPIC for this Sprint
 Create a graphical interface (GUI) for your Four in a row game.
 
@@ -22,6 +22,8 @@ Create a graphical interface (GUI) for your Four in a row game.
 
 **[Sprint 4](https://github.com/YevShch/Fyra-i-rad-/tree/dev-Network-Sprint4):** Develop network functionality to allow players to compete over the internet, and test this feature.
 
+
+Our sketch of the graphical version of the game can be found **[here](https://www.figma.com/design/3Gf6Ttu2ecaPr4N3fagJ73/Figma-basics?node-id=1669-162202&node-type=canvas)** 
 
 ### Testing the GUI Version with Cypress 
 To ensure the graphical interface functions as intended, we utilized Cypress for end-to-end testing. Cypress provides a robust framework for testing user interactions and verifying the overall functionality of the application. Our tests focused on user flows, such as starting a new game, player interactions, and confirming that the game state updates correctly after each move.
