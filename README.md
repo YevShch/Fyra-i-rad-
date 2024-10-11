@@ -1,4 +1,4 @@
-## School Assignment: Four in a Row - Sprint 4
+ # 🔴🟡 Connect Four Game 🎮 - Sprint 4
 ### EPIC for this Sprint
 Develop network functionality to allow players to compete over the internet, and test this feature.
 
