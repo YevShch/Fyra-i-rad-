@@ -5,7 +5,8 @@ import { getIframeBody } from "../helpers/iframes.js";
 //   // TODO: implement step
 // });
 
-let boardStateBefore;
+let boardRedStateBefore;
+let boardYellowStateBefore;
 
 When( 'both players have made a few moves', () => {
   // TODO: implement step
@@ -23,7 +24,12 @@ When( 'both players have made a few moves', () => {
 
   // change the board state
   getIframeBody( 'iframe#playerRed' ).find( '.cell' ).then( cells => {
-    boardStateBefore = [ ...cells ].map( cell => cell.className ); // Saving cell classes
+    boardRedStateBefore = [ ...cells ].map( cell => cell.className ); // Saving cell classes
+  } );
+
+  // change the board state
+  getIframeBody( 'iframe#playerYellow' ).find( '.cell' ).then( cells => {
+    boardYellowStateBefore = [ ...cells ].map( cell => cell.className ); // Saving cell classes
   } );
 } );
 
@@ -43,10 +49,17 @@ When( 'player Red chooses {string} from the menu', ( buttonName ) => {
 Then( 'the game board should be displayed without any changes on both Player Red\'s and Player Yellow\'s screens', () => {
   // After clicking, check the state of the board
   getIframeBody( 'iframe#playerRed' ).find( '.cell' ).then( cells => {
-    const boardStateAfter = [ ...cells ].map( cell => cell.className );
+    const boardRedStateAfter = [ ...cells ].map( cell => cell.className );
 
     // Comparing the states before and after
-    expect( boardStateBefore ).to.deep.equal( boardStateAfter );
+    expect( boardRedStateBefore ).to.deep.equal( boardRedStateAfter );
+  } );
+
+  getIframeBody( 'iframe#playerYellow' ).find( '.cell' ).then( cells => {
+    const boardYellowStateAfter = [ ...cells ].map( cell => cell.className );
+
+    // Comparing the states before and after
+    expect( boardYellowStateBefore ).to.deep.equal( boardYellowStateAfter );
   } );
 } );
 
@@ -60,9 +73,7 @@ Then( 'the game board should be rendered on both Player Red\'s and Player Yellow
     cy.wrap( $cell ).should( 'have.class', 'empty' );
   } );
   cy.wait( 3000 );
-  getIframeBody( 'iframe#playerYellow' ).find( '.player-name' ).contains( 'Beata\'s turn...' )
-    .should( 'be.visible' ) // Ensure that the element is visible
-  
+ 
   getIframeBody( 'iframe#playerYellow' ).find( '.cell' ).each( ( $cell ) => {
     // Check that each cell on the board has class 'empty'
     cy.wrap( $cell ).should( 'have.class', 'empty' );
@@ -77,7 +88,7 @@ Then( 'the turn message should display that it is Player Yellow\'s turn on both 
   cy.wait( 1000 );
 
   // Check the winning declaring on the yellow's player screen
-  getIframeBody( 'iframe#playerRed' ).find( '.player-name' )
+  getIframeBody( 'iframe#playerYellow' ).find( '.player-name' )
     .should( 'be.visible' )
     .and( 'have.text', 'Beata\'s turn...' );
   cy.wait( 1000 );
