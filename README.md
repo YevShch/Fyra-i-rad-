@@ -1,6 +1,6 @@
  # 🔴🟡 Connect Four Game 🎮
 ### Project Overview
-This project is a classic Connect Four game developed as part of a group school project. Both development and testing students participated in the project to build and test the functionality of the game.
+This project is a classic Connect Four game developed as part of a group school project. The project was built and tested by a team of student software testers, who collaborated to ensure the functionality of the game through development and testing.
 
 ### Project Participants:
 1. Anam  **[DevAnamTales](https://github.com/DevAnamTales)**
